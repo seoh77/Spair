@@ -1,13 +1,16 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-
-</script>
 
 <template>
   초기 세팅
-
-  <RouterView />
+  <div>
+    <TheHeaderNav/>
+    <RouterView />
+  </div>
 </template>
+
+<script setup>
+import { RouterLink, RouterView } from 'vue-router'
+import TheHeaderNav from '@/components/common/TheHeaderNav.vue'
+</script>
 
 <style scoped>
 
