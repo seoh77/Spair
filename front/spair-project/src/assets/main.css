@@ -1,18 +1,32 @@
+@font-face {
+    font-family: 'Tenada';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2210-2@1.0/Tenada.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'NanumSquareRound';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /*css 확인용*/
 * {
     border: 1px solid black;
 }
 
-body {
+
+html, body {
     width: 100vw;
     height: 100vh;
     margin: 0;
-
+    min-width: 1000px;
 }
+
 
 /* 사용자 속성 지정 */
 :root {
-    
     /* 1. 색상*/
     --primary-color: #FF8B37;
     --secondary-color: #AEE6E6;

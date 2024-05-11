@@ -1,7 +1,6 @@
 
 <template>
-  초기 세팅
-  <div>
+  <div id="container">
     <TheHeaderNav/>
     <RouterView />
   </div>
@@ -13,5 +12,10 @@ import TheHeaderNav from '@/components/common/TheHeaderNav.vue'
 </script>
 
 <style scoped>
-
+  #container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
 </style>
