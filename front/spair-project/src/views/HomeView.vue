@@ -1,12 +1,21 @@
 
 <template>
   <main>
-    <div>
-      <h1>HomeView입니다.</h1>
-    </div>
+      <Intro/>
+  
   </main>
 </template>
 
-  <script setup>
-  
-  </script>
+<script setup>
+import Intro from '@/components/home/Intro.vue'  
+</script>
+
+<style scoped>
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    
+  }
+</style>
