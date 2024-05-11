@@ -91,7 +91,7 @@
         font-size: 1rem;
     }
     #user {
-        min-width: 190px;
+        min-width: 160px;
     }
     #user a{
         font-size: 1.3rem;
