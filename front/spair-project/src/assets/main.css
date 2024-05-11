@@ -1,0 +1,21 @@
+/*css 확인용*/
+* {
+    border: 1px solid black;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+
+}
+
+/* 사용자 속성 지정 */
+:root {
+    
+    /* 1. 색상*/
+    --primary-color: #FF8B37;
+    --secondary-color: #AEE6E6;
+    --sub-color: #FFDA77;
+    --gray-color: #C0C0C0;
+}
