@@ -39,12 +39,12 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<Post> townSearchAll(int latitude, int longitude) {
+	public List<Post> townSearchAll(double latitude, double longitude) {
 		return postDao.townSearchAll(latitude, longitude);
 	}
 
 	@Override
-	public List<Post> search(int postId) {
+	public Post search(int postId) {
 		return postDao.search(postId);
 	}
 

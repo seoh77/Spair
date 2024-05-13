@@ -14,8 +14,8 @@ public interface PostDao {
 	
 	List<Post> searchAll() ;
 	
-	List<Post> townSearchAll(int latitude, int longitude) ;
+	List<Post> townSearchAll(double latitude, double longitude) ;
 	
-	List<Post> search(int postId) ;
+	Post search(int postId) ;
 
 }

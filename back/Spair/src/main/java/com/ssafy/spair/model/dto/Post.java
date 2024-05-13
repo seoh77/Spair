@@ -21,6 +21,7 @@ public class Post {
 		
 	}
 
+	// 등록
 	public Post(int userId, String title, String content, int status, LocalDateTime createdDate, int centerId,
 			String exerciseType, int price, int gender, String recruitmentNum) {
 		this.userId = userId;
@@ -34,7 +35,8 @@ public class Post {
 		this.gender = gender;
 		this.recruitmentNum = recruitmentNum;
 	}
-
+	
+	// 수정
 	public Post(int postId, int userId, String title, String content, int status, LocalDateTime createdDate,
 			LocalDateTime modifiedDate, int centerId, String exerciseType, int price, int gender,
 			String recruitmentNum) {

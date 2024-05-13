@@ -5,7 +5,7 @@
 
 	<!-- 게시글 등록 -->
 	<insert id="insert" parameterType="Post">
-		INSERT INTO post (userId, title, content, status, createdDate, centerId, exerciseType, price, gender, recruitmentNum)
+		INSERT INTO post (user_id, title, content, status, created_date, center_id, exercise_type, price, gender, recruitment_num)
 		VALUES (#{userId}, #{title}, #{content}, #{status}, #{createdDate}, #{centerId}, #{exerciseType}, #{price}, #{gender}, #{recruitmentNum}) ;
 	</insert>
 	
@@ -13,8 +13,8 @@
 	<!-- 게시글 수정 -->
 	<update id="modify" parameterType="Post">
 		UPDATE post
-		SET title = #{title}, content = #{content}, status = #{status}, modifiedDate = #{modifiedDate}, centerId = #{centerId}, exerciseType = #{exerciseType}, price = #{price}, gender = #{gender}, recruitmentNum = #{recruitmentNum} 
-		WHERE postId = #{postId} ;
+		SET title = #{title}, content = #{content}, status = #{status}, modified_date = #{modifiedDate}, center_id = #{centerId}, exercise_type = #{exerciseType}, price = #{price}, gender = #{gender}, recruitment_num = #{recruitmentNum} 
+		WHERE post_id = #{postId} ;
 	</update>
 	
 	
@@ -22,25 +22,24 @@
 	<delete id="delete" parameterType="int">
 		DELETE 
 		FROM post
-		WHERE postId = #{postId}
+		WHERE post_id = #{postId}
 	</delete>
 	
 	
 	<!-- 전체 게시글 가져오기 (최신순 정렬) -->
 	<select id="searchAll" resultType="Post">
 		SELECT *
-		FROM post, user
-		WHERE post.userId = user.userId
-		ORDER BY createdDate DESC ;
+		FROM post 
+		ORDER BY created_date DESC;
 	</select>
 	
 	
 	<!-- 우리 동네에 등록된 게시글 가져오기 (최신순 정렬) -->
-	<select id="townSearchAll" parameterType="int" resultType="Post">
+	<select id="townSearchAll" parameterType="double" resultType="Post">
 		SELECT *
 		FROM post
-		WHERE centerId IN <![CDATA[(SELECT centerId
-			FROM sportsCenter 
+		WHERE center_id IN <![CDATA[(SELECT center_id
+			FROM sports_center 
 			WHERE (6371*acos(cos(radians(#{latitude}))*cos(radians(latitude))*cos(radians(longitude) 
 			-radians(#{longitude}))+sin(radians(#{latitude}))*sin(radians(latitude)))) <= 1000)]]> ;
 	</select>
@@ -50,7 +49,7 @@
 	<select id="search" parameterType="int" resultType="Post">
 		SELECT *
 		FROM post
-		WHERE postId = #{postId} ;
+		WHERE post_id = #{postId} ;
 	</select>
 	
 </mapper>
