@@ -36,15 +36,5 @@ import BoardView from '@/views/BoardView.vue';
     font-size: 2rem;
     margin: 40px;
   }
-  main:nth-child(4) {
-    width: 75%;
-    max-width: 1200px;
-    min-width: 1000px;
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    font-family: 'Tenada';
-    font-size: 2rem;
-    margin: 40px;
-  }
+  
 </style>
