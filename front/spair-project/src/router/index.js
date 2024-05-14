@@ -6,6 +6,7 @@ import LoginView from '@/views/LoginView.vue'
 import MapView from '@/views/MapView.vue'
 
 import BoardList from '@/components/board/BoardList.vue'
+import BoardCreate from '@/components/board/BoardCreate.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,7 +25,12 @@ const router = createRouter({
           path: '', 
           name: 'boardList',
           component: BoardList
-        }
+        },
+        {
+          path: 'create', 
+          name: 'boardCreate',
+          component: BoardCreate
+        },
       ]
     },
     {
