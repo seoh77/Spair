@@ -18,6 +18,7 @@ public class Post {
 	private String recruitmentNum ;
 	
 	private User user ;
+	private SportsCenter sportsCenter ;
 	
 	public Post(){
 		
@@ -62,6 +63,14 @@ public class Post {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public SportsCenter getSportsCenter() {
+		return sportsCenter;
+	}
+
+	public void setSportsCenter(SportsCenter sportsCenter) {
+		this.sportsCenter = sportsCenter;
 	}
 
 	public int getPostId() {

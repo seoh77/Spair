@@ -17,11 +17,17 @@
 		<result column="gender" property="gender"/>
 		<result column="recruitment_num" property="recruitmentNum"/>
 		<collection property="user" resultMap="userMap"/>
+		<collection property="sportsCenter" resultMap="sportsCenterMap"/>
 	</resultMap>
 	
 	<resultMap type="User" id="userMap">
 		<result column="user_id" property="userId"/>
 		<result column="nickname" property="nickname"/>
+	</resultMap>
+	
+	<resultMap type="SportsCenter" id="sportsCenterMap">
+		<result column="center_id" property="centerId" />
+		<result column="road_address" property="roadAddress"/>
 	</resultMap>
 
 	<!-- 게시글 등록 -->
@@ -49,20 +55,24 @@
 	
 	<!-- 전체 게시글 가져오기 (최신순 정렬) -->
 	<select id="searchAll" resultMap="postMap">
-		SELECT post.*, user.nickname
+		SELECT post.*, user.nickname, sports_center.road_address
 		FROM post
 		INNER JOIN user
 		ON post.user_id = user.user_id
+		INNER JOIN sports_center
+		ON post.center_id = sports_center.center_id
 		ORDER BY post.created_date DESC;
 	</select>
 	
 	
 	<!-- 우리 동네에 등록된 게시글 가져오기 (최신순 정렬) -->
 	<select id="townSearchAll" parameterType="double" resultMap="postMap">
-		SELECT post.*, user.nickname
+		SELECT post.*, user.nickname, sports_center.road_address
 		FROM post
 		INNER JOIN user
 		ON post.user_id = user.user_id
+		INNER JOIN sports_center
+		ON post.center_id = sports_center.center_id
 		WHERE post.center_id IN <![CDATA[(SELECT center_id
 			FROM sports_center 
 			WHERE (6371*acos(cos(radians(#{latitude}))*cos(radians(latitude))*cos(radians(longitude) 
@@ -72,10 +82,12 @@
 	
 	<!-- 특정 게시글 상세보기 -->
 	<select id="search" parameterType="int" resultMap="postMap">
-		SELECT post.*, user.nickname
+		SELECT post.*, user.nickname, sports_center.road_address
 		FROM post
 		INNER JOIN user
 		ON post.user_id = user.user_id
+		INNER JOIN sports_center
+		ON post.center_id = sports_center.center_id
 		WHERE post_id = #{postId} ;
 	</select>
 	
