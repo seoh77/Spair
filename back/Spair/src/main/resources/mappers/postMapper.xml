@@ -3,6 +3,27 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.spair.model.dao.PostDao">
 
+	<resultMap type="Post" id="postMap">
+		<result column="post_id" property="postId"/>
+		<result column="user_id" property="userId"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
+		<result column="status" property="status"/>
+		<result column="created_date" property="createdDate"/>
+		<result column="modified_date" property="modifiedDate"/>
+		<result column="center_id" property="centerId"/>
+		<result column="exercise_type" property="exerciseType"/>
+		<result column="price" property="price"/>
+		<result column="gender" property="gender"/>
+		<result column="recruitment_num" property="recruitmentNum"/>
+		<collection property="user" resultMap="userMap"/>
+	</resultMap>
+	
+	<resultMap type="User" id="userMap">
+		<result column="user_id" property="userId"/>
+		<result column="nickname" property="nickname"/>
+	</resultMap>
+
 	<!-- 게시글 등록 -->
 	<insert id="insert" parameterType="Post">
 		INSERT INTO post (user_id, title, content, status, created_date, center_id, exercise_type, price, gender, recruitment_num)
@@ -27,28 +48,34 @@
 	
 	
 	<!-- 전체 게시글 가져오기 (최신순 정렬) -->
-	<select id="searchAll" resultType="Post">
-		SELECT *
-		FROM post 
-		ORDER BY created_date DESC;
+	<select id="searchAll" resultMap="postMap">
+		SELECT post.*, user.nickname
+		FROM post
+		INNER JOIN user
+		ON post.user_id = user.user_id
+		ORDER BY post.created_date DESC;
 	</select>
 	
 	
 	<!-- 우리 동네에 등록된 게시글 가져오기 (최신순 정렬) -->
-	<select id="townSearchAll" parameterType="double" resultType="Post">
-		SELECT *
+	<select id="townSearchAll" parameterType="double" resultMap="postMap">
+		SELECT post.*, user.nickname
 		FROM post
-		WHERE center_id IN <![CDATA[(SELECT center_id
+		INNER JOIN user
+		ON post.user_id = user.user_id
+		WHERE post.center_id IN <![CDATA[(SELECT center_id
 			FROM sports_center 
 			WHERE (6371*acos(cos(radians(#{latitude}))*cos(radians(latitude))*cos(radians(longitude) 
-			-radians(#{longitude}))+sin(radians(#{latitude}))*sin(radians(latitude)))) <= 1000)]]> ;
+			-radians(#{longitude}))+sin(radians(#{latitude}))*sin(radians(latitude)))) <= 1)]]> ;
 	</select>
 	
 	
 	<!-- 특정 게시글 상세보기 -->
-	<select id="search" parameterType="int" resultType="Post">
-		SELECT *
+	<select id="search" parameterType="int" resultMap="postMap">
+		SELECT post.*, user.nickname
 		FROM post
+		INNER JOIN user
+		ON post.user_id = user.user_id
 		WHERE post_id = #{postId} ;
 	</select>
 	

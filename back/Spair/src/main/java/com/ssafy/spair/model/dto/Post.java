@@ -17,6 +17,8 @@ public class Post {
 	private int gender ;
 	private String recruitmentNum ;
 	
+	private User user ;
+	
 	public Post(){
 		
 	}
@@ -52,6 +54,14 @@ public class Post {
 		this.price = price;
 		this.gender = gender;
 		this.recruitmentNum = recruitmentNum;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public int getPostId() {
