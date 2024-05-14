@@ -18,7 +18,7 @@
                     </td> -->
                     <td>{{  board.title }}</td>
                     <td>{{  board.writer }}</td>
-                    <td>{{  board.regDate }}</td>
+                    <td>{{  board.created_date }}</td>
                     <td>{{  board.status }}</td>
                 </tr>
             </tbody>
