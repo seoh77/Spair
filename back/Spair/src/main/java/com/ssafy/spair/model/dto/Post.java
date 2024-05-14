@@ -25,14 +25,13 @@ public class Post {
 	}
 
 	// 등록
-	public Post(int userId, String title, String content, int status, LocalDateTime createdDate, int centerId,
+	public Post(int userId, String title, String content, int status, LocalDateTime createdDate,
 			String exerciseType, int price, int gender, String recruitmentNum) {
 		this.userId = userId;
 		this.title = title;
 		this.content = content;
 		this.status = status;
 		this.createdDate = createdDate;
-		this.centerId = centerId;
 		this.exerciseType = exerciseType;
 		this.price = price;
 		this.gender = gender;

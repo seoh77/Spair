@@ -10,9 +10,15 @@ public class SportsCenter {
 	
 	public SportsCenter() {
 	}
+	
+	public SportsCenter(String roadAddress, String localAddress, double latitude, double longitude) {
+		this.roadAddress = roadAddress;
+		this.localAddress = localAddress;
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
 
 	public SportsCenter(int centerId, String roadAddress, String localAddress, double latitude, double longitude) {
-		super();
 		this.centerId = centerId;
 		this.roadAddress = roadAddress;
 		this.localAddress = localAddress;
@@ -58,5 +64,11 @@ public class SportsCenter {
 
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
+	}
+
+	@Override
+	public String toString() {
+		return "SportsCenter [centerId=" + centerId + ", roadAddress=" + roadAddress + ", localAddress=" + localAddress
+				+ ", latitude=" + latitude + ", longitude=" + longitude + "]";
 	}
 }

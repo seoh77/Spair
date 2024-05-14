@@ -17,22 +17,38 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.spair.model.dto.Post;
+import com.ssafy.spair.model.dto.PostCreate;
+import com.ssafy.spair.model.dto.SportsCenter;
 import com.ssafy.spair.model.service.PostService;
+import com.ssafy.spair.model.service.SportsCenterService;
 
 @RestController
 @RequestMapping("/api/board")
 public class PostController {
 	
 	private final PostService postService ;
+	private final SportsCenterService sportsCenterService ;
 	
 	@Autowired
-	public PostController (PostService postService) {
+	public PostController (PostService postService, SportsCenterService sportsCenterService) {
 		this.postService = postService ;
+		this.sportsCenterService = sportsCenterService ;
 	}
 	
 	// 게시글 등록
 	@PostMapping
-	public ResponseEntity<?> insert(@RequestBody Post post){
+	public ResponseEntity<?> insert(@RequestBody PostCreate postCreate){
+		Post post = postCreate.getPost() ;
+		SportsCenter sportsCenter = postCreate.getSportsCenter() ;
+		
+		String address = sportsCenter.getRoadAddress() ;	
+		
+		if(sportsCenterService.search(address) == 0) {
+			sportsCenterService.insert(sportsCenter) ;
+		} 
+		
+		post.setCenterId(sportsCenterService.search(address));
+		
 		if(post.getCreatedDate() == null) {
 			post.setCreatedDate(LocalDateTime.now());
 		}
