@@ -40,7 +40,7 @@
 	<!-- 게시글 수정 -->
 	<update id="modify" parameterType="Post">
 		UPDATE post
-		SET title = #{title}, content = #{content}, status = #{status}, modified_date = #{modifiedDate}, center_id = #{centerId}, exercise_type = #{exerciseType}, price = #{price}, gender = #{gender}, recruitment_num = #{recruitmentNum} 
+		SET title = #{title}, content = #{content}, status = #{status}, modified_date = #{modifiedDate}, price = #{price}, gender = #{gender}, recruitment_num = #{recruitmentNum} 
 		WHERE post_id = #{postId} ;
 	</update>
 	

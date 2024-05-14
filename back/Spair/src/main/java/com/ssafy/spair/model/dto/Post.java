@@ -39,18 +39,12 @@ public class Post {
 	}
 	
 	// 수정
-	public Post(int postId, int userId, String title, String content, int status, LocalDateTime createdDate,
-			LocalDateTime modifiedDate, int centerId, String exerciseType, int price, int gender,
-			String recruitmentNum) {
+	public Post(int postId, String title, String content, int status, LocalDateTime modifiedDate, int price, int gender, String recruitmentNum) {
 		this.postId = postId;
-		this.userId = userId;
 		this.title = title;
 		this.content = content;
 		this.status = status;
-		this.createdDate = createdDate;
 		this.modifiedDate = modifiedDate;
-		this.centerId = centerId;
-		this.exerciseType = exerciseType;
 		this.price = price;
 		this.gender = gender;
 		this.recruitmentNum = recruitmentNum;
