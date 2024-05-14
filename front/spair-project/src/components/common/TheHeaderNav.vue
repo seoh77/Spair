@@ -5,7 +5,8 @@
             <nav>
                 <div id="tab">
                     <RouterLink :to="{ name: 'home' }">HOME</RouterLink> 
-                    <RouterLink :to="{ name: 'board' }">게시판</RouterLink> 
+                    <!--BoardView 대신 BoardList로 가도록 수정 -->
+                    <RouterLink :to="{ name: 'boardList' }">게시판</RouterLink> 
                     <RouterLink :to="{ name: 'map' }">지도</RouterLink> 
                 </div>
                     

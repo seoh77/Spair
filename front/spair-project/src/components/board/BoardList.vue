@@ -12,7 +12,6 @@
             </thead>
             <tbody>
                 <tr v-for="board in store.boardList" :key="board.id">
-                    <!-- 여기에 camelcase로 쓴 이유? 자바에서 데이터 넘겨줄 때 카멜케이스로 줬기 때문-->
                     <td>{{ board.id }}</td>
                     <!-- <td>
                         <RouterLink :to="`/board/${board.id}`">{{ board.title }}</RouterLink>
