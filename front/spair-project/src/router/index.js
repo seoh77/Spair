@@ -7,6 +7,7 @@ import MapView from '@/views/MapView.vue'
 
 import BoardList from '@/components/board/BoardList.vue'
 import BoardCreate from '@/components/board/BoardCreate.vue'
+import BoardDetail from '@/components/board/BoardDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,6 +31,12 @@ const router = createRouter({
           path: 'create', 
           name: 'boardCreate',
           component: BoardCreate
+        }, 
+        {
+          // Pathvariable처럼 동적 라우팅 :id
+          path: ':id', 
+          name: 'boardDetail',
+          component: BoardDetail
         },
       ]
     },

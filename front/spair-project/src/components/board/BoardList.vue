@@ -13,13 +13,12 @@
             <tbody>
                 <tr v-for="board in store.boardList" :key="board.id">
                     <td>{{ board.id }}</td>
-                    <!-- <td>
+                    <td>
                         <RouterLink :to="`/board/${board.id}`">{{ board.title }}</RouterLink>
-                    </td> -->
-                    <td>{{  board.title }}</td>
+                    </td>
                     <td>{{  board.writer }}</td>
                     <td>{{  board.created_date }}</td>
-                    <td>{{  board.status }}</td>
+                    <td>{{  board.status ? '모집중' : '모집완료' }}</td>
                 </tr>
             </tbody>
         </table>
