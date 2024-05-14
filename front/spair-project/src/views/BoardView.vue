@@ -3,7 +3,7 @@
         <div id="title">우리동네 PAIR 찾기 게시판</div>
         
         <RouterView/>
-        <div v-if="$route.path !== '/board/create'" id="link">
+        <div v-if="$route.path == '/board'" id="link">
             <RouterLink :to="{ name: 'boardCreate' }">게시글 등록</RouterLink>
         </div>
     </div>
