@@ -48,5 +48,23 @@ public class UserController {
 		return new ResponseEntity<>("사용 가능한 ID입니다.", HttpStatus.OK) ;
 	}
 	
+	// 닉네임 중복확인
+	@PostMapping("check/nickname")
+	public ResponseEntity<?> checkNickname(@RequestBody String nickname) {
+		
+		List<User> allUser = userService.searchAll() ;
+		
+		// 모든 user를 순회하며 기존 user의 nickname와 중복되는지 확인
+		for(User user : allUser) {
+			String curUserNickname = user.getNickname() ;		// 기존 user의 nickname
+			
+			if(curUserNickname.equals(nickname)) {
+				return new ResponseEntity<>("이미 존재하는 닉네임입니다", HttpStatus.OK) ;
+			}
+		}
+		
+		return new ResponseEntity<>("사용 가능한 닉네임입니다.", HttpStatus.OK) ;
+	}
+	
 
 }
