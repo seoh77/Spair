@@ -31,6 +31,11 @@ public class CommentController {
 	// 댓글 등록
 	@PostMapping
 	public ResponseEntity<?> insert(@RequestBody Comment comment) {
+		
+		if(comment.getCreatedDate() == null) {
+			comment.setCreatedDate(LocalDateTime.now());
+		}
+		
 		return new ResponseEntity<>(commentService.insert(comment), HttpStatus.CREATED) ;
 	}
 	
