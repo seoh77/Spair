@@ -6,4 +6,6 @@ public interface UserService {
 	
 	User search(int userId) ;
 
+	int join(User user) ;
+
 }

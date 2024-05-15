@@ -21,4 +21,10 @@
 		WHERE user_id = #{userId};
 	</select>
 	
+	<!-- 회원가입 -->
+	<insert id="join" parameterType="User">
+		INSERT INTO user (login_id, password, nickname, name, gender, address, latitude, longitude)
+		VALUES (#{loginId}, #{password}, #{nickname}, #{name}, #{gender}, #{address}, #{latitude}, #{longitude}) ;
+	</insert>
+	
 </mapper>

@@ -19,4 +19,9 @@ public class UserServiceImpl implements UserService {
 		return userDao.search(userId);
 	}
 
+	@Override
+	public int join(User user) {
+		return userDao.join(user);
+	}
+
 }

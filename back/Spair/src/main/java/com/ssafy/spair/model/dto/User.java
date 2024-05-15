@@ -15,7 +15,21 @@ public class User {
 	public User() {
 		
 	}
+	
+	// 회원가입 
+	public User(String loginId, String password, String nickname, String name, int gender, String address,
+			double latitude, double longitude) {
+		this.loginId = loginId;
+		this.password = password;
+		this.nickname = nickname;
+		this.name = name;
+		this.gender = gender;
+		this.address = address;
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
 
+	// user 정보 조회
 	public User(int userId, String loginId, String password, String nickname, String name, int gender, String address,
 			double latitude, double longitude) {
 		this.userId = userId;
