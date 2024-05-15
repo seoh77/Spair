@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -38,6 +39,12 @@ public class CommentController {
 		comment.setCommentId(commentId);
 		comment.setModifiedDate(LocalDateTime.now());
 		return new ResponseEntity<>(commentService.modify(comment), HttpStatus.OK) ;
+	}
+	
+	// 댓글 삭제
+	@DeleteMapping("{commentId}")
+	public ResponseEntity<?> delete(@PathVariable("commentId") int commentId) {
+		return new ResponseEntity<>(commentService.delete(commentId), HttpStatus.OK) ;
 	}
 	
 

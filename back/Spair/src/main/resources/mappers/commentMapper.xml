@@ -27,4 +27,11 @@
 		WHERE comment_id = #{commentId} ;
 	</update>
 	
+	<!-- 댓글 삭제 -->
+	<delete id="delete" parameterType="int">
+		DELETE 
+		FROM comment
+		WHERE comment_id = #{commentId} ;
+	</delete>
+	
 </mapper>

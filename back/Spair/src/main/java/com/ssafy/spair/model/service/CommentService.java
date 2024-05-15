@@ -8,4 +8,6 @@ public interface CommentService {
 	
 	int modify(Comment comment) ;
 
+	int delete(int commentId) ;
+
 }

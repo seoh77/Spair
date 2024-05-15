@@ -7,5 +7,7 @@ public interface CommentDao {
 	int insert(Comment comment) ;
 	
 	int modify(Comment comment) ;
+
+	int delete(int commentId) ;
 	
 }
