@@ -66,5 +66,32 @@ public class UserController {
 		return new ResponseEntity<>("사용 가능한 닉네임입니다.", HttpStatus.OK) ;
 	}
 	
+	// 로그인
+	@PostMapping("login")
+	public ResponseEntity<?> login(@RequestBody User user) {
+		
+		String loginId = user.getLoginId() ;
+		String password = user.getPassword() ;
+		
+		List<User> allUser = userService.searchAll() ;
+		
+		// 모든 user를 순회하며 loginId가 있는지 먼저 탐색
+		for(User curUser : allUser) {
+			String curUserId = curUser.getLoginId() ;
+			
+			if(curUserId.equals(loginId)) {
+				// loginId가 있으면 비밀번호 비교
+				String curPassword = curUser.getPassword() ;
+				
+				if(curPassword.equals(password)) {
+					return new ResponseEntity<>("로그인 성공", HttpStatus.OK) ;
+				}
+				
+				return new ResponseEntity<>("비밀번호가 올바르지 않습니다.", HttpStatus.OK) ;
+			}
+		}
+
+		return new ResponseEntity<>("아이디가 존재하지 않습니다.", HttpStatus.OK) ;
+	}
 
 }

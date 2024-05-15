@@ -115,4 +115,11 @@ public class User {
 		this.longitude = longitude;
 	}
 
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", loginId=" + loginId + ", password=" + password + ", nickname=" + nickname
+				+ ", name=" + name + ", gender=" + gender + ", address=" + address + ", latitude=" + latitude
+				+ ", longitude=" + longitude + "]";
+	}
+
 }
