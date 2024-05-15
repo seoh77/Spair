@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.spair.model.dto.Post;
 import com.ssafy.spair.model.dto.PostCreate;
 import com.ssafy.spair.model.dto.SportsCenter;
+import com.ssafy.spair.model.dto.User;
 import com.ssafy.spair.model.service.PostService;
 import com.ssafy.spair.model.service.SportsCenterService;
+import com.ssafy.spair.model.service.UserService;
 
 @RestController
 @RequestMapping("/api/board")
@@ -28,11 +30,13 @@ public class PostController {
 	
 	private final PostService postService ;
 	private final SportsCenterService sportsCenterService ;
+	private final UserService userService ;
 	
 	@Autowired
-	public PostController (PostService postService, SportsCenterService sportsCenterService) {
+	public PostController (PostService postService, SportsCenterService sportsCenterService, UserService userService) {
 		this.postService = postService ;
 		this.sportsCenterService = sportsCenterService ;
+		this.userService = userService ;
 	}
 	
 	// 게시글 등록
@@ -76,7 +80,12 @@ public class PostController {
 	
 	// 우리 동네에 등록된 게시글 가져오기 (최신순 정렬)
 	@GetMapping("town")
-	public ResponseEntity<?> townSearchAll(@RequestParam double latitude, @RequestParam double longitude) {
+	public ResponseEntity<?> townSearchAll(@RequestParam int userId) {
+		
+		User user = userService.search(userId) ;
+		double latitude = user.getLatitude() ;
+		double longitude = user.getLongitude() ;
+		
 		return new ResponseEntity<>(postService.townSearchAll(latitude, longitude), HttpStatus.OK) ;
 	}
 	
