@@ -20,4 +20,11 @@
 		VALUES (#{postId}, #{userId}, #{content}, #{status}, #{createdDate}, #{parentId}) ;
 	</insert>
 	
+	<!-- 댓글 수정 -->
+	<update id="modify" parameterType="Comment">
+		UPDATE comment
+		SET content = #{content}, status = #{status}, modified_date = #{modifiedDate}
+		WHERE comment_id = #{commentId} ;
+	</update>
+	
 </mapper>
