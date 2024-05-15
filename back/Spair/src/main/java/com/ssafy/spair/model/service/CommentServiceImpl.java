@@ -1,5 +1,7 @@
 package com.ssafy.spair.model.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,11 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	public int delete(int commentId) {
 		return commentDao.delete(commentId);
+	}
+
+	@Override
+	public List<Comment> search(int postId) {
+		return commentDao.search(postId);
 	}
 
 }
