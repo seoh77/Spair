@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.spair.model.dto.SearchFilter;
+import com.ssafy.spair.model.service.PostService;
 import com.ssafy.spair.model.service.SearchService;
 
 @RestController
@@ -17,10 +18,12 @@ import com.ssafy.spair.model.service.SearchService;
 public class SearchController {
 
 	private final SearchService searchService ;
+	private final PostService postService ;
 	
 	@Autowired
-	public SearchController(SearchService searchService) {
+	public SearchController(SearchService searchService, PostService postService) {
 		this.searchService = searchService ;
+		this.postService = postService ;
 	}
 	
 	// 전체 게시글 통합 검색
@@ -30,12 +33,24 @@ public class SearchController {
 	}
 	
 	// 전체 게시글 검색필터 (모집여부, 성별, 운동 종류, 가격)
-	@GetMapping(params = {"status", "gender", "exerciseType", "minPrice", "maxPrice"})
-	public ResponseEntity<?> searchKeyword(@RequestParam("status") int status, 
-			@RequestParam("gender") int gender, @RequestParam("exerciseType") String exerciseType,
-			@RequestParam("minPrice") int minPrice, @RequestParam("maxPrice") int maxPrice) {
-		SearchFilter searchFilter = new SearchFilter(status, gender, exerciseType, minPrice, maxPrice) ;
-		return new ResponseEntity<>(searchService.filterSearch(searchFilter), HttpStatus.OK) ;
+	@GetMapping
+	public ResponseEntity<?> searchKeyword(
+	        @RequestParam(value = "status", required = false) Integer status,
+	        @RequestParam(value = "gender", required = false) Integer gender,
+	        @RequestParam(value = "exerciseType", required = false) String exerciseType,
+	        @RequestParam(value = "minPrice", required = false) Integer minPrice,
+	        @RequestParam(value = "maxPrice", required = false) Integer maxPrice) {
+
+	    SearchFilter searchFilter = new SearchFilter(status, gender, exerciseType, minPrice, maxPrice);
+	    
+	    if (searchFilter.isEmpty()) {
+	        // 검색 필터가 비어 있으면 모든 게시글 반환
+	        return new ResponseEntity<>(postService.searchAll(), HttpStatus.OK);
+	    } else {
+	        // 비어 있지 않으면 필터링된 결과 반환
+	        return new ResponseEntity<>(searchService.filterSearch(searchFilter), HttpStatus.OK);
+	    }
 	}
+
 	
 }
