@@ -5,15 +5,17 @@
             <nav>
                 <div id="tab">
                     <RouterLink :to="{ name: 'home' }">HOME</RouterLink> 
-                    <RouterLink :to="{ name: 'board' }">게시판</RouterLink> 
+                    <!--BoardView 대신 BoardList로 가도록 수정 -->
+                    <RouterLink :to="{ name: 'boardList' }">게시판</RouterLink> 
                     <RouterLink :to="{ name: 'map' }">지도</RouterLink> 
                 </div>
                     
                 <!-- board 컴포넌트 추가 후 클릭 이벤트 수정 및 추가 예정-->
                 <div id="search">
                     <label for="total-search">🔍</label>
-                    <input type="text" id="total-search">
-                    <button @click="event">통합검색</button>
+                    <input type="text" id="total-search" v-model="searchQuery">
+                    <button @click="search">통합검색</button>        
+                
                 </div>
 
                 <div id="user">
@@ -26,10 +28,35 @@
 </template>
 
 <script setup>
-    // 테스트를 위한 임시 변수
-    const event = function(){
-        console.log("통합검색입니다.")
+    import { ref, computed } from 'vue'
+    import { useBoardStore } from '@/stores/board'
+    import { useRouter } from 'vue-router';
+   
+    const searchQuery = ref('')
+    const store = useBoardStore()
+    const router = useRouter()
+
+    const filteredPosts = computed(() => {
+        const searchValue = searchQuery.value.trim().toLowerCase()
+        return store.boardList.filter(board => {
+            // 제목 또는 내용에 검색어가 포함되어 있는 경우 필터링
+            return board.title.toLowerCase().includes(searchValue) || board.content.toLowerCase().includes(searchValue)
+        })
+    })
+
+    console.log(store.boardList)
+    
+    const search = () => {
+        if (searchQuery.value.trim()) {
+            router.push({ name: 'boardList', query: { search: searchQuery.value.trim() } })
+        } else {
+            router.push({ name: 'boardList', query: {} })
+        }
     }
+
+    // const event = function(){
+    //     router.push({name: 'boardList'})
+    // } 
 </script>
 
 <style scoped>
