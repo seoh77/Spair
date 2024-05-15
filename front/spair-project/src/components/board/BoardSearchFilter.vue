@@ -5,6 +5,7 @@
 
             <div class="wrap">
                 <label for="status"></label>
+                <!-- <select id="status" name="status" v-model="status"> -->
                 <select id="status" name="status">
                     <option selected disabled>모집여부</option>
                     <option value='1'>모집중</option>
@@ -13,6 +14,7 @@
             </div>
             <div class="wrap">
                 <label for="status"></label>
+                <!-- <select id="gender" name="gender" v-model="gender"> -->
                 <select id="gender" name="gender">
                     <option selected disabled>성별</option>
                     <option value='1'>남자</option>
@@ -22,6 +24,7 @@
             </div>
             <div class="wrap">
                 <label for="exercise_type"></label>
+                <!-- <select id="exercise-type" name="exercise_type" v-model="exerciseType"> -->
                 <select id="exercise-type" name="exercise_type">
                     <option selected disabled>운동종류</option>
                     <option value="PT">PT</option>
@@ -34,22 +37,49 @@
                 <div id="min-max">
                     <div>
                         <label for="price">최저</label>
-                        <input name="price" type="text"  />
+                        <!-- <input name="price" type="text" v-model="minPrice"/> -->
+                        <input name="price" type="text" />
                     </div>
                     <div>
                         <label>최고</label>
+                        <!-- <input name="price" type="text" v-model="maxPrice" /> -->
                         <input name="price" type="text" />
                     </div>
                 </div>
             </div>
             <div id="btn">
-                <button @click="searchBoardList">적용</button>
+                <button @click="applyFilters">적용</button>
             </div>
         </div>
     </div>
 </template>
   
 <script setup>
+// 임시 메소드. fake 구현. API 연결 후 삭제 및 새롭게 생성 예정
+import { ref, getCurrentInstance } from 'vue';
+
+const status = ref('');
+const gender = ref('');
+const exerciseType = ref('');
+const minPrice = ref('');
+const maxPrice = ref('');
+
+const instance = getCurrentInstance();
+
+const applyFilters = () => {
+    const filters = {
+        status: status.value,
+        gender: gender.value,
+        exerciseType: exerciseType.value,
+        minPrice: minPrice.value,
+        maxPrice: maxPrice.value
+    };
+
+ if (instance) {
+    instance.emit('apply-filters', filters);
+    console.log("작동 되지 않는 fake 구현")
+  }
+};
 
 </script>
   
