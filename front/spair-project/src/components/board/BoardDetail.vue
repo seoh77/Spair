@@ -44,14 +44,18 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- 댓글 -->
+            <h4>댓글</h4>
+            <CommentList/>
         </div>
-        
     </div>
 </template>
 
 <script setup>
 import { useBoardStore } from '@/stores/board';
 import { useRoute, useRouter } from 'vue-router';
+import CommentList from '@/components/comment/CommentList.vue'
 
 const store = useBoardStore()
 const route = useRoute()
@@ -90,7 +94,7 @@ h4 {
     align-items: center;
     font-family: 'Tenada';
     font-size: 1.5rem;
-    margin: 0;
+    margin: 0 0 0.5rem 0;
 }
 #wrap {
     width: 100%;

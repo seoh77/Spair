@@ -5,10 +5,16 @@ import JoinView from '@/views/JoinView.vue'
 import LoginView from '@/views/LoginView.vue'
 import MapView from '@/views/MapView.vue'
 
+// board
 import BoardList from '@/components/board/BoardList.vue'
 import BoardCreate from '@/components/board/BoardCreate.vue'
 import BoardDetail from '@/components/board/BoardDetail.vue'
 import BoardUpdate from '@/components/board/BoardUpdate.vue'
+
+// comment
+import CommentCreate from '@/components/comment/CommentCreate.vue'
+import CommentList from '@/components/comment/CommentList.vue'
+import commentUpdate from '@/components/comment/CommentUpdate.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -42,7 +48,23 @@ const router = createRouter({
           // Pathvariable처럼 동적 라우팅 :id
           path: ':id', 
           name: 'boardDetail',
-          component: BoardDetail
+          component: BoardDetail,
+          children: [
+            {
+              path: '', 
+              name: 'commentList',
+              component: CommentList
+            },
+            { path: 'create',
+              name: 'commentCreate',
+              component: CommentCreate
+            },
+            {
+              path: 'update',
+              name: 'commentUpdate',
+              component: commentUpdate
+            }
+          ]
         },
       ]
     },
