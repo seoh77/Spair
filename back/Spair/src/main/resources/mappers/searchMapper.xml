@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.spair.model.dao.SearchDao">
+
+	<resultMap type="Post" id="postMap">
+		<result column="post_id" property="postId"/>
+		<result column="user_id" property="userId"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
+		<result column="status" property="status"/>
+		<result column="created_date" property="createdDate"/>
+		<result column="modified_date" property="modifiedDate"/>
+		<result column="center_id" property="centerId"/>
+		<result column="exercise_type" property="exerciseType"/>
+		<result column="price" property="price"/>
+		<result column="gender" property="gender"/>
+		<result column="recruitment_num" property="recruitmentNum"/>
+		<collection property="user" resultMap="userMap"/>
+		<collection property="sportsCenter" resultMap="sportsCenterMap"/>
+	</resultMap>
+	
+	<resultMap type="User" id="userMap">
+		<result column="user_id" property="userId"/>
+		<result column="nickname" property="nickname"/>
+	</resultMap>
+	
+	<resultMap type="SportsCenter" id="sportsCenterMap">
+		<result column="center_id" property="centerId" />
+		<result column="road_address" property="roadAddress"/>
+	</resultMap>
+	
+	
+	<!-- 전체 게시글 가져오기 (최신순 정렬) -->
+	<select id="searchKeyword" parameterType="String" resultMap="postMap">
+		SELECT post.*, user.nickname, sports_center.road_address
+		FROM post
+		INNER JOIN user
+		ON post.user_id = user.user_id
+		INNER JOIN sports_center
+		ON post.center_id = sports_center.center_id
+		WHERE (title LIKE CONCAT('%', #{keyword}, '%')) OR (user.nickname LIKE CONCAT ('%', #{keyword}, '%'));
+	</select>
+	
+</mapper>
