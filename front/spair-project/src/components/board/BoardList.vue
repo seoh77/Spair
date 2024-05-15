@@ -1,4 +1,5 @@
 <template>
+    <BoardSearchFilter v-if="$route.path == '/board'"/>
     <div id="list-container">
         <table>
             <thead>
@@ -27,6 +28,7 @@
 </template>
 
 <script setup>
+import BoardSearchFilter from '@/components/board/BoardSearchFilter.vue';
 import { useBoardStore } from '@/stores/board';
 const store = useBoardStore();
 
@@ -38,6 +40,7 @@ const store = useBoardStore();
     max-width: 1200px;
     min-width: 1000px;
     display:flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     font-family: 'Tenada';
