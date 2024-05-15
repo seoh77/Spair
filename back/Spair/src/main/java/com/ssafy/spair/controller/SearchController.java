@@ -32,9 +32,9 @@ public class SearchController {
 		return new ResponseEntity<>(searchService.searchKeyword(keyword), HttpStatus.OK) ;
 	}
 	
-	// 전체 게시글 검색필터 (모집여부, 성별, 운동 종류, 가격)
+	// 전체 게시글 검색필터 (모집여부, 성별, 운동종류, 가격)
 	@GetMapping
-	public ResponseEntity<?> searchKeyword(
+	public ResponseEntity<?> filterSearch(
 	        @RequestParam(value = "status", required = false) Integer status,
 	        @RequestParam(value = "gender", required = false) Integer gender,
 	        @RequestParam(value = "exerciseType", required = false) String exerciseType,
@@ -51,6 +51,6 @@ public class SearchController {
 	        return new ResponseEntity<>(searchService.filterSearch(searchFilter), HttpStatus.OK);
 	    }
 	}
-
+	
 	
 }
