@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.spair.model.dao.SearchDao">
+
+	<resultMap type="Post" id="postMap">
+		<result column="post_id" property="postId"/>
+		<result column="user_id" property="userId"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
+		<result column="status" property="status"/>
+		<result column="created_date" property="createdDate"/>
+		<result column="modified_date" property="modifiedDate"/>
+		<result column="center_id" property="centerId"/>
+		<result column="exercise_type" property="exerciseType"/>
+		<result column="price" property="price"/>
+		<result column="gender" property="gender"/>
+		<result column="recruitment_num" property="recruitmentNum"/>
+		<collection property="user" resultMap="userMap"/>
+		<collection property="sportsCenter" resultMap="sportsCenterMap"/>
+	</resultMap>
+	
+	<resultMap type="User" id="userMap">
+		<result column="user_id" property="userId"/>
+		<result column="nickname" property="nickname"/>
+	</resultMap>
+	
+	<resultMap type="SportsCenter" id="sportsCenterMap">
+		<result column="center_id" property="centerId" />
+		<result column="road_address" property="roadAddress"/>
+	</resultMap>
+	
+	
+	<!-- 전체 게시글 가져오기 (최신순 정렬) -->
+	<select id="searchKeyword" parameterType="String" resultMap="postMap">
+		SELECT post.*, user.nickname, sports_center.road_address
+		FROM post
+		INNER JOIN user
+		ON post.user_id = user.user_id
+		INNER JOIN sports_center
+		ON post.center_id = sports_center.center_id
+		WHERE (title LIKE CONCAT('%', #{keyword}, '%')) OR (user.nickname LIKE CONCAT ('%', #{keyword}, '%'));
+	</select>
+	
+	
+	<!-- 전체 게시글 검색 필터 -->
+	<select id="filterSearch" parameterType="SearchFilter" resultMap="postMap">
+	    SELECT post.*, user.nickname, sports_center.road_address
+	    FROM post
+	    INNER JOIN user
+	    ON post.user_id = user.user_id
+	    INNER JOIN sports_center
+	    ON post.center_id = sports_center.center_id
+	    <where>
+	        <if test="status != null">
+	            AND post.status = #{status}
+	        </if>
+	        <if test="gender != null">
+	            AND post.gender = #{gender}
+	        </if>
+	        <if test="exerciseType != null">
+	            AND post.exercise_type LIKE CONCAT('%', #{exerciseType}, '%')
+	        </if>
+	        <if test="minPrice != null">
+	            AND post.price >= #{minPrice}
+	        </if>
+	        <if test="maxPrice != null">
+	            AND <![CDATA[post.price <= #{maxPrice}]]>
+	        </if>
+	    </where>
+	</select>
+	
+	
+	<!-- 우리 동네 게시글 검색 필터 -->
+	<select id="townFilterSearch" parameterType="SearchFilter" resultMap="postMap">
+	    SELECT post.*, user.nickname, sports_center.road_address
+	    FROM post
+	    INNER JOIN user
+	    ON post.user_id = user.user_id
+	    INNER JOIN sports_center
+	    ON post.center_id = sports_center.center_id
+		WHERE post.center_id IN <![CDATA[(SELECT center_id
+			FROM sports_center 
+			WHERE (6371*acos(cos(radians(#{latitude}))*cos(radians(latitude))*cos(radians(longitude)-radians(#{longitude}))+sin(radians(#{latitude}))*sin(radians(latitude)))) <= 1)]]>
+	        <if test="status != null">
+	            AND post.status = #{status}
+	        </if>
+	        <if test="gender != null">
+	            AND post.gender = #{gender}
+	        </if>
+	        <if test="exerciseType != null">
+	            AND post.exercise_type LIKE CONCAT('%', #{exerciseType}, '%')
+	        </if>
+	        <if test="minPrice != null">
+	            AND post.price >= #{minPrice}
+	        </if>
+	        <if test="maxPrice != null">
+	            AND <![CDATA[post.price <= #{maxPrice}]]>
+	        </if>
+	</select>
+
+	
+</mapper>
