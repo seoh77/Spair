@@ -14,7 +14,8 @@
                 <div id="search">
                     <label for="total-search">🔍</label>
                     <input type="text" id="total-search" v-model="searchQuery">
-                    <button @click="search">통합검색</button>
+                    <button @click="search">통합검색</button>        
+                
                 </div>
 
                 <div id="user">
@@ -37,12 +38,14 @@
 
     const filteredPosts = computed(() => {
         const searchValue = searchQuery.value.trim().toLowerCase()
-        return store.state.posts.filter(post => {
+        return store.boardList.filter(board => {
             // 제목 또는 내용에 검색어가 포함되어 있는 경우 필터링
-            return post.title.toLowerCase().includes(searchValue) || post.content.toLowerCase().includes(searchValue)
+            return board.title.toLowerCase().includes(searchValue) || board.content.toLowerCase().includes(searchValue)
         })
     })
 
+    console.log(store.boardList)
+    
     const search = () => {
         if (searchQuery.value.trim()) {
             router.push({ name: 'boardList', query: { search: searchQuery.value.trim() } })
