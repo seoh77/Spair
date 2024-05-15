@@ -1,5 +1,7 @@
 package com.ssafy.spair.model.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.ssafy.spair.model.dao.UserDao;
@@ -22,6 +24,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int join(User user) {
 		return userDao.join(user);
+	}
+
+	@Override
+	public List<User> searchAll() {
+		return userDao.searchAll();
 	}
 
 }

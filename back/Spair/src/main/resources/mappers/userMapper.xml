@@ -27,4 +27,10 @@
 		VALUES (#{loginId}, #{password}, #{nickname}, #{name}, #{gender}, #{address}, #{latitude}, #{longitude}) ;
 	</insert>
 	
+	<!-- 모든 회원 정보 반환 -->
+	<select id="searchAll" resultMap="userMap">
+		SELECT *
+		FROM user ;
+	</select>
+	
 </mapper>
