@@ -29,4 +29,9 @@ public class SearchServiceImpl implements SearchService {
 		return searchDao.filterSearch(searchFilter);
 	}
 
+	@Override
+	public List<Post> townFilterSearch(SearchFilter searchFilter) {
+		return searchDao.townFilterSearch(searchFilter);
+	}
+
 }

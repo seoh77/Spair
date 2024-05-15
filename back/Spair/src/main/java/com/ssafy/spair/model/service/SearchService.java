@@ -11,4 +11,6 @@ public interface SearchService {
 	
 	List<Post> filterSearch(SearchFilter searchFilter) ;
 
+	List<Post> townFilterSearch(SearchFilter searchFilter) ;
+
 }

@@ -11,4 +11,6 @@ public interface SearchDao {
 	
 	List<Post> filterSearch(SearchFilter searchFilter) ;
 
+	List<Post> townFilterSearch(SearchFilter searchFilter) ;
+
 }
