@@ -1,4 +1,5 @@
 <template>
+    <BoardSearchFilter @apply-filters="filterBoardList" v-if="$route.path == '/board'"/>
     <div id="list-container">
         <table>
             <thead>
@@ -27,8 +28,27 @@
 </template>
 
 <script setup>
+import BoardSearchFilter from '@/components/board/BoardSearchFilter.vue';
 import { useBoardStore } from '@/stores/board';
 const store = useBoardStore();
+
+// 임시 메소드. fake 구현. API 연결 후 삭제 및 새롭게 생성 예정
+const filterBoardList = (filters) => {
+  const { status, gender, exerciseType, minPrice, maxPrice } = filters;
+  const filteredList = [];
+
+  store.boardList.forEach(board => {
+    if (
+      (status === '' || board.status === parseInt(status)) &&
+      (gender === '' || board.gender === parseInt(gender)) &&
+      (exerciseType === '' || board.exerciseType === exerciseType) &&
+      (minPrice === '' || board.price >= parseInt(minPrice)) &&
+      (maxPrice === '' || board.price <= parseInt(maxPrice))
+    ) {
+      filteredList.push(board);
+    }
+  });
+};
 
 </script>
 
@@ -38,6 +58,7 @@ const store = useBoardStore();
     max-width: 1200px;
     min-width: 1000px;
     display:flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     font-family: 'Tenada';
