@@ -42,4 +42,16 @@
 		WHERE (title LIKE CONCAT('%', #{keyword}, '%')) OR (user.nickname LIKE CONCAT ('%', #{keyword}, '%'));
 	</select>
 	
+	
+	<!-- 전체 게시글 검색 필터 -->
+	<select id="filterSearch" parameterType="SearchFilter" resultMap="postMap">
+		SELECT post.*, user.nickname, sports_center.road_address
+		FROM post
+		INNER JOIN user
+		ON post.user_id = user.user_id
+		INNER JOIN sports_center
+		ON post.center_id = sports_center.center_id
+		WHERE <![CDATA[((post.status = #{status}) AND (post.gender = #{gender}) AND (post.exercise_type LIKE CONCAT('%', #{exerciseType}, '%')) AND (post.price >= #{minPrice}) AND (post.price <= #{maxPrice}))]]>;
+	</select>
+	
 </mapper>

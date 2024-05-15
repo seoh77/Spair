@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.spair.model.dao.SearchDao;
 import com.ssafy.spair.model.dto.Post;
+import com.ssafy.spair.model.dto.SearchFilter;
 
 @Service
 public class SearchServiceImpl implements SearchService {
@@ -21,6 +22,11 @@ public class SearchServiceImpl implements SearchService {
 	@Override
 	public List<Post> searchKeyword(String keyword) {
 		return searchDao.searchKeyword(keyword);
+	}
+
+	@Override
+	public List<Post> filterSearch(SearchFilter searchFilter) {
+		return searchDao.filterSearch(searchFilter);
 	}
 
 }
