@@ -1,11 +1,203 @@
 <template>
-    <div>
-        <h2>JoinView입니다.</h2>
+    <div id="join-view">
+        <h2>회원가입</h2>
+        <form id="join_form">
+            <div class="input_wrap">
+                <label for="id" class="inputHeader">ID</label>
+                <div class="input_area">
+                    <input type="text" name="id" id="id">
+                    <div class="info checkInfo">사용 가능합니다.</div>
+                </div>
+                <div class="btn">중복확인</div>
+            </div>
+            <div class="input_wrap">
+                <label for="password" class="inputHeader">PW</label>
+                <div class="input_area">
+                    <input type="password" name="password" id="password">
+                    <div class="info failInfo">5글자 이상으로 작성해주세요.</div>
+                </div>
+            </div>
+            <div class="input_wrap">
+                <label for="passwordCheck" class="inputHeader">PW확인</label>
+                <div class="input_area">
+                    <input type="password" name="passwordCheck" id="passwordCheck">
+                    <div class="info failInfo">비밀번호가 올바르지 않습니다.</div>
+                </div>
+            </div>
+            <div class="input_wrap">
+                <label for="name" class="inputHeader">이름</label>
+                <div class="input_area">
+                    <input type="text" name="name" id="name">
+                </div>
+            </div>
+            <div class="input_wrap">
+                <label for="nickname" class="inputHeader">닉네임</label>
+                <div class="input_area">
+                    <input type="text" name="nickname" id="nickname">
+                    <div class="info checkInfo">사용 가능합니다.</div>
+                </div>
+                <div class="btn">중복확인</div>
+            </div>
+            <div class="input_wrap">
+                <div class="inputHeader">성별</div>
+                <div class="selectGender">
+                    <input type="radio" name="gender" id="male" value="1" checked>
+                    <label for="male">남자</label>
+                </div>
+                <div class="selectGender">
+                    <input type="radio" name="gender" id="female" value="2">
+                    <label for="female">여자</label>
+                </div>
+            </div>
+            <div class="address_input_wrap">
+                <div class="inputHeader">주소</div>
+                <div class="searchAddress">
+                    <input type="text" placeholder="주소">
+                    <div class="btn">주소찾기</div>
+                </div>
+                <input type="text" placeholder="상세주소">
+            </div>
+            <button id="joinBtn">회원가입하기</button>
+        </form>
     </div>
 </template>
 
 <script setup>
 </script>
 
-<script setup>
-</script>
+<style scoped>
+    #join-view {
+        width: 100vw;
+        height: 95vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center ;
+        margin-top: 20px;
+    }
+
+    #join-view h2 {
+        font-family: 'Tenada';
+    }
+    
+    #join_form {
+        width: 80%;
+        min-width: 800px;
+        max-width: 1000px ;
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        border: 1px solid var(--gray-color);
+        box-shadow: 0.1rem 0.5rem 0.5rem var(--gray-color);
+        padding: 5% 6% ;
+        box-sizing: border-box;
+    }
+
+    .input_wrap {
+        display: flex;
+        font-family: 'NanumSquareRound';
+        margin-bottom: 2%;
+    }
+
+    .inputHeader {
+        width: 10%;
+        font-size: 1.1rem ;
+        font-weight: 600;
+    }
+
+    .input_area {
+        width: 70%;
+    }
+
+    .input_area input {
+        width: 90%;
+        height: 25px ;
+        border: 1px solid black;
+        border-radius: 9px ;
+        padding: 0 10px ;
+        box-sizing: border-box ;
+    }
+
+    .info {
+        font-size: 0.8rem;
+        margin: 2px 0 0 5px ;
+    }
+
+    .checkInfo {
+        color : #1D24CA ;
+    }
+
+    .failInfo {
+        color: #E72929 ;
+    }
+
+    .address_input_wrap {
+        display: flex ;
+        flex-direction: column;
+    }
+
+    .searchAddress {
+        display: flex ;
+        margin: 10px 0 ;
+    }
+
+    .address_input_wrap input {
+        width: 75%;
+        height: 27px ;
+        border: 1px solid black;
+        border-radius: 9px ;
+        padding: 0 10px ;
+        box-sizing: border-box ;
+    }
+
+    .btn {
+        width: 10%;
+        height: 50% ;
+        background-color: var(--primary-color);
+        display: flex ;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        font-weight: 600 ;
+        font-size: 0.9rem ;
+    }
+
+    .searchAddress .btn {
+        height: 100% ;
+        margin-left: 5% ;
+    }
+
+    #joinBtn {
+        margin-top: 5% ;
+        width: 160px;
+        height: 40px ;
+        margin-left: auto ;
+        margin-right: auto;
+        font-family: 'Tenada';
+        font-size: 1rem ;
+        background-color: var(--secondary-color);
+        border: none;
+        border-radius: 10px ;
+    }
+
+    input[type='radio'] {
+        --webkit-appearance: none; 
+        --moz-appearance: none;
+        appearance: none;
+        width: 14px;
+        height: 14px;
+        border: 2px solid #ccc; 
+        border-radius: 50%;
+        outline: none; 
+        cursor: pointer;
+    }
+
+    input[type='radio']:checked {
+        background-color: var(--primary-color);
+        border: 2px solid white; 
+        box-shadow: 0 0 0 1.6px var(--primary-color);
+    }
+
+    .selectGender {
+        margin-right: 5px ;
+    }
+</style>
