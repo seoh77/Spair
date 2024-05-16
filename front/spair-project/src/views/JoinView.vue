@@ -20,8 +20,8 @@
             <div class="input_wrap">
                 <label for="passwordCheck" class="inputHeader">PW확인</label>
                 <div class="input_area">
-                    <input type="password" name="passwordCheck" id="passwordCheck">
-                    <div class="info failInfo">비밀번호가 올바르지 않습니다.</div>
+                    <input type="password" name="confirmPW" id="confirmPW" :value="inputConfirmPW" @input="onCheckConfirmPW">
+                    <div class="info" :class=" checkConfirmPW ? 'checkInfo' : 'failInfo'">{{ checkConfirmPW ? "비밀번호 확인되었습니다" : "비밀번호가 올바르지 않습니다."}}</div>
                 </div>
             </div>
             <div class="input_wrap">
@@ -67,18 +67,20 @@
 
     const inputId = ref()
     const inputPW = ref()
+    const inputConfirmPW = ref()
 
     const checkId = ref(false)
     const checkPW = ref(false)
+    const checkConfirmPW = ref(false)
 
     const onCheckId = (event) => {
         const regex =/^[a-zA-Z0-9]*$/           // 영어 대소문자와 숫자만 가능
         inputId.value = event.target.value
 
         if(regex.test(inputId.value) && inputId.value.length >= 5) {
-            checkId.value = true ;
+            checkId.value = true
         } else {
-           checkId.value = false ;
+           checkId.value = false
         }
     }
 
@@ -87,9 +89,19 @@
         inputPW.value = event.target.value
 
         if(regex.test(inputPW.value) && inputPW.value.length >= 5) {
-            checkPW.value = true ;
+            checkPW.value = true
         } else {
-            checkPW.value = false ;
+            checkPW.value = false
+        }
+    }
+
+    const onCheckConfirmPW = (event) => {
+        inputConfirmPW.value = event.target.value
+
+        if(inputConfirmPW.value === inputPW.value) {
+            checkConfirmPW.value = true 
+        } else {
+            checkConfirmPW.value = false
         }
     }
 </script>
