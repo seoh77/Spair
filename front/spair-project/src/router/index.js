@@ -10,6 +10,7 @@ import BoardList from '@/components/board/BoardList.vue'
 import BoardCreate from '@/components/board/BoardCreate.vue'
 import BoardDetail from '@/components/board/BoardDetail.vue'
 import BoardUpdate from '@/components/board/BoardUpdate.vue'
+import BoardSearchKeyword from '@/components/board/BoardSearchKeyword.vue'
 
 // comment
 import CommentCreate from '@/components/comment/CommentCreate.vue'
@@ -38,6 +39,11 @@ const router = createRouter({
           path: 'create', 
           name: 'boardCreate',
           component: BoardCreate
+        },
+        {
+          path: 'search', 
+          name: 'boardSearchKeyword',
+          component: BoardSearchKeyword
         },
         {
           path: 'update', 

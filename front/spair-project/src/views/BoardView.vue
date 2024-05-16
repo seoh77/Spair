@@ -1,6 +1,6 @@
 <template>
     <div id="boardview-container">
-        <div id="title">우리동네 PAIR 찾기 게시판</div>
+        <div v-if="$route.path !== '/board/search'" id="title">우리동네 PAIR 찾기 게시판</div>
         
         <RouterView/>
         <div v-if="$route.path == '/board'" id="link">

@@ -5,7 +5,7 @@
             <thead>
                 <tr>
                     <th>번호</th>
-                    <th>제목</th>
+                    <th id="title">제목</th>
                     <th>작성자</th>
                     <th>작성시각</th>
                     <th>모집상태</th>
@@ -14,12 +14,12 @@
             <tbody>
                 <tr v-for="board in store.boardList" :key="board.id">
                     <td>{{ board.id }}</td>
-                    <td>
+                    <td >
                         <RouterLink :to="`/board/${board.id}`">{{ board.title }}</RouterLink>
                     </td>
                     <td>{{  board.writer }}</td>
                     <td>{{  board.created_date }}</td>
-                    <td>{{  board.status ? '모집중' : '모집완료' }}</td>
+                    <td :class="{ 'red': board.status === true, 'gray': board.status === false }">{{  board.status ? '모집중' : '모집완료' }}</td>
                 </tr>
             </tbody>
         </table>
@@ -68,7 +68,6 @@ const filterBoardList = (filters) => {
 }
 table {
     width: 90%;
-    height: 200px;
     margin: 3rem 0;
     table-layout: fixed;
 }
@@ -77,11 +76,37 @@ thead, tbody {
     font-size: 1.5rem;
 }
 td {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-family: 'NanumSquareRound';
-    border-bottom: 0.1rem dotted var(--primary-color);
+    border-bottom: 0.1rem dotted var(--gray-color);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    padding: 0.7rem;
+}
+#title {
+    width: 50%;
+}
+.red {
+    color: red;
+}
+.gray {
+    color: #000000;
+    font-size: 1.2rem;
+}
+a {
+    text-decoration: none;
+}
+a:link {
+    color: #000000;
+}
+a:visited {
+    color: #000000;
+}
+a:hover {
+    color: var(--primary-color);
+}
+a:active {
+    color: var(--primary-color);
 }
 </style>
