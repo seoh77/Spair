@@ -13,8 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.spair.model.dto.User;
 import com.ssafy.spair.model.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api")
+@Tag(name = "user-controller", description = "회원 API")
 public class UserController {
 	
 	private final UserService userService ;
@@ -26,12 +30,14 @@ public class UserController {
 	
 	// 회원가입
 	@PostMapping("join")
+	@Operation(summary = "회원가입")
 	public ResponseEntity<?> join(@RequestBody User user) {
 		return new ResponseEntity<>(userService.join(user), HttpStatus.CREATED);
 	}
 	
 	// ID 중복확인
 	@PostMapping("check/id")
+	@Operation(summary = "ID 중복확인")
 	public ResponseEntity<?> checkId(@RequestBody String loginId) {
 		
 		List<User> allUser = userService.searchAll() ;
@@ -41,7 +47,7 @@ public class UserController {
 			String curUserLoginId = user.getLoginId() ;		// 기존 user의 loginId
 			
 			if(curUserLoginId.equals(loginId)) {
-				return new ResponseEntity<>("이미 존재하는 ID입니다", HttpStatus.OK) ;
+				return new ResponseEntity<>("이미 존재하는 ID입니다.", HttpStatus.OK) ;
 			}
 		}
 		
@@ -50,6 +56,7 @@ public class UserController {
 	
 	// 닉네임 중복확인
 	@PostMapping("check/nickname")
+	@Operation(summary = "닉네임 중복확인")
 	public ResponseEntity<?> checkNickname(@RequestBody String nickname) {
 		
 		List<User> allUser = userService.searchAll() ;
@@ -59,7 +66,7 @@ public class UserController {
 			String curUserNickname = user.getNickname() ;		// 기존 user의 nickname
 			
 			if(curUserNickname.equals(nickname)) {
-				return new ResponseEntity<>("이미 존재하는 닉네임입니다", HttpStatus.OK) ;
+				return new ResponseEntity<>("이미 존재하는 닉네임입니다.", HttpStatus.OK) ;
 			}
 		}
 		
@@ -68,6 +75,7 @@ public class UserController {
 	
 	// 로그인
 	@PostMapping("login")
+	@Operation(summary = "로그인")
 	public ResponseEntity<?> login(@RequestBody User user) {
 		
 		String loginId = user.getLoginId() ;
