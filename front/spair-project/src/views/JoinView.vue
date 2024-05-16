@@ -5,7 +5,7 @@
             <div class="input_wrap">
                 <label for="id" class="inputHeader">ID</label>
                 <div class="input_area">
-                    <input type="text" name="id" id="id" v-model="inputId" @input="onCheckId">
+                    <input type="text" name="id" id="id" :value="inputId" @input="onCheckId">
                     <div class="info" :class=" checkId ? 'checkInfo' : 'failInfo'">{{ checkId ? "사용 가능한 ID입니다." : "영어, 숫자만 포함하여 5글자 이상으로 설정해주세요."}}</div>
                 </div>
                 <div class="btn">중복확인</div>
@@ -13,8 +13,8 @@
             <div class="input_wrap">
                 <label for="password" class="inputHeader">PW</label>
                 <div class="input_area">
-                    <input type="password" name="password" id="password">
-                    <div class="info failInfo">5글자 이상으로 작성해주세요.</div>
+                    <input type="password" name="password" id="password" :value="inputPW" @input="onCheckPW">
+                    <div class="info" :class=" checkPW ? 'checkInfo' : 'failInfo'">{{ checkPW ? "사용 가능한 비밀번호입니다." : "영어, 숫자만 포함하여 5글자 이상으로 설정해주세요."}}</div>
                 </div>
             </div>
             <div class="input_wrap">
@@ -65,16 +65,31 @@
 <script setup>
     import { ref } from 'vue';
 
-    const inputId = defineModel() 
-    const checkId = ref(false)
+    const inputId = ref()
+    const inputPW = ref()
 
-    const onCheckId = () => {
+    const checkId = ref(false)
+    const checkPW = ref(false)
+
+    const onCheckId = (event) => {
         const regex =/^[a-zA-Z0-9]*$/           // 영어 대소문자와 숫자만 가능
+        inputId.value = event.target.value
 
         if(regex.test(inputId.value) && inputId.value.length >= 5) {
             checkId.value = true ;
         } else {
            checkId.value = false ;
+        }
+    }
+
+    const onCheckPW = (event) => {
+        const regex =/^[a-zA-Z0-9]*$/           // 영어 대소문자와 숫자만 가능
+        inputPW.value = event.target.value
+
+        if(regex.test(inputPW.value) && inputPW.value.length >= 5) {
+            checkPW.value = true ;
+        } else {
+            checkPW.value = false ;
         }
     }
 </script>
