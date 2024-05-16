@@ -170,7 +170,7 @@ select {
 }
 
 #min {
-    margin: 0 1rem 0.4rem 1rem;
+    margin: 0 1rem 0.3rem 1rem;
 }
 
 input {

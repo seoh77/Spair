@@ -4,7 +4,7 @@
 
             <h4>게시글 상세</h4>
             <div id="wrap">
-                <div id="de">
+                <div id="grid">
                     
                         <div class="item">제목</div> 
                         <div class="item">{{ post.title }}</div>
@@ -13,7 +13,7 @@
                         <div class="item">{{ post.writer }}</div>
                     
                         <div class="item">모집상태</div>
-                        <div class="item">{{ post.status ? '모집중' : '모집완료' }}</div>
+                        <div class="item" :class="{ 'red': post.status }">{{ post.status ? '모집중' : '모집완료' }}</div>
                     
                         <div class="item">모집인원</div> 
                         <div class="item">{{ post.recruitment_num }}인</div>
@@ -78,6 +78,7 @@ const updateBoard = function(){
     justify-content: center;
     align-items: center;
 }
+
 #details {
     width: 75%;
     max-width: 1200px;
@@ -87,6 +88,7 @@ const updateBoard = function(){
     align-items: center;
     margin: 2rem;
 }
+
 h4 {
     width: 100%;
     display: flex;
@@ -96,37 +98,54 @@ h4 {
     font-size: 1.5rem;
     margin: 0 0 0.5rem 0;
 }
+
 #wrap {
     width: 100%;
     display: flex;
     flex-direction: column;
     font-size: 1.2rem;
     font-family: 'NanumSquareRound';
+    margin: 1rem 0;
 }
+
 #wrap div {
     margin: 0.8rem 0.5rem ;
 }
-#de {
+
+#grid {
     display: grid;
     column-gap: 0.7rem;
     grid-template-rows: 1fr 1fr 1fr 1fr;
     grid-template-columns: repeat(8, 1fr);
 }
+
+.red {
+    color: red;
+}
+
 .item:nth-child(14) {
     grid-column: 2 / span 7;
 }
+
 .item:nth-child(odd) {
     font-weight: bold;
-    text-align: center;
+    /* text-align: center; */
     background-color: var(--secondary-color);
     border-radius: 0.6rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
 .item:nth-child(1) {
     background-color: var(--sub-color);
 }
+
 .item:nth-child(2) {
     grid-column: 2 / span 5;
 }
+
 .item:nth-child(3) {
     background-color: var(--sub-color);
 }
@@ -138,30 +157,39 @@ h4 {
     border: 0.1rem solid var(--gray-color);
     box-shadow: 0.1rem 0.5rem 0.5rem var(--gray-color);
 }
+
 #con div {
     width: 90%;
-    margin: 1rem 0;
+    margin: 0.7rem 0;
 }
+
 #inner-wrap {
     display: grid;
     grid-template-columns: 1fr 6fr;
     grid-template-rows: 1fr;
 }
+
 .tem:nth-child(1) {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: var(--secondary-color);
     border-radius: 0.6rem;
     font-weight: bold;
+    height: 2rem;
 }
+
 .tem:nth-child(2) {
     text-align: end;
     color: var(--gray-color);
     font-size: 1rem;
 }
+
 #btn {
     display: flex;
     flex-direction: row-reverse;
 }
+
 button {
     width: 10%;
     border-style: none;
@@ -170,11 +198,15 @@ button {
     font-size: 1.3rem;
     font-weight: bold;
     font-family: 'NanumSquareRound';
+    height: 2.5rem;
 }
+
 button:nth-child(1) {
     background-color: red;
 }
+
 button:nth-child(2) {
     background-color: var(--secondary-color);
 }
+
 </style>
