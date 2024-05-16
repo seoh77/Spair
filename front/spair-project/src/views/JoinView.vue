@@ -72,11 +72,12 @@
         display: flex;
         flex-direction: column;
         align-items: center ;
-        margin-top: 20px;
+        margin-top: 25px;
     }
 
     #join-view h2 {
         font-family: 'Tenada';
+        font-size: 2rem ;
     }
     
     #join_form {
@@ -88,7 +89,7 @@
         justify-content: center;
         border: 1px solid var(--gray-color);
         box-shadow: 0.1rem 0.5rem 0.5rem var(--gray-color);
-        padding: 5% 6% ;
+        padding: 5% 0 5% 6%;
         box-sizing: border-box;
     }
 
@@ -168,15 +169,16 @@
 
     #joinBtn {
         margin-top: 5% ;
-        width: 160px;
+        width: 25%;
         height: 40px ;
         margin-left: auto ;
         margin-right: auto;
         font-family: 'Tenada';
-        font-size: 1rem ;
+        font-size: 1.4rem ;
         background-color: var(--secondary-color);
         border: none;
         border-radius: 10px ;
+        padding-top: 7px;
     }
 
     input[type='radio'] {
