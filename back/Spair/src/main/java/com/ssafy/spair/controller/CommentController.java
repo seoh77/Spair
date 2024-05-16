@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.spair.model.dto.Comment;
 import com.ssafy.spair.model.service.CommentService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/comment")
+@Tag(name = "comment-controller", description = "댓글 CRUD API")
 public class CommentController {
 	
 	private final CommentService commentService ;
@@ -30,6 +34,7 @@ public class CommentController {
 	
 	// 댓글 등록
 	@PostMapping
+	@Operation(summary = "댓글 등록")
 	public ResponseEntity<?> insert(@RequestBody Comment comment) {
 		
 		if(comment.getCreatedDate() == null) {
@@ -41,6 +46,7 @@ public class CommentController {
 	
 	// 댓글 수정
 	@PutMapping("{commentId}")
+	@Operation(summary = "댓글 수정")
 	public ResponseEntity<?> modify(@PathVariable("commentId") int commentId, @RequestBody Comment comment) {
 		comment.setCommentId(commentId);
 		comment.setModifiedDate(LocalDateTime.now());
@@ -49,12 +55,14 @@ public class CommentController {
 	
 	// 댓글 삭제
 	@DeleteMapping("{commentId}")
+	@Operation(summary = "댓글 삭제")
 	public ResponseEntity<?> delete(@PathVariable("commentId") int commentId) {
 		return new ResponseEntity<>(commentService.delete(commentId), HttpStatus.OK) ;
 	}
 	
 	// 특정 게시글에 해당하는 댓글 조회
 	@GetMapping("{postId}")
+	@Operation(summary = "특정 게시글에 해당하는 댓글 조회")
 	public ResponseEntity<?> search(@PathVariable("postId") int postId) {
 		return new ResponseEntity<>(commentService.search(postId), HttpStatus.OK) ;
 	}

@@ -15,8 +15,12 @@ import com.ssafy.spair.model.service.PostService;
 import com.ssafy.spair.model.service.SearchService;
 import com.ssafy.spair.model.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/search")
+@Tag(name = "search-controller", description = "검색 API")
 public class SearchController {
 
 	private final SearchService searchService ;
@@ -32,12 +36,14 @@ public class SearchController {
 	
 	// 전체 게시글 통합 검색
 	@GetMapping("{keyword}")
+	@Operation(summary = "전체 게시글 통합 검색", description = "전체 게시글에서 제목이나 작성자에 사용자가 입력한 keyword가 포함되어 있다면 반환")
 	public ResponseEntity<?> searchKeyword(@PathVariable("keyword") String keyword) {
 		return new ResponseEntity<>(searchService.searchKeyword(keyword), HttpStatus.OK) ;
 	}
 	
 	// 전체 게시글 검색필터 (모집여부, 성별, 운동종류, 가격)
 	@GetMapping
+	@Operation(summary = "전체 게시글 검색 필터", description = "전체 게시글에서 '모집여부, 성별, 운동종류, 가격'를 필터링하여 조건을 충족하는 게시글만 반환")
 	public ResponseEntity<?> filterSearch(
 	        @RequestParam(value = "status", required = false) Integer status,
 	        @RequestParam(value = "gender", required = false) Integer gender,
@@ -58,6 +64,7 @@ public class SearchController {
 	
 	// 우리 동네 게시글 검색 필터 (모집여부, 성별, 운동종류, 가격)
 	@GetMapping("town")
+	@Operation(summary = "우리 동네 게시글 검색 필터", description = "DB에 저장된 사용자 위치의 반경 1km 이내에 있는 sports center의 게시글에서 '모집여부, 성별, 운동종류, 가격'를 필터링하여 조건을 충족하는 게시글만 반환")
 	public ResponseEntity<?> townFilterSearch(
 			@RequestParam(value = "userId") int userId,
 	        @RequestParam(value = "status", required = false) Integer status,
