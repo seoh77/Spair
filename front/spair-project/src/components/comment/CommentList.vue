@@ -1,14 +1,14 @@
 <template>
     <div id="comment-container">
         <div id="wrap">
-            <!-- API연결 후 v-for 추가 예정 -->
-            <div id="each-comment">
+            <!-- API연결 후 v-for 수정 예정 -->
+            <div id="each-comment" v-for="comment in filteredComments" :key="comment.id">
                 <div>
-                    <div id="writer">작성자</div>
-                    <div id="created-date">작성일</div>
+                    <div id="writer">{{ comment.writer }}</div>
+                    <div id="created-date">{{ comment.created_date }}</div>
                 </div>
                 <div>
-                    <div id="content">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rerum, fugiat! Explicabo, dicta a. Dicta aspernatur dolorem saepe perferendis? Voluptate temporibus beatae quas quae quis repellat eius nesciunt asperiores sequi quam.</div>
+                    <div id="content">{{ comment.content }}</div>
                     <button id="update" class="item"></button>
                     <button id="delete" class="item"></button>
                 </div>
@@ -18,6 +18,21 @@
 </template>
 
 <script setup>
+import { useBoardStore } from '@/stores/board'
+import { useRoute } from 'vue-router';
+import { ref,computed } from 'vue'
+const store = useBoardStore()
+const route = useRoute()
+
+// 임시 변수 및 메소드 . API 추가 후 수정 예정
+const postId = Number(route.params.id);
+const post = ref(null)
+const filteredComments = computed(() => {
+    return store.comments.filter(comment => comment.post_id == postId)
+})
+
+post.value = filteredComments.value[0];
+
 </script>
 
 <style scoped>
@@ -36,14 +51,15 @@
     #each-comment {
         display: flex;
         flex-direction: column;
-        margin: 1.2rem;
+        margin: 1.4rem;
     }
     #each-comment > div {
         display: flex;
     }
     #writer {
         width: 90%;
-        font-size: 1.5rem;
+        font-size: 1.4rem;
+        font-weight: bold;
     }
     #created-date {
         color: var(--gray-color);
@@ -51,7 +67,7 @@
     }
     #content {
         width: 90%;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
     button {
         border-style: none;
