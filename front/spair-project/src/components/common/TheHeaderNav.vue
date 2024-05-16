@@ -45,7 +45,6 @@
         })
     })
 
-    console.log(store.boardList)
     
     const search = () => {
         if (searchQuery.value.trim()) {

@@ -38,12 +38,12 @@
                     <div>
                         <label for="price">최저</label>
                         <!-- <input name="price" type="text" v-model="minPrice"/> -->
-                        <input name="price" type="text" />
+                        <input id="min" name="price" type="text" />
                     </div>
                     <div>
                         <label>최고</label>
                         <!-- <input name="price" type="text" v-model="maxPrice" /> -->
-                        <input name="price" type="text" />
+                        <input id="max" name="price" type="text" />
                     </div>
                 </div>
             </div>
@@ -95,6 +95,7 @@ const applyFilters = () => {
     font-family: 'Tenada';
     margin: 0.5rem;
 }
+
 h4 {
     font-size: 1.6rem;
     width: 100%;
@@ -104,16 +105,19 @@ h4 {
     font-family: 'Tenada';
     margin: 1rem;
 }
+
 #filter {
     display: flex;
     width: 100%;
     justify-content: space-between;
 }
+
 .wrap {
     width: 13%;
     border-radius: 0.5rem;
     box-shadow: 0.3rem 0.3rem 0.5rem gray;
 }
+
 select {
     width: 100%;
     height: 3rem;
@@ -123,19 +127,25 @@ select {
     font-size: 1.3rem;
     border-radius: 0.5rem;
 }
+
 #status {
     background-color: var(--primary-color);
 }
+
 #gender {
     background-color: var(--sub-color);
 }
+
 #exercise-type {
     background-color: var(--secondary-color);
 }
+
 #price-wrap {
     display: flex;
     width: 40%;
 }
+
+
 #title {
     width: 32%;
     display: flex;
@@ -147,23 +157,32 @@ select {
     font-size: 1.3rem;
     box-shadow: 0.3rem 0.3rem 0.5rem gray;
 }
+
 #min-max {
     display: flex;
     flex-direction: column;
     justify-content: center;
     width: 60%;
 }
+
 #min-max div {
     display: flex;
 }
+
+#min {
+    margin: 0 1rem 0.4rem 1rem;
+}
+
 input {
     border-radius: 0.5rem;
     width: 70%;
     margin: 0 1rem;
 }
+
 #btn {
     width: 10%;
 }
+
 button {
     background-color: #000000;
     width: 100%;
