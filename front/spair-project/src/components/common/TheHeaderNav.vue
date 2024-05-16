@@ -15,7 +15,7 @@
                 <!-- board 컴포넌트 추가 후 클릭 이벤트 수정 및 추가 예정-->
                 <div id="search">
                     <label for="total-search">🔍</label>
-                    <input type="text" id="total-search" v-model="searchQuery">
+                    <input type="text" id="total-search" v-model="searchQuery" @keyup.enter="search">
                     <button @click="search">통합검색</button>        
                 </div>
 
@@ -32,11 +32,13 @@
     import { ref, computed } from 'vue'
     import { useBoardStore } from '@/stores/board'
     import { useRouter } from 'vue-router';
-   
-    const searchQuery = ref('')
+    
     const store = useBoardStore()
     const router = useRouter()
+    const searchQuery = ref('')
+    
 
+    // 임시 메소드 . 동작 x API연결 후 수정 예정
     const filteredPosts = computed(() => {
         const searchValue = searchQuery.value.trim().toLowerCase()
         return store.boardList.filter(board => {
@@ -44,15 +46,19 @@
             return board.title.toLowerCase().includes(searchValue) || board.content.toLowerCase().includes(searchValue)
         })
     })
-
     
-    const search = () => {
-        if (searchQuery.value.trim()) {
-            router.push({ name: 'boardList', query: { search: searchQuery.value.trim() } })
-        } else {
-            router.push({ name: 'boardList', query: {} })
-        }
+    
+    const search = function(){
+        router.push({name: 'boardSearchKeyword', query: { search: searchQuery.value }})
     }
+    // const search = () => {
+    //     // if (searchQuery.value.trim()) {
+    //     //     router.push({ name: 'boardList', query: { search: searchQuery.value.trim() } })
+    //     // } else {
+    //     //     router.push({ name: '', query: {} })
+    //     // }
+    //     router.push({ name: 'boardSearchKeyword' })
+    // }
 
     // const event = function(){
     //     router.push({name: 'boardList'})
@@ -116,6 +122,7 @@
         border-style: none;
         width: 280px;
         height: 30px;
+        outline: none;
     }
     button {
         border-style: none;
