@@ -57,7 +57,7 @@
                 </div>
                 <input type="text" placeholder="상세주소">
             </div>
-            <button id="joinBtn">회원가입하기</button>
+            <button id="joinBtn" :class=" allCheckValue ? 'possible' : 'impossible' ">회원가입하기</button>
         </form>
     </div>
 </template>
@@ -74,6 +74,7 @@
     const checkPW = ref(false)
     const checkConfirmPW = ref(false)
     const checkNickname = ref(false)
+    const allCheckValue = ref(false)
 
     const onCheckId = (event) => {
         const regex =/^[a-zA-Z0-9]*$/           // 영어 대소문자와 숫자만 가능
@@ -84,6 +85,8 @@
         } else {
            checkId.value = false
         }
+
+        allCheck()
     }
 
     const onCheckPW = (event) => {
@@ -95,6 +98,8 @@
         } else {
             checkPW.value = false
         }
+
+        allCheck()
     }
 
     const onCheckConfirmPW = (event) => {
@@ -105,11 +110,24 @@
         } else {
             checkConfirmPW.value = false
         }
+
+        allCheck()
     }
     
     const onCheckNickname = (event) => {
         inputNickname.value = event.target.value
         checkNickname.value = inputNickname.value ? true : false
+        allCheck()
+    }
+
+    const allCheck = () => {
+
+        if(!checkId.value || !checkPW.value || !checkConfirmPW.value || !checkNickname.value) {
+            allCheckValue.value = false
+        } else {
+            allCheckValue.value = true
+        }
+
     }
 </script>
 
@@ -224,10 +242,18 @@
         margin-right: auto;
         font-family: 'Tenada';
         font-size: 1.4rem ;
-        background-color: var(--secondary-color);
         border: none;
         border-radius: 10px ;
         padding-top: 7px;
+    }
+
+    .possible {
+        background-color: var(--secondary-color);
+    }
+
+    .impossible {
+        background-color: var(--gray-color);
+        color: white;
     }
 
     input[type='radio'] {
