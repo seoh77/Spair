@@ -6,8 +6,16 @@
         </div>
         <div id="shortcut">
             <!--  바로가기 컴포넌트 추가 후 클릭 이벤트 수정 및 추가 예정-->
-            <button @click="gym">우리동네 헬스장 PAIR찾기 바로가기</button>
-            <button @click="pilates">우리동네 필라테스 PAIR찾기 바로가기</button>
+            <button @click="gym">
+                <p>
+                    우리동네 헬스장 PAIR찾기 바로가기
+                </p>
+            </button>
+            <button @click="pilates">
+                <p>
+                    우리동네 필라테스 PAIR찾기 바로가기
+                </p>
+            </button>
         </div>
         
     </div>
@@ -65,6 +73,9 @@ const pilates = function(){
         align-items: flex-end;
         margin: 40px 10px;
         font-family: 'Tenada';
+    }
+    button p {
+        margin: 0.7rem;
     }
     button:first-child {
         background-color: var(--sub-color);
