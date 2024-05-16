@@ -13,13 +13,13 @@
             </thead>
             <tbody>
                 <tr v-for="board in store.boardList" :key="board.id">
-                    <td>{{ board.id }}</td>
+                    <td>{{ board.postId }}</td>
                     <td >
                         <RouterLink :to="`/board/${board.id}`">{{ board.title }}</RouterLink>
                     </td>
-                    <td>{{  board.writer }}</td>
-                    <td>{{  board.created_date }}</td>
-                    <td :class="{ 'red': board.status === true, 'gray': board.status === false }">{{  board.status ? '모집중' : '모집완료' }}</td>
+                    <td>{{  board.user.nickname }}</td>
+                    <td>{{  board.createdDate }}</td>
+                    <td :class="{ 'red': board.status === 1 }">{{  board.status ? '모집중' : '모집완료' }}</td>
                 </tr>
             </tbody>
         </table>
@@ -30,25 +30,12 @@
 <script setup>
 import BoardSearchFilter from '@/components/board/BoardSearchFilter.vue';
 import { useBoardStore } from '@/stores/board';
+import { onMounted } from 'vue';
+
 const store = useBoardStore();
-
-// 임시 메소드. fake 구현. API 연결 후 삭제 및 새롭게 생성 예정
-const filterBoardList = (filters) => {
-  const { status, gender, exerciseType, minPrice, maxPrice } = filters;
-  const filteredList = [];
-
-  store.boardList.forEach(board => {
-    if (
-      (status === '' || board.status === parseInt(status)) &&
-      (gender === '' || board.gender === parseInt(gender)) &&
-      (exerciseType === '' || board.exerciseType === exerciseType) &&
-      (minPrice === '' || board.price >= parseInt(minPrice)) &&
-      (maxPrice === '' || board.price <= parseInt(maxPrice))
-    ) {
-      filteredList.push(board);
-    }
-  });
-};
+onMounted(() => {
+    store.getBoardList()
+})
 
 </script>
 
@@ -90,10 +77,10 @@ td {
 .red {
     color: red;
 }
-.gray {
+/* .gray {
     color: #000000;
     font-size: 1.2rem;
-}
+} */
 a {
     text-decoration: none;
 }
