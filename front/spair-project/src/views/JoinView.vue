@@ -5,8 +5,8 @@
             <div class="input_wrap">
                 <label for="id" class="inputHeader">ID</label>
                 <div class="input_area">
-                    <input type="text" name="id" id="id">
-                    <div class="info checkInfo">사용 가능합니다.</div>
+                    <input type="text" name="id" id="id" v-model="inputId" @input="onCheckId">
+                    <div class="info" :class=" checkId ? 'checkInfo' : 'failInfo'">{{ checkId ? "사용 가능한 ID입니다." : "영어, 숫자만 포함하여 5글자 이상으로 설정해주세요."}}</div>
                 </div>
                 <div class="btn">중복확인</div>
             </div>
@@ -63,6 +63,20 @@
 </template>
 
 <script setup>
+    import { ref } from 'vue';
+
+    const inputId = defineModel() 
+    const checkId = ref(false)
+
+    const onCheckId = () => {
+        const regex =/^[a-zA-Z0-9]*$/           // 영어 대소문자와 숫자만 가능
+
+        if(regex.test(inputId.value) && inputId.value.length >= 5) {
+            checkId.value = true ;
+        } else {
+           checkId.value = false ;
+        }
+    }
 </script>
 
 <style scoped>
@@ -153,13 +167,13 @@
     .btn {
         width: 10%;
         height: 50% ;
-        background-color: var(--primary-color);
         display: flex ;
         justify-content: center;
         align-items: center;
         border-radius: 10px;
         font-weight: 600 ;
         font-size: 0.9rem ;
+        background-color: var(--primary-color);
     }
 
     .searchAddress .btn {
