@@ -21,7 +21,7 @@
                 <label for="passwordCheck" class="inputHeader">PW확인</label>
                 <div class="input_area">
                     <input type="password" name="confirmPW" id="confirmPW" :value="inputConfirmPW" @input="onCheckConfirmPW">
-                    <div class="info" :class=" checkConfirmPW ? 'checkInfo' : 'failInfo'">{{ checkConfirmPW ? "비밀번호 확인되었습니다" : "비밀번호가 올바르지 않습니다."}}</div>
+                    <div class="info" :class=" checkConfirmPW ? 'checkInfo' : 'failInfo'">{{ checkConfirmPW ? "비밀번호 확인되었습니다." : "비밀번호가 올바르지 않습니다."}}</div>
                 </div>
             </div>
             <div class="input_wrap">
@@ -33,8 +33,8 @@
             <div class="input_wrap">
                 <label for="nickname" class="inputHeader">닉네임</label>
                 <div class="input_area">
-                    <input type="text" name="nickname" id="nickname">
-                    <div class="info checkInfo">사용 가능합니다.</div>
+                    <input type="text" name="nickname" id="nickname" :value="inputNickname" @input="onCheckNickname">
+                    <div class="info checkInfo" :class=" checkNickname ? 'checkInfo' : 'failInfo'">{{ checkNickname ? "사용 가능한 닉네임입니다." : "닉네임을 입력해주세요."}}</div>
                 </div>
                 <div class="btn">중복확인</div>
             </div>
@@ -68,10 +68,12 @@
     const inputId = ref()
     const inputPW = ref()
     const inputConfirmPW = ref()
+    const inputNickname = ref()
 
     const checkId = ref(false)
     const checkPW = ref(false)
     const checkConfirmPW = ref(false)
+    const checkNickname = ref(false)
 
     const onCheckId = (event) => {
         const regex =/^[a-zA-Z0-9]*$/           // 영어 대소문자와 숫자만 가능
@@ -103,6 +105,11 @@
         } else {
             checkConfirmPW.value = false
         }
+    }
+    
+    const onCheckNickname = (event) => {
+        inputNickname.value = event.target.value
+        checkNickname.value = inputNickname.value ? true : false
     }
 </script>
 
@@ -161,7 +168,7 @@
 
     .info {
         font-size: 0.8rem;
-        margin: 2px 0 0 5px ;
+        margin: 5px 0 0 5px ;
     }
 
     .checkInfo {
@@ -201,6 +208,7 @@
         font-weight: 600 ;
         font-size: 0.9rem ;
         background-color: var(--primary-color);
+        font-family: 'NanumSquareRound';
     }
 
     .searchAddress .btn {
