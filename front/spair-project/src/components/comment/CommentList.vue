@@ -13,11 +13,14 @@
                     <button id="delete" class="item"></button>
                 </div>
             </div>
+
+            <CommentCreate/>
         </div>
     </div>
 </template>
 
 <script setup>
+import CommentCreate from '@/components/comment/CommentCreate.vue';
 import { useBoardStore } from '@/stores/board'
 import { useRoute } from 'vue-router';
 import { ref,computed } from 'vue'
