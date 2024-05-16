@@ -14,7 +14,7 @@ import BoardUpdate from '@/components/board/BoardUpdate.vue'
 // comment
 import CommentCreate from '@/components/comment/CommentCreate.vue'
 import CommentList from '@/components/comment/CommentList.vue'
-import commentUpdate from '@/components/comment/CommentUpdate.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -59,11 +59,6 @@ const router = createRouter({
               name: 'commentCreate',
               component: CommentCreate
             },
-            {
-              path: 'update',
-              name: 'commentUpdate',
-              component: commentUpdate
-            }
           ]
         },
       ]
