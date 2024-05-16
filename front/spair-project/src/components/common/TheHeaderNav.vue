@@ -1,7 +1,9 @@
 <template>
     <div id="header-container">
         <header>
-            <div id="logo">SPAIR</div>
+            <div id="logo">
+                <RouterLink :to="{ name: 'home' }">SPAIR</RouterLink> 
+            </div>
             <nav>
                 <div id="tab">
                     <RouterLink :to="{ name: 'home' }">HOME</RouterLink> 
@@ -15,7 +17,6 @@
                     <label for="total-search">🔍</label>
                     <input type="text" id="total-search" v-model="searchQuery">
                     <button @click="search">통합검색</button>        
-                
                 </div>
 
                 <div id="user">
@@ -77,9 +78,16 @@
         justify-content: space-between;
     }
     #logo {
+        display: flex;
+        align-items: center;
         font-size: 3rem;
         color: var(--secondary-color);
         font-weight: bold;
+    }
+    #logo a {
+        text-decoration: none;
+        color: var(--secondary-color);
+        margin: 0;
     }
     nav {
         display: flex;
