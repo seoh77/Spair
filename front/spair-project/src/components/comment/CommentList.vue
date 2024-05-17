@@ -18,8 +18,8 @@
                     </div>
                 </div>
             </div>
-
-            <CommentCreate/>
+            <!-- emit 이벤트-->
+            <CommentCreate @new-comment="comments"/>
         </div>
     </div>
 </template>
@@ -40,9 +40,7 @@ const router = useRouter()
 // const toggleEdit = (comment) => {
 //   comment.isEditing = !comment.isEditing
 // }
-// const deleteComment = (comment) => {
-//   // 댓글 삭제 로직 추가 예정
-// }
+
 // const updateComment = (comment) => {
 //   // 댓글 수정 로직 추가 예정
 //   // 수정 완료 후 isEditing을 false로 변경하여 다시 내용을 보이도록 설정
@@ -52,15 +50,19 @@ const router = useRouter()
 
 // 게시글에 해당하는 댓글 목록 조회 기능
 const commentList = ref([])
-onMounted(()=> {
+const comments = () => {
     axios.get(`http://localhost:8080/api/comment/${route.params.postId}`)
     .then(response => {
         commentList.value = response.data
     })
     .catch(error => {
-        console.error(error);
-    });
+        console.error(error)
+    })
+}
+onMounted(()=> {
+    comments()
 })
+
 
 // 댓글 삭제 기능
 const deleteComment = function(comment) {

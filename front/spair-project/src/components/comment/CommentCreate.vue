@@ -2,16 +2,44 @@
     <div id="create-comment">
         <div id="input">
             <label for="insert">댓글</label>
-            <textarea name="insert" id="insert" type="text"></textarea>
+            <textarea name="insert" id="insert" type="text" v-model="comment.content"></textarea>
         </div>
         <div id="btn">
-            <!-- API 연결 후 click이벤트 추가 예정 -->
-            <button>등록</button>
+            <button @click="commentCreate">등록</button>
         </div>
     </div>
 </template>
 
 <script setup>
+import { useBoardStore } from '@/stores/board'
+import { useRoute, useRouter } from 'vue-router';
+import { ref } from 'vue'
+import axios from 'axios'
+const store = useBoardStore()
+const route = useRoute()
+// 댓글 등록시 댓글리스트에 바로 반영하기 위해 emit 선언
+const emit = defineEmits(['newComment'])
+
+const comment = ref({
+    postId: route.params.postId,
+    // 추후 로그인한 유저의 userId로 변경 예정
+    userId: 1,
+    content: '',
+    status: '',
+})
+
+const commentCreate= function(){
+    // console.log(comment)
+    // console.log(comment.value)
+    axios.post('http://localhost:8080/api/comment', comment.value)
+    .then(() => {
+        emit('newComment')
+        comment.value.content = ''
+    })
+    .catch(error => {
+        console.error(error)
+    })
+}
 </script>
 
 <style scoped>
