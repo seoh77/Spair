@@ -150,6 +150,11 @@ h4 {
     color: red;
 }
 
+.item {
+    display: flex;
+    align-items: center;
+}
+
 .item:nth-child(14) {
     grid-column: 2 / span 7;
 }

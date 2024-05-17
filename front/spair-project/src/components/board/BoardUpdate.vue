@@ -158,7 +158,7 @@ textarea {
 input {
     width: 88%;
     border-style: none;
-    border-bottom: 1px solid #000000;
+    border-bottom: 0.1rem solid #000000;
     outline: none;
 }
 

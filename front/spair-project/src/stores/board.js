@@ -49,7 +49,43 @@ export const useBoardStore = defineStore('board', () => {
     })
   }
 
-  
+
+  // 게시물 등록 관련 axios 
+  const createBoard = function(post){
+    // axios.post(REST_BOARD_API, post)
+    // .then(() => {
+    //   router.push({ name: 'boardList'})
+    // })
+    console.log(post)
+    console.log(post.title)
+    console.log(post.userId)
+    axios({
+      url: REST_BOARD_API,
+      method: 'POST',
+      data: {
+        "post": {
+          "userId": 1,
+          "title": post.title,
+          "content": post.content,
+          "status": post.status,
+          "exerciseType": post.exerciseType,
+          "price": post.price,
+          "gender": post.gender,
+          "recruitmentNum": post.recruitmentNum,
+        },
+        "sportsCenter": {
+          "roadAddress": "경기 부천시 원미구 석천로183번길 39 라인제작소",
+          "localAddress": "경기 부천시 중동 1166-3 라인제작소",
+          "latitude": 37.502384,
+          "longitude": 126.770496
+        }
+      }
+    })
+    .then(() => {
+        router.push({ name: 'boardList'})
+    })
+  }
+
   const comments = ref([
     {
       post_id: 1,
@@ -133,5 +169,5 @@ export const useBoardStore = defineStore('board', () => {
     },
   ])
 
-  return { board, user, sportsCenter, getBoard, boardList, getBoardList, updateBoard, comments }
+  return { board, user, sportsCenter, getBoard, boardList, getBoardList, updateBoard, createBoard, comments }
 })
