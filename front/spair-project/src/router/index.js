@@ -46,13 +46,13 @@ const router = createRouter({
           component: BoardSearchKeyword
         },
         {
-          path: 'update', 
+          path: 'update/:postId', 
           name: 'boardUpdate',
           component: BoardUpdate
         }, 
         {
           // Pathvariable처럼 동적 라우팅 :id
-          path: ':id', 
+          path: ':postId', 
           name: 'boardDetail',
           component: BoardDetail,
           children: [

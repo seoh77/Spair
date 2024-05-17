@@ -15,7 +15,7 @@
                 <tr v-for="board in store.boardList" :key="board.id">
                     <td>{{ board.postId }}</td>
                     <td >
-                        <RouterLink :to="`/board/${board.id}`">{{ board.title }}</RouterLink>
+                        <RouterLink :to="`/board/${board.postId}`">{{ board.title }}</RouterLink>
                     </td>
                     <td>{{  board.user.nickname }}</td>
                     <td>{{  board.createdDate }}</td>
