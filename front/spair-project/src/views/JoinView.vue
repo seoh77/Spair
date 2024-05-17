@@ -66,6 +66,7 @@
     import axios from 'axios';
     import { ref } from 'vue';
 
+    // 회원가입 API 호출할 때 전송할 데이터 객체
     const joinData = {
         "loginId" : "",
         "password" : "",
@@ -76,20 +77,32 @@
         "longitude" : 0
     }
 
+    // 사용자가 입력한 값
     const inputId = ref()
     const inputPW = ref()
     const inputConfirmPW = ref()
     const inputNickname = ref()
+    const inputGender = ref()
+    const address = ref()
+    const detailAddress = ref()
 
+    // 사용자가 입력한 상태를 관리하기 위한 변수
     const checkId = ref(false)
     const checkPW = ref(false)
     const checkConfirmPW = ref(false)
     const checkNickname = ref(false)
     const allCheckValue = ref(false)
 
-    const address = ref()
-    const detailAddress = ref()
+    // 모든 조건을 충족하는지 확인하여 가입하기 버튼 활성화
+    const allCheck = () => {
+        if(!checkId.value || !checkPW.value || !checkConfirmPW.value || !checkNickname.value) {
+            allCheckValue.value = false
+        } else {
+            allCheckValue.value = true
+        }
+    }
 
+    // 입력한 loginId가 조건을 충족하는지 확인
     const onCheckId = (event) => {
         const regex =/^[a-zA-Z0-9]*$/           // 영어 대소문자와 숫자만 가능
         inputId.value = event.target.value
@@ -103,47 +116,7 @@
         allCheck()
     }
 
-    const onCheckPW = (event) => {
-        const regex =/^[a-zA-Z0-9]*$/           // 영어 대소문자와 숫자만 가능
-        inputPW.value = event.target.value
-
-        if(regex.test(inputPW.value) && inputPW.value.length >= 5) {
-            checkPW.value = true
-        } else {
-            checkPW.value = false
-        }
-
-        allCheck()
-    }
-
-    const onCheckConfirmPW = (event) => {
-        inputConfirmPW.value = event.target.value
-
-        if(inputConfirmPW.value === inputPW.value) {
-            checkConfirmPW.value = true 
-        } else {
-            checkConfirmPW.value = false
-        }
-
-        allCheck()
-    }
-    
-    const onCheckNickname = (event) => {
-        inputNickname.value = event.target.value
-        checkNickname.value = inputNickname.value ? true : false
-        allCheck()
-    }
-
-    const allCheck = () => {
-
-        if(!checkId.value || !checkPW.value || !checkConfirmPW.value || !checkNickname.value) {
-            allCheckValue.value = false
-        } else {
-            allCheckValue.value = true
-        }
-
-    }
-
+    // 입력한 loginId가 기존 회원의 loginId와 중복되는지 확인
     const checkIdDuplicate = () => {
         axios.get(
             `http://localhost:8080/api/check/id/${inputId.value}`
@@ -160,6 +133,41 @@
         })
     }
 
+    // 입력한 password가 조건을 충족하는지 확인
+    const onCheckPW = (event) => {
+        const regex =/^[a-zA-Z0-9]*$/           // 영어 대소문자와 숫자만 가능
+        inputPW.value = event.target.value
+
+        if(regex.test(inputPW.value) && inputPW.value.length >= 5) {
+            checkPW.value = true
+        } else {
+            checkPW.value = false
+        }
+
+        allCheck()
+    }
+
+    // 입력한 PW 확인 값이 password와 일치하는지 확인
+    const onCheckConfirmPW = (event) => {
+        inputConfirmPW.value = event.target.value
+
+        if(inputConfirmPW.value === inputPW.value) {
+            checkConfirmPW.value = true 
+        } else {
+            checkConfirmPW.value = false
+        }
+
+        allCheck()
+    }
+    
+    // 입력한 nickname이 조건을 충족하는지 확인
+    const onCheckNickname = (event) => {
+        inputNickname.value = event.target.value
+        checkNickname.value = inputNickname.value ? true : false
+        allCheck()
+    }
+
+    // 입력한 nickname이 기존 회원의 nickname과 중복되는지 확인
     const checkNicknameDuplicate = () => {
         axios.get(
             `http://localhost:8080/api/check/nickname/${inputNickname.value}`
@@ -176,6 +184,7 @@
         })
     }
 
+    // 사용자의 주소를 입력
     const searchAddress = () => {
         new daum.Postcode({
             oncomplete: function(data) {
@@ -184,6 +193,7 @@
         }).open()
     }
 
+    // 사용자가 입력한 주소로부터 위도, 경도 값을 계산
     const getCoordinate = async() => {
         await axios({
             url : 'https://dapi.kakao.com/v2/local/search/address.json?query=' + encodeURI(address.value),
@@ -196,11 +206,12 @@
             joinData.latitude = result.y
             joinData.longitude = result.x
         })
-
     }
 
+    // 회원가입 버튼 클릭
     const joinClick = () => {
         getCoordinate()
+        console.log(joinData)
     }
 </script>
 
