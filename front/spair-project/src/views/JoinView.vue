@@ -20,8 +20,8 @@
             <div class="input_wrap">
                 <label for="passwordCheck" class="inputHeader">PW확인</label>
                 <div class="input_area">
-                    <input type="password" name="confirmPW" id="confirmPW" :value="inputConfirmPW" @input="onCheckConfirmPW">
-                    <div class="info" :class=" checkConfirmPW ? 'checkInfo' : 'failInfo'">{{ checkConfirmPW ? "비밀번호 확인되었습니다." : "비밀번호가 올바르지 않습니다."}}</div>
+                    <input type="password" name="confirmPW" id="confirmPW" :value="inputConfirmPW" @change="onCheckConfirmPW">
+                    <div class="info" :class="checkConfirmPW ? 'failInfo' : 'checkInfo'">{{ confirmPWInfo }}</div>
                 </div>
             </div>
             <div class="input_wrap">
@@ -89,13 +89,14 @@
     // 사용자가 입력한 상태를 관리하기 위한 변수
     const checkId = ref(10)
     const checkPW = ref(10)
-    const checkConfirmPW = ref(false)
+    const checkConfirmPW = ref(10)
     const checkNickname = ref(false)
     const allCheckValue = ref(false)
 
     // 안내문구 내용을 저장하는 변수
     const loginIdInfo = ref("")
     const passwordInfo = ref("")
+    const confirmPWInfo = ref("")
 
     // 모든 조건을 충족하는지 확인하여 가입하기 버튼 활성화
     const allCheck = () => {
@@ -187,16 +188,26 @@
         allCheck()
     }
 
+    // 입력한 PW 확인 값에 따라 안내문구 수정
+    const changeConfirmPWInfo = () => {
+        if(checkConfirmPW.value === 0) {
+            confirmPWInfo.value = "비밀번호가 일치합니다."
+        } else if (checkConfirmPW.value === 1) {
+            confirmPWInfo.value = "비밀번호가 일치하지 않습니다."
+        }
+    }
+
     // 입력한 PW 확인 값이 password와 일치하는지 확인
     const onCheckConfirmPW = (event) => {
         inputConfirmPW.value = event.target.value
 
         if(inputConfirmPW.value === inputPW.value) {
-            checkConfirmPW.value = true 
+            checkConfirmPW.value = 0
         } else {
-            checkConfirmPW.value = false
+            checkConfirmPW.value = 1
         }
 
+        changeConfirmPWInfo()
         allCheck()
     }
     
