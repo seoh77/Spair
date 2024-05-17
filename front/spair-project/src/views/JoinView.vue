@@ -5,8 +5,8 @@
             <div class="input_wrap">
                 <label for="id" class="inputHeader">ID</label>
                 <div class="input_area">
-                    <input type="text" name="id" id="id" :value="inputId" @input="onCheckId">
-                    <div class="info" :class=" checkId ? 'checkInfo' : 'failInfo'">{{ checkId ? "사용 가능한 ID입니다." : "영어, 숫자만 포함하여 5글자 이상으로 설정해주세요."}}</div>
+                    <input type="text" name="id" id="id" :value="inputId" @change="onCheckId" placeholder="영어, 숫자만 포함하여 5글자 이상으로 설정해주세요.">
+                    <div class="info" :class=" checkId ? 'failInfo' : 'checkInfo' ">{{ loginIdInfo }}</div>
                 </div>
                 <div class="btn" @click="checkIdDuplicate">중복확인</div>
             </div>
@@ -87,11 +87,14 @@
     const detailAddress = ref()
 
     // 사용자가 입력한 상태를 관리하기 위한 변수
-    const checkId = ref(false)
+    const checkId = ref(10)
     const checkPW = ref(false)
     const checkConfirmPW = ref(false)
     const checkNickname = ref(false)
     const allCheckValue = ref(false)
+
+    // 안내문구 내용을 저장하는 변수
+    const loginIdInfo = ref("")
 
     // 모든 조건을 충족하는지 확인하여 가입하기 버튼 활성화
     const allCheck = () => {
@@ -102,22 +105,44 @@
         }
     }
 
+    // 입력한 loginId에 따라 안내문구 수정
+    const changeloginIdInfo = () => {
+        if(checkId.value === 0) {
+            loginIdInfo.value = "사용 가능한 ID입니다."
+        } else if (checkId.value === 1) {
+            loginIdInfo.value = "이미 존재하는 ID입니다."
+        } else if (checkId.value === 2) {
+            loginIdInfo.value = "ID 중복 확인을 진행해주세요."
+        } else if (checkId.value === 3) {
+            loginIdInfo.value = "영어, 숫자만 포함하여 5글자 이상으로 설정해주세요."
+        }
+    }
+
     // 입력한 loginId가 조건을 충족하는지 확인
     const onCheckId = (event) => {
         const regex =/^[a-zA-Z0-9]*$/           // 영어 대소문자와 숫자만 가능
         inputId.value = event.target.value
 
         if(regex.test(inputId.value) && inputId.value.length >= 5) {
-            checkId.value = true
+            checkId.value = 2
         } else {
-           checkId.value = false
+           checkId.value = 3
         }
 
+        changeloginIdInfo() 
         allCheck()
     }
 
     // 입력한 loginId가 기존 회원의 loginId와 중복되는지 확인
     const checkIdDuplicate = () => {
+        // 조건에 충족하는지 먼저 검사
+        if(checkId.value > 3) {
+            onCheckId() 
+        }
+
+        // 조건을 충족하지 못했다면 바로 종료
+        if(checkId.value >= 3) return ;
+
         axios.get(
             `http://localhost:8080/api/check/id/${inputId.value}`
         ).then((response) => {
@@ -125,9 +150,13 @@
             alert(result)
 
             if(result === "이미 존재하는 ID입니다.") {
-                checkId.value = false
+                checkId.value = 1
                 inputId.value = ""
+            } else {
+                checkId.value = 0
             }
+
+            changeloginIdInfo() 
         }).catch((error) => {
             console.error(error)
         })
