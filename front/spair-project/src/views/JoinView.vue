@@ -36,7 +36,7 @@
                     <input type="text" name="nickname" id="nickname" :value="inputNickname" @input="onCheckNickname">
                     <div class="info checkInfo" :class=" checkNickname ? 'checkInfo' : 'failInfo'">{{ checkNickname ? "사용 가능한 닉네임입니다." : "닉네임을 입력해주세요."}}</div>
                 </div>
-                <div class="btn">중복확인</div>
+                <div class="btn" @click="checkNicknameDuplicate">중복확인</div>
             </div>
             <div class="input_wrap">
                 <div class="inputHeader">성별</div>
@@ -141,6 +141,22 @@
             if(result === "이미 존재하는 ID입니다.") {
                 checkId.value = false
                 inputId.value = ""
+            }
+        }).catch((error) => {
+            console.error(error)
+        })
+    }
+
+    const checkNicknameDuplicate = () => {
+        axios.get(
+            `http://localhost:8080/api/check/nickname/${inputNickname.value}`
+        ).then((response) => {
+            const result = response.data
+            alert(result)
+
+            if(result === "이미 존재하는 닉네임입니다.") {
+                checkNickname.value = false
+                inputNickname.value = ""
             }
         }).catch((error) => {
             console.error(error)
