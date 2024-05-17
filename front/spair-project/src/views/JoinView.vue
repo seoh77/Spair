@@ -5,23 +5,23 @@
             <div class="input_wrap">
                 <label for="id" class="inputHeader">ID</label>
                 <div class="input_area">
-                    <input type="text" name="id" id="id">
-                    <div class="info checkInfo">사용 가능합니다.</div>
+                    <input type="text" name="id" id="id" :value="inputId" @input="onCheckId">
+                    <div class="info" :class=" checkId ? 'checkInfo' : 'failInfo'">{{ checkId ? "사용 가능한 ID입니다." : "영어, 숫자만 포함하여 5글자 이상으로 설정해주세요."}}</div>
                 </div>
                 <div class="btn">중복확인</div>
             </div>
             <div class="input_wrap">
                 <label for="password" class="inputHeader">PW</label>
                 <div class="input_area">
-                    <input type="password" name="password" id="password">
-                    <div class="info failInfo">5글자 이상으로 작성해주세요.</div>
+                    <input type="password" name="password" id="password" :value="inputPW" @input="onCheckPW">
+                    <div class="info" :class=" checkPW ? 'checkInfo' : 'failInfo'">{{ checkPW ? "사용 가능한 비밀번호입니다." : "영어, 숫자만 포함하여 5글자 이상으로 설정해주세요."}}</div>
                 </div>
             </div>
             <div class="input_wrap">
                 <label for="passwordCheck" class="inputHeader">PW확인</label>
                 <div class="input_area">
-                    <input type="password" name="passwordCheck" id="passwordCheck">
-                    <div class="info failInfo">비밀번호가 올바르지 않습니다.</div>
+                    <input type="password" name="confirmPW" id="confirmPW" :value="inputConfirmPW" @input="onCheckConfirmPW">
+                    <div class="info" :class=" checkConfirmPW ? 'checkInfo' : 'failInfo'">{{ checkConfirmPW ? "비밀번호 확인되었습니다." : "비밀번호가 올바르지 않습니다."}}</div>
                 </div>
             </div>
             <div class="input_wrap">
@@ -33,8 +33,8 @@
             <div class="input_wrap">
                 <label for="nickname" class="inputHeader">닉네임</label>
                 <div class="input_area">
-                    <input type="text" name="nickname" id="nickname">
-                    <div class="info checkInfo">사용 가능합니다.</div>
+                    <input type="text" name="nickname" id="nickname" :value="inputNickname" @input="onCheckNickname">
+                    <div class="info checkInfo" :class=" checkNickname ? 'checkInfo' : 'failInfo'">{{ checkNickname ? "사용 가능한 닉네임입니다." : "닉네임을 입력해주세요."}}</div>
                 </div>
                 <div class="btn">중복확인</div>
             </div>
@@ -57,12 +57,78 @@
                 </div>
                 <input type="text" placeholder="상세주소">
             </div>
-            <button id="joinBtn">회원가입하기</button>
+            <button id="joinBtn" :class=" allCheckValue ? 'possible' : 'impossible' ">회원가입하기</button>
         </form>
     </div>
 </template>
 
 <script setup>
+    import { ref } from 'vue';
+
+    const inputId = ref()
+    const inputPW = ref()
+    const inputConfirmPW = ref()
+    const inputNickname = ref()
+
+    const checkId = ref(false)
+    const checkPW = ref(false)
+    const checkConfirmPW = ref(false)
+    const checkNickname = ref(false)
+    const allCheckValue = ref(false)
+
+    const onCheckId = (event) => {
+        const regex =/^[a-zA-Z0-9]*$/           // 영어 대소문자와 숫자만 가능
+        inputId.value = event.target.value
+
+        if(regex.test(inputId.value) && inputId.value.length >= 5) {
+            checkId.value = true
+        } else {
+           checkId.value = false
+        }
+
+        allCheck()
+    }
+
+    const onCheckPW = (event) => {
+        const regex =/^[a-zA-Z0-9]*$/           // 영어 대소문자와 숫자만 가능
+        inputPW.value = event.target.value
+
+        if(regex.test(inputPW.value) && inputPW.value.length >= 5) {
+            checkPW.value = true
+        } else {
+            checkPW.value = false
+        }
+
+        allCheck()
+    }
+
+    const onCheckConfirmPW = (event) => {
+        inputConfirmPW.value = event.target.value
+
+        if(inputConfirmPW.value === inputPW.value) {
+            checkConfirmPW.value = true 
+        } else {
+            checkConfirmPW.value = false
+        }
+
+        allCheck()
+    }
+    
+    const onCheckNickname = (event) => {
+        inputNickname.value = event.target.value
+        checkNickname.value = inputNickname.value ? true : false
+        allCheck()
+    }
+
+    const allCheck = () => {
+
+        if(!checkId.value || !checkPW.value || !checkConfirmPW.value || !checkNickname.value) {
+            allCheckValue.value = false
+        } else {
+            allCheckValue.value = true
+        }
+
+    }
 </script>
 
 <style scoped>
@@ -72,11 +138,12 @@
         display: flex;
         flex-direction: column;
         align-items: center ;
-        margin-top: 20px;
+        margin-top: 25px;
     }
 
     #join-view h2 {
         font-family: 'Tenada';
+        font-size: 2rem ;
     }
     
     #join_form {
@@ -88,7 +155,7 @@
         justify-content: center;
         border: 1px solid var(--gray-color);
         box-shadow: 0.1rem 0.5rem 0.5rem var(--gray-color);
-        padding: 5% 6% ;
+        padding: 5% 0 5% 6%;
         box-sizing: border-box;
     }
 
@@ -119,7 +186,7 @@
 
     .info {
         font-size: 0.8rem;
-        margin: 2px 0 0 5px ;
+        margin: 5px 0 0 5px ;
     }
 
     .checkInfo {
@@ -152,13 +219,14 @@
     .btn {
         width: 10%;
         height: 50% ;
-        background-color: var(--primary-color);
         display: flex ;
         justify-content: center;
         align-items: center;
         border-radius: 10px;
         font-weight: 600 ;
         font-size: 0.9rem ;
+        background-color: var(--primary-color);
+        font-family: 'NanumSquareRound';
     }
 
     .searchAddress .btn {
@@ -168,15 +236,24 @@
 
     #joinBtn {
         margin-top: 5% ;
-        width: 160px;
+        width: 25%;
         height: 40px ;
         margin-left: auto ;
         margin-right: auto;
         font-family: 'Tenada';
-        font-size: 1rem ;
-        background-color: var(--secondary-color);
+        font-size: 1.4rem ;
         border: none;
         border-radius: 10px ;
+        padding-top: 7px;
+    }
+
+    .possible {
+        background-color: var(--secondary-color);
+    }
+
+    .impossible {
+        background-color: var(--gray-color);
+        color: white;
     }
 
     input[type='radio'] {
