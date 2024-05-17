@@ -27,7 +27,7 @@
             <div class="input_wrap">
                 <label for="name" class="inputHeader">이름</label>
                 <div class="input_area">
-                    <input type="text" name="name" id="name">
+                    <input type="text" name="name" id="name" v-model="inputName" @change="allCheck">
                 </div>
             </div>
             <div class="input_wrap">
@@ -81,6 +81,7 @@
     const inputId = ref()
     const inputPW = ref()
     const inputConfirmPW = ref()
+    const inputName = ref()
     const inputNickname = ref()
     const inputGender = ref()
     const address = ref()
@@ -101,10 +102,10 @@
 
     // 모든 조건을 충족하는지 확인하여 가입하기 버튼 활성화
     const allCheck = () => {
-        if(!checkId.value || !checkPW.value || !checkConfirmPW.value || !checkNickname.value) {
-            allCheckValue.value = false
-        } else {
+        if(!checkId.value && !checkPW.value && !checkConfirmPW.value && !checkNickname.value && inputName.value && address.value) {
             allCheckValue.value = true
+        } else {
+            allCheckValue.value = false
         }
     }
 
@@ -119,6 +120,8 @@
         } else if (checkId.value === 3) {
             loginIdInfo.value = "영어, 숫자만 포함하여 5글자 이상으로 설정해주세요."
         }
+
+        allCheck()
     }
 
     // 입력한 loginId가 조건을 충족하는지 확인
@@ -133,7 +136,6 @@
         }
 
         changeloginIdInfo() 
-        allCheck()
     }
 
     // 입력한 loginId가 기존 회원의 loginId와 중복되는지 확인
@@ -172,6 +174,8 @@
         } else if (checkPW.value === 1) {
             passwordInfo.value = "영어, 숫자만 포함하여 5글자 이상으로 설정해주세요."
         }
+
+        allCheck()
     }
 
     // 입력한 password가 조건을 충족하는지 확인
@@ -186,7 +190,6 @@
         }
 
         changePasswordInfo()
-        allCheck()
     }
 
     // 입력한 PW 확인 값에 따라 안내문구 수정
@@ -196,6 +199,8 @@
         } else if (checkConfirmPW.value === 1) {
             confirmPWInfo.value = "비밀번호가 일치하지 않습니다."
         }
+
+        allCheck()
     }
 
     // 입력한 PW 확인 값이 password와 일치하는지 확인
@@ -209,7 +214,6 @@
         }
 
         changeConfirmPWInfo()
-        allCheck()
     }
 
     // 입력한 닉네임에 따라 안내문구 수정
@@ -223,6 +227,8 @@
         } else if (checkNickname.value === 3) {
             nicknameInfo.value = "닉네임을 입력해주세요."
         }
+
+        allCheck()
     }
     
     // 입력한 nickname이 조건을 충족하는지 확인
@@ -235,7 +241,6 @@
             checkNickname.value = 3
         }
         changeNicknameInfo()
-        allCheck()
     }
 
     // 입력한 nickname이 기존 회원의 nickname과 중복되는지 확인
@@ -271,6 +276,7 @@
         new daum.Postcode({
             oncomplete: function(data) {
                 address.value = data.address
+                allCheck()
             }
         }).open()
     }
