@@ -5,133 +5,150 @@
             <div class="input_wrap">
                 <label for="id" class="inputHeader">ID</label>
                 <div class="input_area">
-                    <input type="text" name="id" id="id" :value="inputId" @input="onCheckId">
-                    <div class="info" :class=" checkId ? 'checkInfo' : 'failInfo'">{{ checkId ? "사용 가능한 ID입니다." : "영어, 숫자만 포함하여 5글자 이상으로 설정해주세요."}}</div>
+                    <input type="text" name="id" id="id" :value="inputId" @change="onCheckId" placeholder="영어, 숫자만 포함하여 5글자 이상으로 설정해주세요.">
+                    <div class="info" :class=" checkId ? 'failInfo' : 'checkInfo' ">{{ loginIdInfo }}</div>
                 </div>
                 <div class="btn" @click="checkIdDuplicate">중복확인</div>
             </div>
             <div class="input_wrap">
                 <label for="password" class="inputHeader">PW</label>
                 <div class="input_area">
-                    <input type="password" name="password" id="password" :value="inputPW" @input="onCheckPW">
-                    <div class="info" :class=" checkPW ? 'checkInfo' : 'failInfo'">{{ checkPW ? "사용 가능한 비밀번호입니다." : "영어, 숫자만 포함하여 5글자 이상으로 설정해주세요."}}</div>
+                    <input type="password" name="password" id="password" :value="inputPW" @change="onCheckPW" placeholder="영어, 숫자만 포함하여 5글자 이상으로 설정해주세요.">
+                    <div class="info" :class="checkPW ? 'failInfo' : 'checkInfo'">{{ passwordInfo }}</div>
                 </div>
             </div>
             <div class="input_wrap">
                 <label for="passwordCheck" class="inputHeader">PW확인</label>
                 <div class="input_area">
-                    <input type="password" name="confirmPW" id="confirmPW" :value="inputConfirmPW" @input="onCheckConfirmPW">
-                    <div class="info" :class=" checkConfirmPW ? 'checkInfo' : 'failInfo'">{{ checkConfirmPW ? "비밀번호 확인되었습니다." : "비밀번호가 올바르지 않습니다."}}</div>
+                    <input type="password" name="confirmPW" id="confirmPW" :value="inputConfirmPW" @change="onCheckConfirmPW">
+                    <div class="info" :class="checkConfirmPW ? 'failInfo' : 'checkInfo'">{{ confirmPWInfo }}</div>
                 </div>
             </div>
             <div class="input_wrap">
                 <label for="name" class="inputHeader">이름</label>
                 <div class="input_area">
-                    <input type="text" name="name" id="name">
+                    <input type="text" name="name" id="name" v-model="inputName" @change="insertName">
                 </div>
             </div>
             <div class="input_wrap">
                 <label for="nickname" class="inputHeader">닉네임</label>
                 <div class="input_area">
-                    <input type="text" name="nickname" id="nickname" :value="inputNickname" @input="onCheckNickname">
-                    <div class="info checkInfo" :class=" checkNickname ? 'checkInfo' : 'failInfo'">{{ checkNickname ? "사용 가능한 닉네임입니다." : "닉네임을 입력해주세요."}}</div>
+                    <input type="text" name="nickname" id="nickname" :value="inputNickname" @change="onCheckNickname">
+                    <div class="info checkInfo" :class="checkNickname ? 'failInfo': 'checkInfo'">{{ nicknameInfo }}</div>
                 </div>
                 <div class="btn" @click="checkNicknameDuplicate">중복확인</div>
             </div>
             <div class="input_wrap">
                 <div class="inputHeader">성별</div>
                 <div class="selectGender">
-                    <input type="radio" name="gender" id="male" value="1" checked>
+                    <input type="radio" name="gender" id="male" value="1" v-model="selectGender" checked>
                     <label for="male">남자</label>
                 </div>
                 <div class="selectGender">
-                    <input type="radio" name="gender" id="female" value="2">
+                    <input type="radio" name="gender" id="female" value="2" v-model="selectGender">
                     <label for="female">여자</label>
                 </div>
             </div>
             <div class="address_input_wrap">
                 <div class="inputHeader">주소</div>
                 <div class="searchAddress">
-                    <input type="text" placeholder="주소">
-                    <div class="btn">주소찾기</div>
+                    <input type="text" placeholder="주소" :value="address" readonly @click="searchAddress">
+                    <div class="btn" @click="searchAddress">주소찾기</div>
                 </div>
-                <input type="text" placeholder="상세주소">
+                <input type="text" placeholder="상세주소" v-model="detailAddress" @change="insertDetailAddress">
             </div>
-            <button id="joinBtn" :class=" allCheckValue ? 'possible' : 'impossible' ">회원가입하기</button>
+            <button id="joinBtn" :class=" allCheckValue ? 'possible' : 'impossible' " @click.prevent="joinClick">회원가입하기</button>
         </form>
     </div>
 </template>
 
 <script setup>
+    import router from '@/router';
     import axios from 'axios';
     import { ref } from 'vue';
 
+    // 회원가입 API 호출할 때 전송할 데이터 객체
+    const joinData = {
+        "loginId" : "",
+        "password" : "",
+        "nickname" : "",
+        "gender" : 0,
+        "address" : "",
+        "latitude" : 0,
+        "longitude" : 0
+    }
+
+    // 사용자가 입력한 값
     const inputId = ref()
     const inputPW = ref()
     const inputConfirmPW = ref()
+    const inputName = ref()
     const inputNickname = ref()
+    const selectGender = ref(1)
+    const address = ref()
+    const detailAddress = ref()
 
-    const checkId = ref(false)
-    const checkPW = ref(false)
-    const checkConfirmPW = ref(false)
-    const checkNickname = ref(false)
+    // 사용자가 입력한 상태를 관리하기 위한 변수
+    const checkId = ref(10)
+    const checkPW = ref(10)
+    const checkConfirmPW = ref(10)
+    const checkNickname = ref(10)
     const allCheckValue = ref(false)
 
+    // 안내문구 내용을 저장하는 변수
+    const loginIdInfo = ref("")
+    const passwordInfo = ref("")
+    const confirmPWInfo = ref("")
+    const nicknameInfo = ref("")
+
+    // 모든 조건을 충족하는지 확인하여 가입하기 버튼 활성화
+    const allCheck = () => {
+        if(!checkId.value && !checkPW.value && !checkConfirmPW.value && !checkNickname.value && inputName.value && address.value) {
+            allCheckValue.value = true
+        } else {
+            allCheckValue.value = false
+        }
+    }
+
+    // 입력한 loginId에 따라 안내문구 수정
+    const changeloginIdInfo = () => {
+        if(checkId.value === 0) {
+            loginIdInfo.value = "사용 가능한 ID입니다."
+        } else if (checkId.value === 1) {
+            loginIdInfo.value = "이미 존재하는 ID입니다."
+        } else if (checkId.value === 2) {
+            loginIdInfo.value = "ID 중복 확인을 진행해주세요."
+        } else if (checkId.value === 3) {
+            loginIdInfo.value = "영어, 숫자만 포함하여 5글자 이상으로 설정해주세요."
+        }
+
+        allCheck()
+    }
+
+    // 입력한 loginId가 조건을 충족하는지 확인
     const onCheckId = (event) => {
         const regex =/^[a-zA-Z0-9]*$/           // 영어 대소문자와 숫자만 가능
         inputId.value = event.target.value
 
         if(regex.test(inputId.value) && inputId.value.length >= 5) {
-            checkId.value = true
+            checkId.value = 2
         } else {
-           checkId.value = false
+           checkId.value = 3
         }
 
-        allCheck()
+        changeloginIdInfo() 
     }
 
-    const onCheckPW = (event) => {
-        const regex =/^[a-zA-Z0-9]*$/           // 영어 대소문자와 숫자만 가능
-        inputPW.value = event.target.value
-
-        if(regex.test(inputPW.value) && inputPW.value.length >= 5) {
-            checkPW.value = true
-        } else {
-            checkPW.value = false
-        }
-
-        allCheck()
-    }
-
-    const onCheckConfirmPW = (event) => {
-        inputConfirmPW.value = event.target.value
-
-        if(inputConfirmPW.value === inputPW.value) {
-            checkConfirmPW.value = true 
-        } else {
-            checkConfirmPW.value = false
-        }
-
-        allCheck()
-    }
-    
-    const onCheckNickname = (event) => {
-        inputNickname.value = event.target.value
-        checkNickname.value = inputNickname.value ? true : false
-        allCheck()
-    }
-
-    const allCheck = () => {
-
-        if(!checkId.value || !checkPW.value || !checkConfirmPW.value || !checkNickname.value) {
-            allCheckValue.value = false
-        } else {
-            allCheckValue.value = true
-        }
-
-    }
-
+    // 입력한 loginId가 기존 회원의 loginId와 중복되는지 확인
     const checkIdDuplicate = () => {
+        // 조건에 충족하는지 먼저 검사
+        if(checkId.value > 3) {
+            onCheckId() 
+        }
+
+        // 조건을 충족하지 못했다면 바로 종료
+        if(checkId.value >= 3) return ;
+
         axios.get(
             `http://localhost:8080/api/check/id/${inputId.value}`
         ).then((response) => {
@@ -139,15 +156,111 @@
             alert(result)
 
             if(result === "이미 존재하는 ID입니다.") {
-                checkId.value = false
+                checkId.value = 1
                 inputId.value = ""
+            } else {
+                checkId.value = 0
+                joinData.loginId = inputId.value
             }
+
+            changeloginIdInfo() 
         }).catch((error) => {
             console.error(error)
         })
     }
 
+    // 입력한 password에 따라 안내문구 수정
+    const changePasswordInfo = () => {
+        if(checkPW.value === 0) {
+            passwordInfo.value = "사용 가능한 비밀번호입니다."
+        } else if (checkPW.value === 1) {
+            passwordInfo.value = "영어, 숫자만 포함하여 5글자 이상으로 설정해주세요."
+        }
+
+        allCheck()
+    }
+
+    // 입력한 password가 조건을 충족하는지 확인
+    const onCheckPW = (event) => {
+        const regex =/^[a-zA-Z0-9]*$/           // 영어 대소문자와 숫자만 가능
+        inputPW.value = event.target.value
+
+        if(regex.test(inputPW.value) && inputPW.value.length >= 5) {
+            checkPW.value = 0
+            joinData.password = inputPW.value
+        } else {
+            checkPW.value = 1
+        }
+
+        changePasswordInfo()
+    }
+
+    // 입력한 PW 확인 값에 따라 안내문구 수정
+    const changeConfirmPWInfo = () => {
+        if(checkConfirmPW.value === 0) {
+            confirmPWInfo.value = "비밀번호가 일치합니다."
+        } else if (checkConfirmPW.value === 1) {
+            confirmPWInfo.value = "비밀번호가 일치하지 않습니다."
+        }
+
+        allCheck()
+    }
+
+    // 입력한 PW 확인 값이 password와 일치하는지 확인
+    const onCheckConfirmPW = (event) => {
+        inputConfirmPW.value = event.target.value
+
+        if(inputConfirmPW.value === inputPW.value) {
+            checkConfirmPW.value = 0
+        } else {
+            checkConfirmPW.value = 1
+        }
+
+        changeConfirmPWInfo()
+    }
+
+    const insertName = () => {
+        joinData.name = inputName.value
+        allCheck()
+    }
+
+    // 입력한 닉네임에 따라 안내문구 수정
+    const changeNicknameInfo = () => {
+        if(checkNickname.value === 0) {
+            nicknameInfo.value = "사용 가능한 닉네임입니다."
+        } else if (checkNickname.value === 1) {
+            nicknameInfo.value = "이미 존재하는 닉네임입니다."
+        } else if (checkNickname.value === 2) {
+            nicknameInfo.value = "닉네임 중복 확인을 진행해주세요."
+        } else if (checkNickname.value === 3) {
+            nicknameInfo.value = "닉네임을 입력해주세요."
+        }
+
+        allCheck()
+    }
+    
+    // 입력한 nickname이 조건을 충족하는지 확인
+    const onCheckNickname = (event) => {
+        inputNickname.value = event.target.value
+
+        if(inputNickname.value) {
+            checkNickname.value = 2
+        } else {
+            checkNickname.value = 3
+        }
+        changeNicknameInfo()
+    }
+
+    // 입력한 nickname이 기존 회원의 nickname과 중복되는지 확인
     const checkNicknameDuplicate = () => {
+        // 조건에 충족하는지 먼저 검사
+        if(checkNickname.value > 3) {
+            onCheckNickname()
+        }
+
+        // 조건을 충족하지 못했다면 바로 종료
+        if(checkNickname.value >= 3) return 
+
         axios.get(
             `http://localhost:8080/api/check/nickname/${inputNickname.value}`
         ).then((response) => {
@@ -155,12 +268,70 @@
             alert(result)
 
             if(result === "이미 존재하는 닉네임입니다.") {
-                checkNickname.value = false
+                checkNickname.value = 1
                 inputNickname.value = ""
+            } else {
+                checkNickname.value = 0 
+                joinData.nickname = inputNickname.value
             }
+            changeNicknameInfo()
         }).catch((error) => {
             console.error(error)
         })
+    }
+
+    // 사용자의 주소를 입력
+    const searchAddress = () => {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                address.value = data.address
+                joinData.address = address.value
+                allCheck()
+            }
+        }).open()
+    }
+
+    const insertDetailAddress = () => {
+        if(!joinData.address) {
+            alert("주소찾기를 먼저 진행해주세요.")
+            detailAddress.value = ""
+        } else {
+            joinData.address = joinData.address + " " + detailAddress.value
+        }
+        allCheck()
+    }
+
+    // 사용자가 입력한 주소로부터 위도, 경도 값을 계산
+    const getCoordinate = async() => {
+        await axios({
+            url : 'https://dapi.kakao.com/v2/local/search/address.json?query=' + encodeURI(address.value),
+            method : 'GET',
+            headers : {
+                Authorization : `KakaoAK ${import.meta.env.VITE_KAKAO_REST_API_KEY}`
+            }
+        }).then((response) => {
+            const result = response.data.documents[0]
+            joinData.latitude = result.y
+            joinData.longitude = result.x
+        })
+    }
+
+    // 회원가입 버튼 클릭
+    const joinClick = async() => {
+
+        allCheck()
+        if(!allCheckValue.value) {
+            alert("입력이 완료되지 않은 칸이 있습니다.")
+            return 
+        }
+
+        joinData.gender = selectGender.value
+        await getCoordinate()
+
+        axios.post(
+            'http://localhost:8080/api/join',
+            joinData
+        ).then(() => router.push({ name : "login" }))
     }
 </script>
 
@@ -202,6 +373,7 @@
         width: 10%;
         font-size: 1.1rem ;
         font-weight: 600;
+        font-family: 'NanumSquareRound';
     }
 
     .input_area {
@@ -210,7 +382,7 @@
 
     .input_area input {
         width: 90%;
-        height: 25px ;
+        height: 27px ;
         border: 1px solid black;
         border-radius: 9px ;
         padding: 0 10px ;
@@ -251,7 +423,7 @@
 
     .btn {
         width: 10%;
-        height: 50% ;
+        height: 27px;
         display: flex ;
         justify-content: center;
         align-items: center;
@@ -263,7 +435,6 @@
     }
 
     .searchAddress .btn {
-        height: 100% ;
         margin-left: 5% ;
     }
 
