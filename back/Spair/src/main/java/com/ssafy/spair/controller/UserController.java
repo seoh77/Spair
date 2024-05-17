@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,10 +40,9 @@ public class UserController {
 	}
 	
 	// ID 중복확인
-	@PostMapping("check/id")
+	@GetMapping("check/id/{loginId}")
 	@Operation(summary = "ID 중복확인")
-	public ResponseEntity<?> checkId(@RequestBody String loginId) {
-		
+	public ResponseEntity<?> checkId(@PathVariable("loginId") String loginId) {
 		List<User> allUser = userService.searchAll() ;
 		
 		// 모든 user를 순회하며 기존 user loginId와 중복되는지 확인
@@ -57,9 +58,9 @@ public class UserController {
 	}
 	
 	// 닉네임 중복확인
-	@PostMapping("check/nickname")
+	@GetMapping("check/nickname/{nickname}")
 	@Operation(summary = "닉네임 중복확인")
-	public ResponseEntity<?> checkNickname(@RequestBody String nickname) {
+	public ResponseEntity<?> checkNickname(@PathVariable("nickname") String nickname) {
 		
 		List<User> allUser = userService.searchAll() ;
 		

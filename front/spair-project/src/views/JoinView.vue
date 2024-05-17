@@ -8,7 +8,7 @@
                     <input type="text" name="id" id="id" :value="inputId" @input="onCheckId">
                     <div class="info" :class=" checkId ? 'checkInfo' : 'failInfo'">{{ checkId ? "사용 가능한 ID입니다." : "영어, 숫자만 포함하여 5글자 이상으로 설정해주세요."}}</div>
                 </div>
-                <div class="btn">중복확인</div>
+                <div class="btn" @click="checkIdDuplicate">중복확인</div>
             </div>
             <div class="input_wrap">
                 <label for="password" class="inputHeader">PW</label>
@@ -36,7 +36,7 @@
                     <input type="text" name="nickname" id="nickname" :value="inputNickname" @input="onCheckNickname">
                     <div class="info checkInfo" :class=" checkNickname ? 'checkInfo' : 'failInfo'">{{ checkNickname ? "사용 가능한 닉네임입니다." : "닉네임을 입력해주세요."}}</div>
                 </div>
-                <div class="btn">중복확인</div>
+                <div class="btn" @click="checkNicknameDuplicate">중복확인</div>
             </div>
             <div class="input_wrap">
                 <div class="inputHeader">성별</div>
@@ -63,6 +63,7 @@
 </template>
 
 <script setup>
+    import axios from 'axios';
     import { ref } from 'vue';
 
     const inputId = ref()
@@ -128,6 +129,38 @@
             allCheckValue.value = true
         }
 
+    }
+
+    const checkIdDuplicate = () => {
+        axios.get(
+            `http://localhost:8080/api/check/id/${inputId.value}`
+        ).then((response) => {
+            const result = response.data
+            alert(result)
+
+            if(result === "이미 존재하는 ID입니다.") {
+                checkId.value = false
+                inputId.value = ""
+            }
+        }).catch((error) => {
+            console.error(error)
+        })
+    }
+
+    const checkNicknameDuplicate = () => {
+        axios.get(
+            `http://localhost:8080/api/check/nickname/${inputNickname.value}`
+        ).then((response) => {
+            const result = response.data
+            alert(result)
+
+            if(result === "이미 존재하는 닉네임입니다.") {
+                checkNickname.value = false
+                inputNickname.value = ""
+            }
+        }).catch((error) => {
+            console.error(error)
+        })
     }
 </script>
 
