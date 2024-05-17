@@ -1,5 +1,6 @@
 <template>
-    <BoardSearchFilter @apply-filters="filterBoardList" v-if="$route.path == '/board'"/>
+    <!-- <BoardSearchFilter @apply-filters="filterBoardList" v-if="$route.path == '/board'"/> -->
+    <BoardSearchFilter v-if="$route.path == '/board'"/>
     <div id="list-container">
         <table>
             <thead>

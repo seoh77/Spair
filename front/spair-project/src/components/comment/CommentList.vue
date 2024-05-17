@@ -2,10 +2,12 @@
     <div id="comment-container">
         <div id="wrap">
             <!-- API연결 후 수정 예정 -->
-            <div id="each-comment" v-for="comment in filteredComments" :key="comment.id">
+            <!--여기까진 들어와짐-->
+            <!-- <div id="each-comment" v-for="comment in filteredComments" :key="comment.id"> -->
+            <div id="each-comment" v-for="comment in commentList" :key="comment.commentId">
                 <div>
                     <div id="writer">{{ comment.writer }}</div>
-                    <div id="created-date">{{ comment.created_date }}</div>
+                    <div id="created-date">{{ comment.createdDate }}</div>
                 </div>
                 <div>
                     <div v-if="!comment.isEditing" id="content">{{ comment.content }}</div>
@@ -25,39 +27,43 @@
 
 <script setup>
 import CommentCreate from '@/components/comment/CommentCreate.vue'
+import axios from 'axios'
 
 import { useBoardStore } from '@/stores/board'
 import { useRoute, useRouter } from 'vue-router'
-import { ref,computed } from 'vue'
+import { ref,computed, onMounted } from 'vue'
 const store = useBoardStore()
 const route = useRoute()
 const router = useRouter()
 
-// 임시 메소드. API 연결 후 수정 예정
-// 댓글 수정 및 삭제
-const toggleEdit = (comment) => {
-  comment.isEditing = !comment.isEditing
-}
-const deleteComment = (comment) => {
-  // 댓글 삭제 로직 추가 예정
-}
-const updateComment = (comment) => {
-  // 댓글 수정 로직 추가 예정
-  // 수정 완료 후 isEditing을 false로 변경하여 다시 내용을 보이도록 설정
-  comment.isEditing = false;
-}
+// // 임시 메소드. API 연결 후 수정 예정
+// // 댓글 수정 및 삭제
+// const toggleEdit = (comment) => {
+//   comment.isEditing = !comment.isEditing
+// }
+// const deleteComment = (comment) => {
+//   // 댓글 삭제 로직 추가 예정
+// }
+// const updateComment = (comment) => {
+//   // 댓글 수정 로직 추가 예정
+//   // 수정 완료 후 isEditing을 false로 변경하여 다시 내용을 보이도록 설정
+//   comment.isEditing = false;
+// }
 
 
 
-// 임시 변수 및 메소드 . API 추가 후 수정 예정
-// 게시글의 id와 댓글의 post_id가 같을 때 나타나도록 구현
-const postId = Number(route.params.id);
-const post = ref(null)
-const filteredComments = computed(() => {
-    return store.comments.filter(comment => comment.post_id == postId)
+const commentList = ref([])
+onMounted(()=> {
+    axios.get(`http://localhost:8080/api/comment/${route.params.postId}`)
+    .then(response => {
+        commentList.value = response.data
+        console.log(response.data);
+    })
+    .catch(error => {
+        console.error(error);
+    });
 })
 
-post.value = filteredComments.value[0];
 
 </script>
 
