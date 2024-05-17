@@ -132,11 +132,8 @@
     }
 
     const checkIdDuplicate = () => {
-        axios.post(
-            'http://localhost:8080/api/check/id', 
-            {
-                'loginId' : inputId.value
-            }
+        axios.get(
+            `http://localhost:8080/api/check/id/${inputId.value}`
         ).then((response) => {
             const result = response.data
             alert(result)
@@ -148,7 +145,7 @@
         }).catch((error) => {
             console.error(error)
         })
-    } 
+    }
 </script>
 
 <style scoped>
