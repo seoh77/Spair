@@ -382,7 +382,7 @@
 
     .input_area input {
         width: 90%;
-        height: 25px ;
+        height: 27px ;
         border: 1px solid black;
         border-radius: 9px ;
         padding: 0 10px ;
@@ -423,7 +423,7 @@
 
     .btn {
         width: 10%;
-        height: 50% ;
+        height: 27px;
         display: flex ;
         justify-content: center;
         align-items: center;
@@ -435,7 +435,6 @@
     }
 
     .searchAddress .btn {
-        height: 100% ;
         margin-left: 5% ;
     }
 
