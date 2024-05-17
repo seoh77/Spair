@@ -46,7 +46,7 @@ const router = createRouter({
           component: BoardSearchKeyword
         },
         {
-          path: 'update', 
+          path: 'update/:postId', 
           name: 'boardUpdate',
           component: BoardUpdate
         }, 

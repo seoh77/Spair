@@ -1,10 +1,13 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import router from '@/router'
 import axios from 'axios'
 
 const REST_BOARD_API = 'http://localhost:8080/api/board'
+// const router = useRouter()
 export const useBoardStore = defineStore('board', () => {
   
+
   // 게시판리스트 조회 관련 axios
   const boardList = ref([])
   const getBoardList = function(){
@@ -13,6 +16,39 @@ export const useBoardStore = defineStore('board', () => {
       boardList.value = response.data
     })
   }
+
+  // 게시물 상세조회 관련 axios
+  const board = ref({})
+  const user = ref({})
+  const sportsCenter = ref({})
+
+  const getBoard = function(postId){
+    axios.get(`http://localhost:8080/api/board/${postId}`)
+    .then((response) => {
+        board.value = response.data
+        user.value = board.value.user
+        sportsCenter.value = board.value.sportsCenter
+    })
+  }
+
+  // 게시물 수정 관련 axios
+  const updateBoard = function(postId){
+    // console.log(board.value)
+    axios.put(`http://localhost:8080/api/board/${postId}`, {
+      "postId": board.value.postId,
+      "title": board.value.title,
+      "content": board.value.content,
+      "status": board.value.status,
+      "price" : board.value.price,
+      "gender": board.value.gender,
+      "recruitmentNum": board.value.recruitmentNum
+    })
+    .then((response) => {
+      console.log(response)
+      router.push({name: 'boardList'})
+    })
+  }
+
   
   const comments = ref([
     {
@@ -97,5 +133,5 @@ export const useBoardStore = defineStore('board', () => {
     },
   ])
 
-  return { boardList, getBoardList, comments }
+  return { board, user, sportsCenter, getBoard, boardList, getBoardList, updateBoard, comments }
 })

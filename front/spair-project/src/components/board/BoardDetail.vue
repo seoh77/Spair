@@ -7,36 +7,36 @@
                 <div id="grid">
                     
                         <div class="item">제목</div> 
-                        <div class="item">{{ board.title }}</div>
+                        <div class="item">{{ store.board.title }}</div>
                     
                         <div class="item">작성자</div>
-                        <div class="item">{{ user.nickname }}</div>
+                        <div class="item">{{ store.user.nickname }}</div>
                     
                         <div class="item">모집상태</div>
-                        <div class="item" :class="{ 'red': board.status }">{{ board.status ? '모집중' : '모집완료' }}</div>
+                        <div class="item" :class="{ 'red': store.board.status }">{{ store.board.status ? '모집중' : '모집완료' }}</div>
                     
                         <div class="item">모집인원</div> 
-                        <div class="item">{{ board.recruitmentNum }}인</div>
+                        <div class="item">{{ store.board.recruitmentNum }}인</div>
                    
                         <div class="item">모집성별</div> 
-                        <div class="item">{{ board.gender == 1 ? '남성' : '여성'  }}</div>
+                        <div class="item">{{ store.board.gender == 1 ? '남성' : '여성'  }}</div>
                   
                         <div class="item">가격</div>
-                        <div class="item">{{ board.price  }}</div>
+                        <div class="item">{{ store.board.price  }}</div>
                     
                         <div class="item">주소 </div>
-                        <div class="item">{{ sportsCenter.roadAddress }}</div>
+                        <div class="item">{{ store.sportsCenter.roadAddress }}</div>
                         
                         <div class="item">운동종류</div> 
-                        <div class="item">{{ board.exerciseType }}</div>
+                        <div class="item">{{ store.board.exerciseType }}</div>
                 </div>
                 
                 <div id="con">
                     <div id="inner-wrap">
                         <div class="tem">내용 </div> 
-                        <div class="tem">{{ board.createdDate }}</div>
+                        <div class="tem">{{ store.board.modifiedDate }}</div>
                     </div> 
-                    <div>{{ board.content }}</div>
+                    <div>{{ store.board.content }}</div>
                     <div id="btn">
                         <!--delete는 API연결 후 구현 예정-->
                         <button @click="deleteBoard">삭제</button>
@@ -63,21 +63,22 @@ const store = useBoardStore()
 const route = useRoute()
 const router = useRouter()
 
-const board = ref({})
-const user = ref({})
-const sportsCenter = ref({})
+// const board = ref({})
+// const user = ref({})
+// const sportsCenter = ref({})
 
 // 게시글 상세 조회 
-onMounted(() => {
-     axios.get(`http://localhost:8080/api/board/${route.params.postId}`)
-    .then((response) => {
-        board.value = response.data
-        user.value = board.value.user
-        sportsCenter.value = board.value.sportsCenter
-    })
+// onMounted(() => {
+//      axios.get(`http://localhost:8080/api/board/${route.params.postId}`)
+//     .then((response) => {
+//         board.value = response.data
+//         user.value = board.value.user
+//         sportsCenter.value = board.value.sportsCenter
+//     })
+// })
+onMounted(()=> {
+    store.getBoard(route.params.postId);
 })
-
-// 게시글 수정 
 
 // 게시글 삭제 
 const deleteBoard = function(){
@@ -86,6 +87,13 @@ const deleteBoard = function(){
         router.push({ name: 'boardList' })
     })
 }
+
+// 게시글 수정 
+const updateBoard = function(){
+   router.push({name: 'boardUpdate'})
+}
+
+
 
 </script>
 

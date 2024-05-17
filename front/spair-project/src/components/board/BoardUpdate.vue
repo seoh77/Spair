@@ -8,22 +8,23 @@
             <div id="update">
                 <div>
                     <label for="title">제목  </label>
-                    <input type="text" id="title">
+                    <input type="text" id="title" v-model="store.board.title">
                 </div>
-                <div class="temporary">
-                    <div class="label">작성자</div>
-                    <div>테스터</div>
+                <div>
+                    <!-- <div class="label">작성자</div> -->
+                    <label for="nickname">작성자</label>
+                    <input type="text" id="nickname" readonly v-model="store.user.nickname">
                 </div>
                 <div>
                     <label for="status">모집상태  </label>
-                    <select name="status" id="status">
+                    <select name="status" id="status" v-model="store.board.status">
                         <option value="1">모집중</option>
                         <option value="0">모집완료</option>
                     </select>
                 </div>
                 <div>
                     <label for="gender">모집성별  </label>
-                    <select name="gender" id="gender">
+                    <select name="gender" id="gender" v-model="store.board.gender">
                         <option value="1">남성</option>
                         <option value="2">여성</option>
                         <option value="3">상관없음</option>
@@ -31,33 +32,33 @@
                 </div>
                 <div>
                     <label for="recruitment_num">모집인원  </label>
-                    <select name="recruitment_num" id="recruitment_num">
+                    <select name="recruitment_num" id="recruitment_num" v-model="store.board.recruitmentNum">
                         <option value="1명">1명</option>
                         <option value="2명">2명</option>
                         <option value="3명 이상">3명 이상</option>
                         <option value="상관없음">상관없음</option>
                     </select>
                 </div>
-                <div class="temporary">
-                    <div class="label">운동종류</div>
-                    <div>테니스</div>
-                </div>
                 <div>
+                    <label for="exerciseType">운동종류</label>
+                    <input type="text" id="exerciseType" readonly v-model="store.board.exerciseType">
+                </div>
+                <div id="price-wrap">
                     <label for="price">가격  </label>
-                    <input type="price" id="price" placeholder="1인당 가격을 입력하세요.">
+                    <input type="price" id="price" placeholder="1인당 가격을 입력하세요." v-model="store.board.price">
                     <span>원</span>
                 </div>
-                <div class="temporary">
-                    <div class="label">주소 </div>
-                    <div>고양시</div>
+                <div>
+                    <label for="roadAddress">주소 </label>
+                    <input type="text" id="roadAddress" readonly v-model="store.sportsCenter.roadAddress">
                 </div>
                 <div id="area">
                     <label for="content">내용  </label>
-                    <textarea id="content" rows="10"></textarea>
+                    <textarea id="content" rows="10" v-model="store.board.content"></textarea>
                 </div>
                 <div id="up-btn">
                      <!-- API 연결 후 click이벤트 수정 예정-->
-                    <button @click="golist">수정</button>
+                    <button @click="updateBoard">수정</button>
                 </div>
                 
             </div>
@@ -67,17 +68,22 @@
 
 <script setup>
 import { useBoardStore } from "@/stores/board";
+import { useRoute, useRouter } from "vue-router";
+import { onMounted } from 'vue'
+
 const store = useBoardStore();
+const route = useRoute()
 
 const updateBoard = function () {
-    store.updateBoard()
+    store.updateBoard(route.params.postId)
 }
 
-// 임시 변수
-import router from '@/router'
-const golist = function(){
-    router.push({name: 'boardList'})
-}
+onMounted(() => {
+    const postId = route.params.postId;
+    store.getBoard(postId);
+})
+
+
 </script>
 
 <style scoped>
@@ -88,6 +94,7 @@ const golist = function(){
     justify-content: center;
     align-items: center;
 }
+
 h4 {
     width: 75%;
     max-width: 1200px;
@@ -99,6 +106,7 @@ h4 {
     font-size: 1.5rem;
     margin: 1rem;
 }
+
 #form-container {
     width: 75%;
     max-width: 1200px;
@@ -106,6 +114,7 @@ h4 {
     border: 0.1rem solid var(--gray-color);
     box-shadow: 0.1rem 0.5rem 0.5rem var(--gray-color);
 }
+
 #update {
     display: flex;
     flex-direction: column;
@@ -115,43 +124,49 @@ h4 {
     font-size: 1rem;
     margin: 3rem;
 }
+
 #update div {
     width: 100%; 
     display: flex;
-    margin-bottom: 0.6rem;
+    margin-bottom: 1rem;
 }
+
+#price-wrap input{
+    width: 50%;
+}
+
 label {
-    width: 10%;
+    width: 12%;
     font-size: 1.2rem;
     font-weight: bold;
 }
-.temporary {
-    display: flex;
-    flex-direction: column;
-    color: red;
-}
-.label {
-    font-size: 1.2rem;
-    font-weight: bold;
-}
+
 textarea {
     width: 100%;
     resize: none;
     overflow-y: scroll; 
     overflow-x: hidden;
     font-size: 1.2rem;
+    margin: 1.2rem 0;
 }
+
 #area {
     display: flex;
     flex-direction: column;
 }
+
 input {
-    width: 100%;
+    width: 88%;
+    border-style: none;
+    border-bottom: 1px solid #000000;
+    outline: none;
 }
+
 #up-btn {
         display: flex;
         flex-direction: row-reverse;
 }
+
 button {
     border-style: none;
     background-color: var(--secondary-color);
