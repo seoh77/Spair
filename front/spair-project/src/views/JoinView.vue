@@ -242,6 +242,7 @@
         width: 10%;
         font-size: 1.1rem ;
         font-weight: 600;
+        font-family: 'NanumSquareRound';
     }
 
     .input_area {
