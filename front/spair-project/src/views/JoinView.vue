@@ -27,7 +27,7 @@
             <div class="input_wrap">
                 <label for="name" class="inputHeader">이름</label>
                 <div class="input_area">
-                    <input type="text" name="name" id="name" v-model="inputName" @change="allCheck">
+                    <input type="text" name="name" id="name" v-model="inputName" @change="insertName">
                 </div>
             </div>
             <div class="input_wrap">
@@ -41,21 +41,21 @@
             <div class="input_wrap">
                 <div class="inputHeader">성별</div>
                 <div class="selectGender">
-                    <input type="radio" name="gender" id="male" value="1" checked>
+                    <input type="radio" name="gender" id="male" value="1" v-model="selectGender" checked>
                     <label for="male">남자</label>
                 </div>
                 <div class="selectGender">
-                    <input type="radio" name="gender" id="female" value="2">
+                    <input type="radio" name="gender" id="female" value="2" v-model="selectGender">
                     <label for="female">여자</label>
                 </div>
             </div>
             <div class="address_input_wrap">
                 <div class="inputHeader">주소</div>
                 <div class="searchAddress">
-                    <input type="text" placeholder="주소" :value="address" readonly>
+                    <input type="text" placeholder="주소" :value="address" readonly @click="searchAddress">
                     <div class="btn" @click="searchAddress">주소찾기</div>
                 </div>
-                <input type="text" placeholder="상세주소" v-model="detailAddress">
+                <input type="text" placeholder="상세주소" v-model="detailAddress" @change="insertDetailAddress">
             </div>
             <button id="joinBtn" :class=" allCheckValue ? 'possible' : 'impossible' " @click.prevent="joinClick">회원가입하기</button>
         </form>
@@ -63,6 +63,7 @@
 </template>
 
 <script setup>
+    import router from '@/router';
     import axios from 'axios';
     import { ref } from 'vue';
 
@@ -83,7 +84,7 @@
     const inputConfirmPW = ref()
     const inputName = ref()
     const inputNickname = ref()
-    const inputGender = ref()
+    const selectGender = ref(1)
     const address = ref()
     const detailAddress = ref()
 
@@ -159,6 +160,7 @@
                 inputId.value = ""
             } else {
                 checkId.value = 0
+                joinData.loginId = inputId.value
             }
 
             changeloginIdInfo() 
@@ -185,6 +187,7 @@
 
         if(regex.test(inputPW.value) && inputPW.value.length >= 5) {
             checkPW.value = 0
+            joinData.password = inputPW.value
         } else {
             checkPW.value = 1
         }
@@ -214,6 +217,11 @@
         }
 
         changeConfirmPWInfo()
+    }
+
+    const insertName = () => {
+        joinData.name = inputName.value
+        allCheck()
     }
 
     // 입력한 닉네임에 따라 안내문구 수정
@@ -264,6 +272,7 @@
                 inputNickname.value = ""
             } else {
                 checkNickname.value = 0 
+                joinData.nickname = inputNickname.value
             }
             changeNicknameInfo()
         }).catch((error) => {
@@ -276,9 +285,20 @@
         new daum.Postcode({
             oncomplete: function(data) {
                 address.value = data.address
+                joinData.address = address.value
                 allCheck()
             }
         }).open()
+    }
+
+    const insertDetailAddress = () => {
+        if(!joinData.address) {
+            alert("주소찾기를 먼저 진행해주세요.")
+            detailAddress.value = ""
+        } else {
+            joinData.address = joinData.address + " " + detailAddress.value
+        }
+        allCheck()
     }
 
     // 사용자가 입력한 주소로부터 위도, 경도 값을 계산
@@ -297,9 +317,21 @@
     }
 
     // 회원가입 버튼 클릭
-    const joinClick = () => {
-        getCoordinate()
-        console.log(joinData)
+    const joinClick = async() => {
+
+        allCheck()
+        if(!allCheckValue.value) {
+            alert("입력이 완료되지 않은 칸이 있습니다.")
+            return 
+        }
+
+        joinData.gender = selectGender.value
+        await getCoordinate()
+
+        axios.post(
+            'http://localhost:8080/api/join',
+            joinData
+        ).then(() => router.push({ name : "login" }))
     }
 </script>
 
