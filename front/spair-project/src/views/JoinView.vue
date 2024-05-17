@@ -33,8 +33,8 @@
             <div class="input_wrap">
                 <label for="nickname" class="inputHeader">닉네임</label>
                 <div class="input_area">
-                    <input type="text" name="nickname" id="nickname" :value="inputNickname" @input="onCheckNickname">
-                    <div class="info checkInfo" :class=" checkNickname ? 'checkInfo' : 'failInfo'">{{ checkNickname ? "사용 가능한 닉네임입니다." : "닉네임을 입력해주세요."}}</div>
+                    <input type="text" name="nickname" id="nickname" :value="inputNickname" @change="onCheckNickname">
+                    <div class="info checkInfo" :class="checkNickname ? 'failInfo': 'checkInfo'">{{ nicknameInfo }}</div>
                 </div>
                 <div class="btn" @click="checkNicknameDuplicate">중복확인</div>
             </div>
@@ -90,13 +90,14 @@
     const checkId = ref(10)
     const checkPW = ref(10)
     const checkConfirmPW = ref(10)
-    const checkNickname = ref(false)
+    const checkNickname = ref(10)
     const allCheckValue = ref(false)
 
     // 안내문구 내용을 저장하는 변수
     const loginIdInfo = ref("")
     const passwordInfo = ref("")
     const confirmPWInfo = ref("")
+    const nicknameInfo = ref("")
 
     // 모든 조건을 충족하는지 확인하여 가입하기 버튼 활성화
     const allCheck = () => {
@@ -210,16 +211,43 @@
         changeConfirmPWInfo()
         allCheck()
     }
+
+    // 입력한 닉네임에 따라 안내문구 수정
+    const changeNicknameInfo = () => {
+        if(checkNickname.value === 0) {
+            nicknameInfo.value = "사용 가능한 닉네임입니다."
+        } else if (checkNickname.value === 1) {
+            nicknameInfo.value = "이미 존재하는 닉네임입니다."
+        } else if (checkNickname.value === 2) {
+            nicknameInfo.value = "닉네임 중복 확인을 진행해주세요."
+        } else if (checkNickname.value === 3) {
+            nicknameInfo.value = "닉네임을 입력해주세요."
+        }
+    }
     
     // 입력한 nickname이 조건을 충족하는지 확인
     const onCheckNickname = (event) => {
         inputNickname.value = event.target.value
-        checkNickname.value = inputNickname.value ? true : false
+
+        if(inputNickname.value) {
+            checkNickname.value = 2
+        } else {
+            checkNickname.value = 3
+        }
+        changeNicknameInfo()
         allCheck()
     }
 
     // 입력한 nickname이 기존 회원의 nickname과 중복되는지 확인
     const checkNicknameDuplicate = () => {
+        // 조건에 충족하는지 먼저 검사
+        if(checkNickname.value > 3) {
+            onCheckNickname()
+        }
+
+        // 조건을 충족하지 못했다면 바로 종료
+        if(checkNickname.value >= 3) return 
+
         axios.get(
             `http://localhost:8080/api/check/nickname/${inputNickname.value}`
         ).then((response) => {
@@ -227,9 +255,12 @@
             alert(result)
 
             if(result === "이미 존재하는 닉네임입니다.") {
-                checkNickname.value = false
+                checkNickname.value = 1
                 inputNickname.value = ""
+            } else {
+                checkNickname.value = 0 
             }
+            changeNicknameInfo()
         }).catch((error) => {
             console.error(error)
         })
