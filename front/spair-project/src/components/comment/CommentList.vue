@@ -1,12 +1,11 @@
 <template>
     <div id="comment-container">
         <div id="wrap">
-            <!-- API연결 후 수정 예정 -->
-            <!--여기까진 들어와짐-->
-            <!-- <div id="each-comment" v-for="comment in filteredComments" :key="comment.id"> -->
             <div id="each-comment" v-for="comment in commentList" :key="comment.commentId">
                 <div>
-                    <div id="writer">{{ comment.writer }}</div>
+                    <!-- 넘어온 comment 데이터에서 user의 nickname이 없음. 
+                    db에 접근/API 필요-->
+                    <div id="writer">{{ comment.userId }}</div>
                     <div id="created-date">{{ comment.createdDate }}</div>
                 </div>
                 <div>
@@ -51,18 +50,31 @@ const router = useRouter()
 // }
 
 
-
+// 게시글에 해당하는 댓글 목록 조회 기능
 const commentList = ref([])
 onMounted(()=> {
     axios.get(`http://localhost:8080/api/comment/${route.params.postId}`)
     .then(response => {
         commentList.value = response.data
-        console.log(response.data);
     })
     .catch(error => {
         console.error(error);
     });
 })
+
+// 댓글 삭제 기능
+const deleteComment = function(comment) {
+    axios.delete(`http://localhost:8080/api/comment/${comment.commentId}`)
+    .then(() => {
+        return axios.get(`http://localhost:8080/api/comment/${route.params.postId}`)
+    })
+    .then(response => {
+        commentList.value = response.data
+    })
+    .catch(error => {
+        console.error(error);
+    });
+}
 
 
 </script>
@@ -89,7 +101,7 @@ onMounted(()=> {
         display: flex;
     }
     #writer {
-        width: 90%;
+        width: 85%;
         font-size: 1.4rem;
         font-weight: bold;
     }
