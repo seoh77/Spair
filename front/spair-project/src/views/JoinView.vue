@@ -52,12 +52,12 @@
             <div class="address_input_wrap">
                 <div class="inputHeader">주소</div>
                 <div class="searchAddress">
-                    <input type="text" placeholder="주소">
-                    <div class="btn">주소찾기</div>
+                    <input type="text" placeholder="주소" :value="address" readonly>
+                    <div class="btn" @click="searchAddress">주소찾기</div>
                 </div>
-                <input type="text" placeholder="상세주소">
+                <input type="text" placeholder="상세주소" v-model="detailAddress">
             </div>
-            <button id="joinBtn" :class=" allCheckValue ? 'possible' : 'impossible' ">회원가입하기</button>
+            <button id="joinBtn" :class=" allCheckValue ? 'possible' : 'impossible' " @click.prevent="joinClick">회원가입하기</button>
         </form>
     </div>
 </template>
@@ -65,6 +65,16 @@
 <script setup>
     import axios from 'axios';
     import { ref } from 'vue';
+
+    const joinData = {
+        "loginId" : "",
+        "password" : "",
+        "nickname" : "",
+        "gender" : 0,
+        "address" : "",
+        "latitude" : 0,
+        "longitude" : 0
+    }
 
     const inputId = ref()
     const inputPW = ref()
@@ -76,6 +86,9 @@
     const checkConfirmPW = ref(false)
     const checkNickname = ref(false)
     const allCheckValue = ref(false)
+
+    const address = ref()
+    const detailAddress = ref()
 
     const onCheckId = (event) => {
         const regex =/^[a-zA-Z0-9]*$/           // 영어 대소문자와 숫자만 가능
@@ -161,6 +174,33 @@
         }).catch((error) => {
             console.error(error)
         })
+    }
+
+    const searchAddress = () => {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                address.value = data.address
+            }
+        }).open()
+    }
+
+    const getCoordinate = async() => {
+        await axios({
+            url : 'https://dapi.kakao.com/v2/local/search/address.json?query=' + encodeURI(address.value),
+            method : 'GET',
+            headers : {
+                Authorization : `KakaoAK ${import.meta.env.VITE_KAKAO_REST_API_KEY}`
+            }
+        }).then((response) => {
+            const result = response.data.documents[0]
+            joinData.latitude = result.y
+            joinData.longitude = result.x
+        })
+
+    }
+
+    const joinClick = () => {
+        getCoordinate()
     }
 </script>
 
