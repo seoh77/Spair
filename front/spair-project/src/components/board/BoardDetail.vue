@@ -67,6 +67,7 @@ const board = ref({})
 const user = ref({})
 const sportsCenter = ref({})
 
+// 게시글 상세 조회 
 onMounted(() => {
      axios.get(`http://localhost:8080/api/board/${route.params.postId}`)
     .then((response) => {
@@ -75,6 +76,16 @@ onMounted(() => {
         sportsCenter.value = board.value.sportsCenter
     })
 })
+
+// 게시글 수정 
+
+// 게시글 삭제 
+const deleteBoard = function(){
+    axios.delete(`http://localhost:8080/api/board/${route.params.postId}`)
+    .then(() => {
+        router.push({ name: 'boardList' })
+    })
+}
 
 </script>
 
