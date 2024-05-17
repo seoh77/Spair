@@ -16,6 +16,11 @@ public class User {
 		
 	}
 	
+	// 아이디 확인
+	public User(String loginId) {
+		this.loginId = loginId ;
+	}
+	
 	// 회원가입 
 	public User(String loginId, String password, String nickname, String name, int gender, String address,
 			double latitude, double longitude) {

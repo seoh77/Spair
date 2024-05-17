@@ -40,13 +40,14 @@ public class UserController {
 	// ID 중복확인
 	@PostMapping("check/id")
 	@Operation(summary = "ID 중복확인")
-	public ResponseEntity<?> checkId(@RequestBody String loginId) {
+	public ResponseEntity<?> checkId(@RequestBody User user) {
+		String loginId = user.getLoginId() ;
 		
 		List<User> allUser = userService.searchAll() ;
 		
 		// 모든 user를 순회하며 기존 user loginId와 중복되는지 확인
-		for(User user : allUser) {
-			String curUserLoginId = user.getLoginId() ;		// 기존 user의 loginId
+		for(User curUser : allUser) {
+			String curUserLoginId = curUser.getLoginId() ;		// 기존 user의 loginId
 			
 			if(curUserLoginId.equals(loginId)) {
 				return new ResponseEntity<>("이미 존재하는 ID입니다.", HttpStatus.OK) ;
