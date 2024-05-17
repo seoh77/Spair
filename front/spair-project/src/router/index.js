@@ -52,7 +52,7 @@ const router = createRouter({
         }, 
         {
           // Pathvariable처럼 동적 라우팅 :id
-          path: ':id', 
+          path: ':postId', 
           name: 'boardDetail',
           component: BoardDetail,
           children: [

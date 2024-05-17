@@ -7,36 +7,36 @@
                 <div id="grid">
                     
                         <div class="item">제목</div> 
-                        <div class="item">{{ post.title }}</div>
+                        <div class="item">{{ store.board.title }}</div>
                     
                         <div class="item">작성자</div>
-                        <div class="item">{{ post.writer }}</div>
+                        <div class="item"> </div>
                     
                         <div class="item">모집상태</div>
-                        <div class="item" :class="{ 'red': post.status }">{{ post.status ? '모집중' : '모집완료' }}</div>
+                        <div class="item" :class="{ 'red': store.board.status }">{{ store.board.status ? '모집중' : '모집완료' }}</div>
                     
                         <div class="item">모집인원</div> 
-                        <div class="item">{{ post.recruitment_num }}인</div>
+                        <div class="item">{{ store.board.recruitmentNum }}인</div>
                    
                         <div class="item">모집성별</div> 
-                        <div class="item">{{ post.gender == 1 ? '남성' : '여성'  }}</div>
+                        <div class="item">{{ store.board.gender == 1 ? '남성' : '여성'  }}</div>
                   
                         <div class="item">가격</div>
-                        <div class="item">{{ post.price  }}</div>
+                        <div class="item">{{ store.board.price  }}</div>
                     
                         <div class="item">주소 </div>
-                        <div class="item">{{ post.road_address }}</div>
+                        <div class="item">{{ store.board.roadAddress }}</div>
                         
                         <div class="item">운동종류</div> 
-                        <div class="item">{{ post.exercise_type }}</div>
+                        <div class="item">{{ store.board.exerciseType }}</div>
                 </div>
                 
                 <div id="con">
                     <div id="inner-wrap">
                         <div class="tem">내용 </div> 
-                        <div class="tem">{{ post.created_date }}</div>
+                        <div class="tem">{{ store.board.createdDate }}</div>
                     </div> 
-                    <div>{{  post.content }}</div>
+                    <div>{{  store.board.content }}</div>
                     <div id="btn">
                         <!--delete는 API연결 후 구현 예정-->
                         <button @click="deleteBoard">삭제</button>
@@ -55,19 +55,23 @@
 <script setup>
 import { useBoardStore } from '@/stores/board';
 import { useRoute, useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue'
 import CommentList from '@/components/comment/CommentList.vue'
 
 const store = useBoardStore()
 const route = useRoute()
 const router = useRouter()
 
-const postId = Number(route.params.id);
-const post = store.boardList.find(post => post.id === postId);
+
+onMounted(() => {
+    store.getBoard(route.params.postId)
+    console.log(route.params)
+})
 
 
-const updateBoard = function(){
-    router.push({name: 'boardUpdate'})
-}
+// const updateBoard = function(){
+//     router.push({name: 'boardUpdate'})
+// }
 </script>
 
 <style scoped>

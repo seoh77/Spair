@@ -14,6 +14,15 @@ export const useBoardStore = defineStore('board', () => {
     })
   }
   
+  // 게시글 상세조회 관련 axios
+  const board = ref({})
+  const getBoard = function(postId){
+    axios.get(`${REST_BOARD_API}/${postId}`)
+    .then((response) => {
+      board.value = response.data
+    })
+  }
+
   // API 연결 전 임시 데이터 
   //  const boardList = ref([
   //   {
@@ -192,5 +201,5 @@ export const useBoardStore = defineStore('board', () => {
     },
   ])
 
-  return { boardList, getBoardList, comments }
+  return { board, getBoard, boardList, getBoardList, comments }
 })
