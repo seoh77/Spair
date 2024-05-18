@@ -1,11 +1,7 @@
 <template>
     <div id="map-view">
-        <h2>스포츠시설 검색</h2>
-        <div class="search_container">
-            <input type="text" class="searchInput">
-            <button class="searchBtn">검색</button>
-        </div>
-        <KakaoMap width="100%" height="600px" :lat="37.501712" :lng="127.039603" :markerList="markerList"/>
+        <h2>게시글이 등록된 스포츠센터</h2>
+        <KakaoMap width="100%" height="600px" :lat="37.501712" :lng="127.039603" :markerList="markerList" @onLoadKakaoMap="onLoadKakaoMap"/>
     </div>
 </template>
 
@@ -14,6 +10,7 @@
     import { ref, onMounted } from 'vue'
     import { KakaoMap, KakaoMapMarker } from 'vue3-kakao-maps'
 
+    const map = ref()
     const markerList = ref([])
 
     onMounted(async() => {
@@ -29,6 +26,40 @@
             })
         })
     })
+
+    const onLoadKakaoMap = (mapRef) => {
+        map.value = mapRef
+
+        kakao.maps.event.addListener(map.value, 'click', function(mouseEvent) {
+            // 클릭한 위치의 위도, 경도 값 가져오기
+            const latlng = mouseEvent.latLng
+            const lat = latlng.getLat()
+            const lng = latlng.getLng()
+
+            // 클릭한 위치의 반경 10m 이내에 있는 스포츠 센터 게시글 출력
+            for(let i=0; i<markerList.value.length; i++) {
+                const distance = getDistanceFromLatLonInMeters(lat, lng, markerList.value[i].lat, markerList.value[i].lng) 
+
+                if(distance <= 10) {
+                    console.log(markerList.value[i].key)        // centerId 출력 -> 추후 해당 값을 param으로 하여 url mapping
+                }
+            }
+        })
+    }
+
+    // 두 지점 사이의 거리를 계산
+    const getDistanceFromLatLonInMeters = (lat1, lng1, lat2, lng2) => {
+        const R = 6371e3; // 지구의 반지름 (미터 단위)
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLng = (lng2 - lng1) * Math.PI / 180;
+        const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLng / 2) * Math.sin(dLng / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const distance = R * c; // 미터 단위 거리
+        return distance;
+    }
 </script>
 
 <style scoped>
