@@ -5,37 +5,18 @@
             <input type="text" class="searchInput">
             <button class="searchBtn">검색</button>
         </div>
-        <div id="map"></div>
+        <KakaoMap width="100%" height="600px" :lat="33.450701" :lng="126.570667" />
     </div>
 </template>
 
 <script setup>
     import { ref, onMounted } from 'vue'
+    import { KakaoMap, KakaoMapMarker } from 'vue3-kakao-maps'
 
-    let map = null
-
-    onMounted(() => {
-        if (window.kakao && window.kakao.maps) {
-            createMap()
-        } else {
-            // 실제 지도를 그리는 Javascript API를 불러오기
-            const script = document.createElement('script')
-            script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${import.meta.env.VITE_KAKAO_JS_KEY}`
-            document.head.appendChild(script)
-            script.onload = () => kakao.maps.load(createMap)
-        }
-    });
-
-    // 지도를 띄우는 코드
-    const createMap = () => {
-        const container = document.getElementById('map')
-        const options = {
-            center: new kakao.maps.LatLng(33.450701, 126.570667),
-            level: 5
-        }
-
-        map = new kakao.maps.Map(container, options)
-    }
+    const coordinate = {
+        lat: 33.450701,
+        lng: 126.570667
+    };
 </script>
 
 <style scoped>
@@ -44,6 +25,7 @@
         margin-top: 30px ;
         display: flex;
         flex-direction: column;
+        padding-bottom: 60px;
     }
 
     #map-view h2 {
@@ -74,12 +56,5 @@
         border: 1px solid var(--secondary-color);
         border-radius: 5px;
         font-size: 1.3rem;
-    }
-
-    #map {
-        width: 100%;
-        height: 600px;
-        background-color: rgb(202, 201, 201);
-        margin-bottom: 50px
     }
 </style>
