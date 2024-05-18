@@ -7,7 +7,7 @@
                 <label for="status"></label>
                 <select id="status" name="status" v-model="filter.status">
                 <!-- <select id="status" name="status"> -->
-                    <option selected disabled value="5">모집여부</option>
+                    <option selected disabled value="">모집여부</option>
                     <option value='1'>모집중</option>
                     <option value="0">모집완료</option>
                 </select>
@@ -16,7 +16,7 @@
                 <label for="status"></label>
                 <select id="gender" name="gender" v-model="filter.gender">
                 <!-- <select id="gender" name="gender"> -->
-                    <option selected disabled value="5">성별</option>
+                    <option selected disabled value="">성별</option>
                     <option value='1'>남자</option>
                     <option value="2">여자</option>
                     <option value="3">상관없음</option>
@@ -26,7 +26,7 @@
                 <label for="exercise_type"></label>
                 <select id="exercise-type" name="exercise_type" v-model="filter.exerciseType">
                 <!-- <select id="exercise-type" name="exercise_type"> -->
-                    <option selected disabled value="5">운동종류</option>
+                    <option selected disabled value="">운동종류</option>
                     <option value="PT">PT</option>
                     <option value="필라테스">필라테스</option>
                     <option value="기타">기타</option>
@@ -63,9 +63,9 @@ import { ref } from 'vue'
 const emit = defineEmits(['apply-filters'])
 
 const filter = ref({
-    status: 5,
-    gender: 5,
-    exerciseType: 5,
+    status: '',
+    gender: '',
+    exerciseType: '',
     minPrice: '',
     maxPrice: '',
 })
