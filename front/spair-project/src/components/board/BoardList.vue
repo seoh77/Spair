@@ -1,3 +1,4 @@
+<!-- 우리 동네 게시판 게시글 리스트-->
 <template>
     <BoardSearchFilter @apply-filters="filteredBoard" v-if="$route.path == '/board'"/>
     <div id="list-container">
@@ -63,8 +64,14 @@ onMounted(() => {
 
 const filteredBoard = (filter) => {
     isSearch.value = true;
+    const userInfoStr = localStorage.getItem('loginUserInfo')
+    // console.log(userInfoStr)
+    const userIdInfo = JSON.parse(userInfoStr)
+    // console.log(userIdInfo)
+    const userId = userIdInfo.userId
+    // console.log(userId)
    
-    axios.get('http://localhost:8080/api/search', {
+    axios.get(`http://localhost:8080/api/search/town?userId=${userId}`, {
         params: filter
     }).then(response => {
         filteredBoardList.value = response.data
