@@ -4,21 +4,64 @@
         <div id="login_form">
             <div>
                 <label for="id">ID</label>
-                <input type="text" name="id" id="id">
+                <input type="text" name="id" id="id" v-model="inputId">
             </div>
             <div>
                 <label for="password">PW</label>
-                <input type="password" name="password" id="password">
+                <input type="password" name="password" id="password" v-model="inputPW">
             </div>
             <div class="btn_wrap">
-                <button id="loginBtn" class="btn">로그인</button>
-                <button id="joinBtn" class="btn">회원가입</button>
+                <button id="loginBtn" class="btn" @click="onClickLogin">로그인</button>
+                <button id="joinBtn" class="btn" @click="onClickJoin">회원가입</button>
             </div>
         </div>
     </div>
 </template>
 
 <script setup>
+    import router from '@/router';
+    import axios from 'axios';
+    import { ref } from 'vue';
+
+    const inputId = ref()
+    const inputPW = ref()
+
+    const onClickLogin = async() => {
+        if(!inputId.value || !inputPW.value) {
+            alert("입력하지 않은 칸이 있습니다.")
+            return
+        }
+
+        const response = await axios.post(
+            'http://localhost:8080/api/login',
+            {
+                "loginId": inputId.value,
+                "password": inputPW.value
+            }
+        )
+
+        // 로그인이 실패하였을 경우 (response.data가 문자열)
+        if(typeof(response.data) === "string") {
+            inputId.value = ""
+            inputPW.value = ""
+            alert(response.data)
+            return
+        }
+
+        // 로그인이 성공하였을 경우 (response.data가 객체)
+        const userInfo = {
+            "userId" : response.data.userId,
+            "loginId" : response.data.loginId,
+            "nickname" : response.data.nickname
+        }
+
+        localStorage.setItem("loginUserInfo", JSON.stringify(userInfo))
+        router.push({ name : "home" })
+    }
+
+    const onClickJoin = () => {
+        router.push({ name : "join"})
+    }
 </script>
 
 <style scoped>
