@@ -6,14 +6,16 @@
                     <!-- 넘어온 comment 데이터에서 user의 nickname이 없음. 
                     db에 접근/API 필요-->
                     <div id="writer">{{ comment.userId }}</div>
-                    <div id="created-date">{{ comment.createdDate }}</div>
+                    <div v-if="!comment.modifiedDate" class="date">{{ comment.createdDate }}</div>
+                    <div v-else class="date">{{ comment.modifiedDate }}</div>
                 </div>
                 <div>
-                    <div v-if="!comment.isEditing" id="content">{{ comment.content }}</div>
+                    <!-- <div v-if="!comment.isEditing" id="content">{{ comment.content }}</div> -->
+                    <div v-if="!isEditing[comment.commentId]" id="content">{{ comment.content }}</div>
                     <textarea v-else v-model="comment.content" />
                     <div id="btn">
-                        <button id="update"  v-if="!comment.isEditing" @click="toggleEdit(comment)"></button>
-                        <button id="update-done" v-if="comment.isEditing" @click="updateComment(comment)">완료</button>
+                        <button id="update"  v-if="!isEditing[comment.commentId]" @click="toggleEdit(comment.commentId)"></button>
+                        <button id="update-done" v-if="isEditing[comment.commentId]" @click="updateComment(comment)">완료</button>
                         <button id="delete" @click="deleteComment(comment)"></button>
                     </div>
                 </div>
@@ -28,24 +30,9 @@
 import CommentCreate from '@/components/comment/CommentCreate.vue'
 import axios from 'axios'
 
-import { useBoardStore } from '@/stores/board'
-import { useRoute, useRouter } from 'vue-router'
-import { ref,computed, onMounted } from 'vue'
-const store = useBoardStore()
+import { useRoute } from 'vue-router'
+import { ref, onMounted } from 'vue'
 const route = useRoute()
-const router = useRouter()
-
-// // 임시 메소드. API 연결 후 수정 예정
-// // 댓글 수정 및 삭제
-// const toggleEdit = (comment) => {
-//   comment.isEditing = !comment.isEditing
-// }
-
-// const updateComment = (comment) => {
-//   // 댓글 수정 로직 추가 예정
-//   // 수정 완료 후 isEditing을 false로 변경하여 다시 내용을 보이도록 설정
-//   comment.isEditing = false;
-// }
 
 
 // 게시글에 해당하는 댓글 목록 조회 기능
@@ -54,6 +41,9 @@ const comments = () => {
     axios.get(`http://localhost:8080/api/comment/${route.params.postId}`)
     .then(response => {
         commentList.value = response.data
+        response.data.forEach((comment) => {
+            isEditing.value[comment.commentId] = false
+        })
     })
     .catch(error => {
         console.error(error)
@@ -72,12 +62,33 @@ const deleteComment = function(comment) {
     })
     .then(response => {
         commentList.value = response.data
+        response.data.forEach((comment) => {
+            isEditing.value[comment.commentId] = false;
+      })
     })
     .catch(error => {
         console.error(error);
     });
 }
 
+
+// 댓글 수정 기능 
+const isEditing = ref({})
+// 수정란 토글 열기
+const toggleEdit = (commentId) => {
+   isEditing.value[commentId] = !isEditing.value[commentId]
+}
+
+const updateComment = function(comment) {
+    axios.put(`http://localhost:8080/api/comment/${comment.commentId}`,{
+        "content": comment.content,
+        "status": 0
+    })
+    .then(() => {
+        comments()
+        isEditing.value[comment.commentId] = false
+    })
+}
 
 </script>
 
@@ -89,49 +100,59 @@ const deleteComment = function(comment) {
         font-size: 1.2rem;
         font-family: 'NanumSquareRound';
     }
+
     #wrap {
         border: 0.1rem solid var(--gray-color);
         box-shadow: 0.1rem 0.5rem 0.5rem var(--gray-color);
         margin: 0.8rem 0.5rem ;
     }
+
     #each-comment {
         display: flex;
         flex-direction: column;
         margin: 1.4rem;
     }
+    
     #each-comment > div {
         display: flex;
     }
+
     #writer {
         width: 85%;
         font-size: 1.4rem;
         font-weight: bold;
     }
-    #created-date {
+
+    .date {
         color: var(--gray-color);
         font-size: 1rem;
     }
+
     #content {
         width: 90%;
         font-size: 1.1rem;
     }
+
     #btn {
         width: 9%;
         display: flex;
         align-items: center;
         justify-content: center;
     }
+
     button {
         border-style: none;
         margin: 0.4rem;
         background-color: #FFFFFF;
     }
+
     #update {
         width: 1.3rem;
         height: 1.3rem;
         background-image: url('@/assets/update.png');
         background-size: cover;
     }
+
     #delete {
         width: 2rem;
         height: 2rem;
@@ -146,6 +167,7 @@ const deleteComment = function(comment) {
         overflow-x: hidden;
         font-size: 1.2rem;
     }
+    
     #update-done {
         width: 3rem;
         height: 2rem;
