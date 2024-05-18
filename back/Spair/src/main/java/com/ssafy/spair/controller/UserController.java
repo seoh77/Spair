@@ -95,7 +95,10 @@ public class UserController {
 				String curPassword = curUser.getPassword() ;
 				
 				if(curPassword.equals(password)) {
-					return new ResponseEntity<>("로그인 성공", HttpStatus.OK) ;
+					// 로그인 성공시 반환할 데이터
+					User responseUser = new User(curUser.getUserId(), curUser.getLoginId(), curUser.getNickname()) ;
+					
+					return new ResponseEntity<>(responseUser, HttpStatus.OK) ;
 				}
 				
 				return new ResponseEntity<>("비밀번호가 올바르지 않습니다.", HttpStatus.OK) ;

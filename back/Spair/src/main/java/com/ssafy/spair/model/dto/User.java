@@ -42,6 +42,13 @@ public class User {
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
+	
+	// 로그인 성공시 반환할 user 정보
+	public User(int userId, String loginId, String nickname) {
+		this.userId = userId ;
+		this.loginId = loginId ;
+		this.nickname = nickname ;
+	}
 
 	public int getUserId() {
 		return userId;
