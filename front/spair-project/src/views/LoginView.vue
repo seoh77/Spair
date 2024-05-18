@@ -27,6 +27,11 @@
     const inputPW = ref()
 
     const onClickLogin = async() => {
+        if(!inputId.value || !inputPW.value) {
+            alert("입력하지 않은 칸이 있습니다.")
+            return
+        }
+
         const response = await axios.post(
             'http://localhost:8080/api/login',
             {
