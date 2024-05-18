@@ -88,4 +88,22 @@ const router = createRouter({
   ]
 })
 
+import { useBoardStore } from '@/stores/board'
+
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = !!localStorage.getItem('loginUserInfo');
+  if (!isAuthenticated && to.name !== 'login' && to.name !== 'home' && to.name !== 'join') {
+    console.log('Navigation Guard:', { to: to.name, from: from.name, isAuthenticated });
+    alert('로그인이 필요합니다.');
+    next({ name: 'login' });
+  } else {
+    if (isAuthenticated && to.name === 'boardList') {
+      const store = useBoardStore();
+      store.getBoardList();
+    }
+    next();
+  }
+});
+
 export default router

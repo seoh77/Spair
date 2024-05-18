@@ -1,6 +1,6 @@
+<!-- 우리 동네 게시판 게시글 리스트-->
 <template>
-    <!-- <BoardSearchFilter @apply-filters="filterBoardList" v-if="$route.path == '/board'"/> -->
-    <BoardSearchFilter v-if="$route.path == '/board'"/>
+    <BoardSearchFilter @apply-filters="filteredBoard" v-if="$route.path == '/board'"/>
     <div id="list-container">
         <table>
             <thead>
@@ -12,7 +12,7 @@
                     <th>모집상태</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody v-if="!filteredBoardList.length && !isSearch">
                 <tr v-for="board in store.boardList" :key="board.id">
                     <td>{{ board.postId }}</td>
                     <td >
@@ -23,6 +23,24 @@
                     <td :class="{ 'red': board.status === 1 }">{{  board.status ? '모집중' : '모집완료' }}</td>
                 </tr>
             </tbody>
+            <tbody v-else-if="filteredBoardList.length && isSearch">
+                <tr v-for="board in filteredBoardList" :key="board.id">
+                    <td>{{ board.postId }}</td>
+                    <td >
+                        <RouterLink :to="`/board/${board.postId}`">{{ board.title }}</RouterLink>
+                    </td>
+                    <td>{{  board.user.nickname }}</td>
+                    <td>{{  board.createdDate }}</td>
+                    <td :class="{ 'red': board.status === 1 }">{{  board.status ? '모집중' : '모집완료' }}</td>
+                </tr>
+            </tbody>
+            <tbody v-else>
+                <tr>
+                    <td colspan="5">
+                        게시글이 없습니다.
+                    </td>
+                </tr>
+            </tbody>
         </table>
         
     </div>
@@ -31,12 +49,36 @@
 <script setup>
 import BoardSearchFilter from '@/components/board/BoardSearchFilter.vue';
 import { useBoardStore } from '@/stores/board';
-import { onMounted } from 'vue';
-
+import { onMounted,ref } from 'vue';
+import axios from 'axios'
 const store = useBoardStore();
+
+const filteredBoardList = ref([])
+const isSearch = ref(false)
+
+// 첫 진입시 전체 리스트 반환
 onMounted(() => {
     store.getBoardList()
 })
+
+
+const filteredBoard = (filter) => {
+    isSearch.value = true;
+    const userInfoStr = localStorage.getItem('loginUserInfo')
+    // console.log(userInfoStr)
+    const userIdInfo = JSON.parse(userInfoStr)
+    // console.log(userIdInfo)
+    const userId = userIdInfo.userId
+    // console.log(userId)
+   
+    axios.get(`http://localhost:8080/api/search/town?userId=${userId}`, {
+        params: filter
+    }).then(response => {
+        filteredBoardList.value = response.data
+    })
+    
+}
+
 
 </script>
 

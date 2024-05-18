@@ -9,13 +9,23 @@ const REST_COMMENT_API = 'http://localhost:8080/api/comment'
 export const useBoardStore = defineStore('board', () => {
   
 
-  // 게시판리스트 조회 관련 axios
+  // 우리동네 게시판리스트 조회 관련 axios
   const boardList = ref([])
   const getBoardList = function(){
-    axios.get(REST_BOARD_API)
-    .then((response) => {
-      boardList.value = response.data
-    })
+    // axios.get(REST_BOARD_API)
+    const userInfoStr = localStorage.getItem('loginUserInfo')
+    // console.log(userInfoStr)
+    if(userInfoStr){
+
+      const userIdInfo = JSON.parse(userInfoStr)
+      // console.log(userIdInfo)
+      const userId = userIdInfo.userId
+      // console.log(userId)
+      axios.get(`http://localhost:8080/api/board/town?userId=${userId}`)
+      .then((response) => {
+        boardList.value = response.data
+      })
+    }
   }
 
   // 게시물 상세조회 관련 axios
