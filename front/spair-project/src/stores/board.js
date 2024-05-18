@@ -15,14 +15,17 @@ export const useBoardStore = defineStore('board', () => {
     // axios.get(REST_BOARD_API)
     const userInfoStr = localStorage.getItem('loginUserInfo')
     // console.log(userInfoStr)
-    const userIdInfo = JSON.parse(userInfoStr)
-    // console.log(userIdInfo)
-    const userId = userIdInfo.userId
-    // console.log(userId)
-    axios.get(`http://localhost:8080/api/board/town?userId=${userId}`)
-    .then((response) => {
-      boardList.value = response.data
-    })
+    if(userInfoStr){
+
+      const userIdInfo = JSON.parse(userInfoStr)
+      // console.log(userIdInfo)
+      const userId = userIdInfo.userId
+      // console.log(userId)
+      axios.get(`http://localhost:8080/api/board/town?userId=${userId}`)
+      .then((response) => {
+        boardList.value = response.data
+      })
+    }
   }
 
   // 게시물 상세조회 관련 axios
