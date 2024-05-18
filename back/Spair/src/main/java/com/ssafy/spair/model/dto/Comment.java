@@ -13,6 +13,8 @@ public class Comment {
 	private LocalDateTime modifiedDate ;
 	private Integer parentId ;
 	
+	private User user ;
+	
 	public Comment() {
 		
 	}
@@ -38,6 +40,14 @@ public class Comment {
 		this.createdDate = createdDate;
 		this.modifiedDate = modifiedDate;
 		this.parentId = parentId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public int getCommentId() {

@@ -12,6 +12,12 @@
 		<result column="created_date" property="createdDate"/>
 		<result column="modified_date" property="modifiedDate"/>
 		<result column="parent_id" property="parentId"/>
+		<collection property="user" resultMap="userMap"/>
+	</resultMap>
+	
+	<resultMap type="User" id="userMap">
+		<result column="user_id" property="userId"/>
+		<result column="nickname" property="nickname"/>
 	</resultMap>
 
 	<!-- 댓글 등록 -->
@@ -36,8 +42,10 @@
 	
 	<!-- 특정 게시글에 해당하는 댓글 조회 -->
 	<select id="search" parameterType="int" resultMap="commentMap">
-		SELECT *
+		SELECT comment.*, user.nickname
 		FROM comment
+		INNER JOIN user
+		ON comment.user_id = user.user_id
 		WHERE post_id = #{postId} ;
 	</select>
 	
