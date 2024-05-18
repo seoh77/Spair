@@ -5,18 +5,30 @@
             <input type="text" class="searchInput">
             <button class="searchBtn">검색</button>
         </div>
-        <KakaoMap width="100%" height="600px" :lat="33.450701" :lng="126.570667" />
+        <KakaoMap width="100%" height="600px" :lat="37.501712" :lng="127.039603" :markerList="markerList"/>
     </div>
 </template>
 
 <script setup>
+    import axios from 'axios';
     import { ref, onMounted } from 'vue'
     import { KakaoMap, KakaoMapMarker } from 'vue3-kakao-maps'
 
-    const coordinate = {
-        lat: 33.450701,
-        lng: 126.570667
-    };
+    const markerList = ref([])
+
+    onMounted(async() => {
+        const response = await axios.get('http://localhost:8080/api/board')
+
+        const boardList = response.data 
+
+        boardList.map((board) => {
+            markerList.value.push({
+                "key" : board.sportsCenter.centerId,
+                "lat" : board.sportsCenter.latitude,
+                "lng" : board.sportsCenter.longitude
+            })
+        })
+    })
 </script>
 
 <style scoped>
