@@ -12,7 +12,7 @@
             </div>
             <div class="btn_wrap">
                 <button id="loginBtn" class="btn" @click="onClickLogin">로그인</button>
-                <button id="joinBtn" class="btn">회원가입</button>
+                <button id="joinBtn" class="btn" @click="onClickJoin">회원가입</button>
             </div>
         </div>
     </div>
@@ -57,6 +57,10 @@
 
         localStorage.setItem("loginUserInfo", JSON.stringify(userInfo))
         router.push({ name : "home" })
+    }
+
+    const onClickJoin = () => {
+        router.push({ name : "join"})
     }
 </script>
 
