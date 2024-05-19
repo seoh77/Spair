@@ -34,4 +34,9 @@ public class SearchServiceImpl implements SearchService {
 		return searchDao.townFilterSearch(searchFilter);
 	}
 
+	@Override
+	public List<Post> searchCenterPost(int centerId) {
+		return searchDao.searchCenterPost(centerId);
+	}
+
 }

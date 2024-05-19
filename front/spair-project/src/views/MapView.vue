@@ -1,7 +1,7 @@
 <template>
     <div id="map-view">
         <h2>게시글이 등록된 스포츠센터</h2>
-        <KakaoMap width="100%" height="600px" :lat="37.501712" :lng="127.039603" :markerList="markerList" @onLoadKakaoMap="onLoadKakaoMap"/>
+        <KakaoMap width="100%" height="600px" :lat="coordinate.lat" :lng="coordinate.lng" :markerList="markerList" @onLoadKakaoMap="onLoadKakaoMap"/>
     </div>
 </template>
 
@@ -13,9 +13,22 @@
     const map = ref()
     const markerList = ref([])
 
-    onMounted(async() => {
-        const response = await axios.get('http://localhost:8080/api/board')
+    const coordinate = ref({
+        lat: 37.501712,
+        lng: 127.039603
+    })
 
+    onMounted(async() => {
+        const localStorageData = JSON.parse(localStorage.getItem("loginUserInfo")) 
+        const userId = localStorageData.userId
+
+        axios.get(`http://localhost:8080/api/user/search/${userId}`)
+        .then((response) => {
+            coordinate.value.lat = response.data.latitude
+            coordinate.value.lng = response.data.longitude
+        })
+
+        const response = await axios.get('http://localhost:8080/api/board')
         const boardList = response.data 
 
         boardList.map((board) => {
