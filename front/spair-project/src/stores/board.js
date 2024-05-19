@@ -9,7 +9,18 @@ const REST_COMMENT_API = 'http://localhost:8080/api/comment'
 export const useBoardStore = defineStore('board', () => {
   
 
-  // 우리동네 게시판리스트 조회 관련 axios
+  // 전체(전국) 게시물 리스트 조회 관련 axios
+  const boardListTotal = ref([])
+  const getBoardListTotal = function(){
+    axios.get(REST_BOARD_API)
+    .then((response) => {
+      console.log(response.data)
+      boardListTotal.value = response.data
+    })
+  }
+
+
+  // 우리동네 게시물 리스트 조회 관련 axios
   const boardList = ref([])
   const getBoardList = function(){
     // axios.get(REST_BOARD_API)
@@ -95,5 +106,5 @@ export const useBoardStore = defineStore('board', () => {
 
   
 
-  return { board, user, sportsCenter, getBoard, boardList, getBoardList, updateBoard, createBoard,  }
+  return { board, user, sportsCenter, getBoard, boardList, getBoardList, updateBoard, createBoard, boardListTotal, getBoardListTotal }
 })
