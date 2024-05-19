@@ -12,7 +12,6 @@ export const useBoardStore = defineStore('board', () => {
   // 전체(전국) 게시물 리스트 조회 관련 axios
   // 기존 메소드에서 async await를 사용해 비동기 처리 
   const boardListTotal = ref([])
- 
   const getBoardListTotal = async function() {
     try {
         const response = await axios.get('http://localhost:8080/api/board')
@@ -29,7 +28,6 @@ export const useBoardStore = defineStore('board', () => {
   // 우리동네 게시물 리스트 조회 관련 axios
   // 기존 메소드에서 async await를 사용해 비동기 처리 
   const boardList = ref([])
-  
   const getBoardList = async function() {
     const userInfoStr = localStorage.getItem('loginUserInfo')
     if (userInfoStr) {
@@ -50,18 +48,17 @@ export const useBoardStore = defineStore('board', () => {
 
   // 전체(전국) 게시물 통합검색 관련 axios
   const boardListSearch = ref([])
-  const getBoardListSearch = async function(){
+  const getBoardListSearch = async function(keyword){
     // 로그인햇을 때만 이용 가능
     const userInfoStr = localStorage.getItem('loginUserInfo')
     if (userInfoStr) {
-       
-        // keyword는 http://localhost:5173/board/search?search=고양이 이런식으로 routepath에 있음.
-        const keyword = router.currentRoute.value.query.search
+      
+      const keyword = router.currentRoute.value.query.search
 
         try {
             const response = await axios.get(`http://localhost:8080/api/search/${keyword}`)
-            boardList.value = response.data;
-            return boardList.value;
+            boardListSearch.value = response.data;
+            return boardListSearch.value;
         } catch (error) {
             console.error('검색어를 포함하는 게시물 리스트 조회 중 에러 발생:', error)
             throw error; // 에러를 다시 던져서 호출한 곳에서 처리할 수 있도록 함
@@ -139,5 +136,5 @@ export const useBoardStore = defineStore('board', () => {
 
   
 
-  return { board, user, sportsCenter, getBoard, boardList, getBoardList, updateBoard, createBoard, boardListTotal, getBoardListTotal, boardListSearch, getBoardListSearch }
+  return { board, user, sportsCenter, getBoard, boardList, getBoardList, updateBoard, createBoard, boardListTotal, getBoardListTotal, boardListSearch, getBoardListSearch,  }
 })

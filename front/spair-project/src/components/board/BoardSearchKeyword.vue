@@ -11,15 +11,32 @@
 
 <script setup>
 import BoardList from '@/components/board/BoardList.vue'
-import { ref, watch} from 'vue'
-import { useRoute }from 'vue-router'
+import { ref, watch, computed} from 'vue'
+import { useRoute, useRouter }from 'vue-router'
+import { useBoardStore } from '@/stores/board'
 
+const store = useBoardStore()
 const route = useRoute()
 const searchQuery = ref(route.query.search)
 
-watch(() => route.query.search, (newValue) => {
-  searchQuery.value = newValue || ''
+// watch(() => route.query.search, async (newValue) => {
+//   searchQuery.value = newValue || ''
+//   await store.getBoardListSearch(searchQuery.value)
+// })
+
+// Computed 속성을 사용하여 검색어가 변경될 때마다 API를 호출
+const searchResults = computed(async () => {
+  try {
+    if (searchQuery.value) {
+      await store.getBoardListSearch(searchQuery.value)
+      return store.boardListSearch 
+    }
+  } catch (error) {
+    console.error('검색 결과를 가져오는 중 에러 발생:', error)
+  }
 })
+
+
 
 
 
