@@ -134,7 +134,8 @@ export const useBoardStore = defineStore('board', () => {
   }
 
 
+  const realLogin = ref(false)
   
 
-  return { board, user, sportsCenter, getBoard, boardList, getBoardList, updateBoard, createBoard, boardListTotal, getBoardListTotal, boardListSearch, getBoardListSearch,  }
+  return { board, user, sportsCenter, getBoard, boardList, getBoardList, updateBoard, createBoard, boardListTotal, getBoardListTotal, boardListSearch, getBoardListSearch, realLogin }
 })
