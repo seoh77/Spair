@@ -13,7 +13,8 @@
                 </tr>
             </thead>
             <tbody v-if="!filteredBoardList.length && !isSearch">
-                <tr v-for="board in store.boardList" :key="board.id">
+                <!-- <tr v-for="board in store.boardList" :key="board.id"> -->
+                <tr v-for="board in boardListInit" :key="board.id">
                     <td>{{ board.postId }}</td>
                     <td >
                         <RouterLink :to="`/board/${board.postId}`">{{ board.title }}</RouterLink>
@@ -49,34 +50,70 @@
 <script setup>
 import BoardSearchFilter from '@/components/board/BoardSearchFilter.vue';
 import { useBoardStore } from '@/stores/board';
-import { onMounted,ref } from 'vue';
+import { onMounted,ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import axios from 'axios'
 const store = useBoardStore();
+const route = useRoute()
 
 const filteredBoardList = ref([])
 const isSearch = ref(false)
+const boardListInit = ref([])
+
+
 
 // 첫 진입시 전체 리스트 반환
 onMounted(() => {
-    store.getBoardList()
+   
+    const currentPath = window.location.pathname;
+    // home화면일 때는 전체(전국) 게시판이 호출
+    if (currentPath === '/') {
+        store.getBoardListTotal().then(data => {
+            boardListInit.value = data;
+        })
+    // 통합검색 화면일 때는 keyword를 포함하는 게시물 리스트가 호출
+    } else if ( currentPath === '/board/search'){
+        // store.getBoardListSearch().then(data => {
+        //     boardListInit.value = data;
+        // })
+
+        // watch를 추가하여 검색어 변경을 감시하고, 변경될 때마다 API를 호출
+        watch(() => route.query.search, async (newSearchQuery) => {
+            await store.getBoardListSearch(newSearchQuery).then( data => {
+                boardListInit.value = data;
+            });
+        });
+        // 초기에도 검색어가 있을 수 있으므로 초기 검색어에 대해 API 호출
+        const initialSearchQuery = route.query.search;
+        if (initialSearchQuery) {
+            store.getBoardListSearch(initialSearchQuery).then(data => {
+                boardListInit.value = data;
+            });
+        }
+
+    // 나머지일 때는 우리동네 게시판이 호출
+    }else {
+        store.getBoardList().then(data => {
+            boardListInit.value = data;
+        })
+    }
 })
 
 
+
+
+// 검색필터를 걸었을 때 조건에 맞는 리스트 반환
 const filteredBoard = (filter) => {
     isSearch.value = true;
     const userInfoStr = localStorage.getItem('loginUserInfo')
-    // console.log(userInfoStr)
     const userIdInfo = JSON.parse(userInfoStr)
-    // console.log(userIdInfo)
     const userId = userIdInfo.userId
-    // console.log(userId)
    
     axios.get(`http://localhost:8080/api/search/town?userId=${userId}`, {
         params: filter
     }).then(response => {
         filteredBoardList.value = response.data
     })
-    
 }
 
 
