@@ -13,7 +13,8 @@
                 </tr>
             </thead>
             <tbody v-if="!filteredBoardList.length && !isSearch">
-                <tr v-for="board in store.boardList" :key="board.id">
+                <!-- <tr v-for="board in store.boardList" :key="board.id"> -->
+                <tr v-for="board in boardListInit" :key="board.id">
                     <td>{{ board.postId }}</td>
                     <td >
                         <RouterLink :to="`/board/${board.postId}`">{{ board.title }}</RouterLink>
@@ -55,28 +56,37 @@ const store = useBoardStore();
 
 const filteredBoardList = ref([])
 const isSearch = ref(false)
+const boardListInit = ref([])
 
 // 첫 진입시 전체 리스트 반환
 onMounted(() => {
-    store.getBoardList()
+   
+    const currentPath = window.location.pathname;
+    // home화면이거나 통합검색화면일 때는 전체 게시판이 호출
+    if (currentPath === '/' || currentPath === '/board/search') {
+        store.getBoardListTotal().then(data => {
+            boardListInit.value = data;
+        })
+    // 나머지일 때는 우리동네 게시판이 호출
+    } else {
+        store.getBoardList().then(data => {
+            boardListInit.value = data;
+        })
+    }
 })
 
-
+// 검색필터를 걸었을 때 조건에 맞는 리스트 반환
 const filteredBoard = (filter) => {
     isSearch.value = true;
     const userInfoStr = localStorage.getItem('loginUserInfo')
-    // console.log(userInfoStr)
     const userIdInfo = JSON.parse(userInfoStr)
-    // console.log(userIdInfo)
     const userId = userIdInfo.userId
-    // console.log(userId)
    
     axios.get(`http://localhost:8080/api/search/town?userId=${userId}`, {
         params: filter
     }).then(response => {
         filteredBoardList.value = response.data
     })
-    
 }
 
 

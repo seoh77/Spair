@@ -10,32 +10,40 @@ export const useBoardStore = defineStore('board', () => {
   
 
   // 전체(전국) 게시물 리스트 조회 관련 axios
+  // 기존 메소드에서 async await를 사용해 비동기 처리 
   const boardListTotal = ref([])
-  const getBoardListTotal = function(){
-    axios.get(REST_BOARD_API)
-    .then((response) => {
-      console.log(response.data)
-      boardListTotal.value = response.data
-    })
+ 
+  const getBoardListTotal = async function() {
+    try {
+        const response = await axios.get('http://localhost:8080/api/board')
+        boardListTotal.value = response.data
+        return boardListTotal.value
+    } catch (error) {
+        console.error('전체(전국) 게시물 리스트 조회 중 에러 발생:', error)
+        throw error; // 에러를 다시 던져서 호출한 곳에서 처리할 수 있도록 함
+    }
   }
 
 
-  // 우리동네 게시물 리스트 조회 관련 axios
-  const boardList = ref([])
-  const getBoardList = function(){
-    // axios.get(REST_BOARD_API)
-    const userInfoStr = localStorage.getItem('loginUserInfo')
-    // console.log(userInfoStr)
-    if(userInfoStr){
 
-      const userIdInfo = JSON.parse(userInfoStr)
-      // console.log(userIdInfo)
-      const userId = userIdInfo.userId
-      // console.log(userId)
-      axios.get(`http://localhost:8080/api/board/town?userId=${userId}`)
-      .then((response) => {
-        boardList.value = response.data
-      })
+  // 우리동네 게시물 리스트 조회 관련 axios
+  // 기존 메소드에서 async await를 사용해 비동기 처리 
+  const boardList = ref([])
+  
+  const getBoardList = async function() {
+    const userInfoStr = localStorage.getItem('loginUserInfo')
+    if (userInfoStr) {
+        const userIdInfo = JSON.parse(userInfoStr)
+        const userId = userIdInfo.userId
+        
+        try {
+            const response = await axios.get(`http://localhost:8080/api/board/town?userId=${userId}`)
+            boardList.value = response.data;
+            return boardList.value;
+        } catch (error) {
+            console.error('우리동네 게시물 리스트 조회 중 에러 발생:', error)
+            throw error; // 에러를 다시 던져서 호출한 곳에서 처리할 수 있도록 함
+        }
     }
   }
 
