@@ -20,8 +20,12 @@
                 </div>
 
                 <div id="user">
-                    <RouterLink :to="{ name: 'join' }">회원가입</RouterLink> 
-                    <RouterLink :to="{ name: 'login' }">로그인</RouterLink> 
+                    <!-- <RouterLink :to="{ name: 'join' }">회원가입</RouterLink> 
+                    <RouterLink :to="{ name: 'login' }">로그인</RouterLink>  -->
+                    <RouterLink :to="{ name: 'join' }" v-if="!isLogin">회원가입</RouterLink> 
+                    <RouterLink :to="{ name: 'login' }" v-if="!isLogin">로그인</RouterLink> 
+                    <div v-if="isLogin">{{ nickname }}님</div>
+                    <button v-if="isLogin" @click="logout">로그아웃</button>
                 </div>
             </nav>
         </header>
@@ -29,7 +33,7 @@
 </template>
 
 <script setup>
-    import { ref, computed } from 'vue'
+    import { ref, computed, onMounted } from 'vue'
     import { useBoardStore } from '@/stores/board'
     import { useRouter } from 'vue-router';
     
@@ -37,15 +41,36 @@
     const router = useRouter()
     const searchQuery = ref('')
     
+    const isLogin = ref(false)
+    const nickname = ref('')
 
-    // 임시 메소드 . 동작 x API연결 후 수정 예정
-    const filteredPosts = computed(() => {
-        const searchValue = searchQuery.value.trim().toLowerCase()
-        return store.boardList.filter(board => {
-            // 제목 또는 내용에 검색어가 포함되어 있는 경우 필터링
-            return board.title.toLowerCase().includes(searchValue) || board.content.toLowerCase().includes(searchValue)
-        })
+    const userLogin = function(){
+       const userInfoStr = localStorage.getItem('loginUserInfo')
+       if (userInfoStr) {
+            isLogin.value = true
+            const userIdInfo = JSON.parse(userInfoStr)
+            nickname.value = userIdInfo.nickname
+
+        }
+    }
+    const logout = function() {
+        localStorage.removeItem('loginUserInfo')
+        isLogin.value = false
+        nickname.value = ''
+        router.push({ name: 'home' }) // 로그아웃 후 홈으로 이동
+    }
+
+    onMounted(() => {
+        userLogin()
     })
+    // 임시 메소드 . 동작 x API연결 후 수정 예정
+    // const filteredPosts = computed(() => {
+    //     const searchValue = searchQuery.value.trim().toLowerCase()
+    //     return store.boardList.filter(board => {
+    //         // 제목 또는 내용에 검색어가 포함되어 있는 경우 필터링
+    //         return board.title.toLowerCase().includes(searchValue) || board.content.toLowerCase().includes(searchValue)
+    //     })
+    // })
     
     
     const search = function(){
