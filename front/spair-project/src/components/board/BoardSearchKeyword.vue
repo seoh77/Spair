@@ -4,7 +4,7 @@
         '{{ searchQuery }}' 
     </div>
     
-    결과입니다.
+    검색 결과입니다.
     </div>
     <BoardList/>
 </template>
@@ -20,6 +20,10 @@ const searchQuery = ref(route.query.search)
 watch(() => route.query.search, (newValue) => {
   searchQuery.value = newValue || ''
 })
+
+
+
+
 </script>
 
 <style scoped>

@@ -62,17 +62,34 @@ const boardListInit = ref([])
 onMounted(() => {
    
     const currentPath = window.location.pathname;
-    // home화면이거나 통합검색화면일 때는 전체 게시판이 호출
-    if (currentPath === '/' || currentPath === '/board/search') {
+    // home화면일 때는 전체(전국) 게시판이 호출
+    if (currentPath === '/') {
         store.getBoardListTotal().then(data => {
             boardListInit.value = data;
         })
+    // 통합검색 화면일 때는 keyword를 포함하는 게시물 리스트가 호출
+    } else if ( currentPath === '/board/search'){
+        store.getBoardListSearch().then(data => {
+            boardListInit.value = data;
+        })
     // 나머지일 때는 우리동네 게시판이 호출
-    } else {
+    }else {
         store.getBoardList().then(data => {
             boardListInit.value = data;
         })
     }
+    // const currentPath = window.location.pathname;
+    // // home화면이거나 통합검색화면일 때는 전체 게시판이 호출
+    // if (currentPath === '/' || currentPath === '/board/search') {
+    //     store.getBoardListTotal().then(data => {
+    //         boardListInit.value = data;
+    //     })
+    // // 나머지일 때는 우리동네 게시판이 호출
+    // } else {
+    //     store.getBoardList().then(data => {
+    //         boardListInit.value = data;
+    //     })
+    // }
 })
 
 // 검색필터를 걸었을 때 조건에 맞는 리스트 반환
