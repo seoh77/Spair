@@ -107,5 +107,16 @@ public class UserController {
 
 		return new ResponseEntity<>("아이디가 존재하지 않습니다.", HttpStatus.OK) ;
 	}
+	
+	// userId로 해당 user 정보 조회
+	@GetMapping("user/search/{userId}")
+	@Operation(summary = "user 조회")
+	public ResponseEntity<?> searchUser(@PathVariable("userId") int userId) {
+		
+		User user = userService.search(userId) ;
+		User userData = new User (user.getUserId(), user.getLoginId(), user.getNickname(), user.getName(), user.getGender(), user.getAddress(), user.getLatitude(), user.getLongitude()) ;
+				
+		return new ResponseEntity<>(userData, HttpStatus.OK) ;
+	}
 
 }
