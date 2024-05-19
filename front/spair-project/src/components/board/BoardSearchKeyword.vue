@@ -19,10 +19,10 @@ const store = useBoardStore()
 const route = useRoute()
 const searchQuery = ref(route.query.search)
 
-// watch(() => route.query.search, async (newValue) => {
-//   searchQuery.value = newValue || ''
-//   await store.getBoardListSearch(searchQuery.value)
-// })
+watch(() => route.query.search, async (newValue) => {
+  searchQuery.value = newValue || ''
+  await store.getBoardListSearch(searchQuery.value)
+})
 
 // Computed 속성을 사용하여 검색어가 변경될 때마다 API를 호출
 const searchResults = computed(async () => {
