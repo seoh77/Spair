@@ -28,6 +28,8 @@
 	<resultMap type="SportsCenter" id="sportsCenterMap">
 		<result column="center_id" property="centerId" />
 		<result column="road_address" property="roadAddress"/>
+		<result column="latitude" property="latitude" />
+		<result column="longitude" property="longitude" />
 	</resultMap>
 
 	<!-- 게시글 등록 -->
@@ -55,7 +57,7 @@
 	
 	<!-- 전체 게시글 가져오기 (최신순 정렬) -->
 	<select id="searchAll" resultMap="postMap">
-		SELECT post.*, user.nickname, sports_center.road_address
+		SELECT post.*, user.nickname, sports_center.road_address, sports_center.latitude, sports_center.longitude
 		FROM post
 		INNER JOIN user
 		ON post.user_id = user.user_id
