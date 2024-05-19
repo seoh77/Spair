@@ -90,4 +90,11 @@ public class SearchController {
 	    }
 	}
 	
+	// 해당 스포츠센터에 등록된 게시글 검색
+	@GetMapping("center/{centerId}")
+	@Operation(summary = "해당 스포츠 센터에 등록된 게시글 검색")
+	public ResponseEntity<?> searchCenterPost(@PathVariable("centerId") int centerId) {
+		return new ResponseEntity<>(searchService.searchCenterPost(centerId), HttpStatus.OK) ;
+	}
+	
 }
