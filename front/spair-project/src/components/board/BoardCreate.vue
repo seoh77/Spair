@@ -51,7 +51,7 @@
                 </div>
                 <div id="price-wrap">
                     <label for="price">가격</label>
-                    <input type="price" id="price" placeholder="1인당 가격을 입력하세요." v-model="board.price">
+                    <input type="price" id="price" placeholder="1인당 가격을 입력하세요" v-model="board.price">
                     <span>원</span>
                 </div>
 
@@ -150,7 +150,8 @@
     }
 
     #price-wrap input{
-        width: 50%;
+        width: 20%;
+        margin-right: 5px
     }
     
     label {
@@ -190,7 +191,7 @@
 
     #address label {
         width: 30%;
-        color: red;
+        /* color: red; */
     }
 
     #regi-btn {
