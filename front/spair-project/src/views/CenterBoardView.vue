@@ -7,6 +7,14 @@
 
 <script setup>
     import BoardList from '@/components/board/BoardList.vue'
+    // import { ref, onMounted } from 'vue'
+    // import { useRoute, useRouter } from 'vue-router';
+
+    // const route = useRoute()
+
+    // onMounted(()=> {
+    //     console.log(route.params.centerId)
+    // })
 </script>
 
 <style scoped>
