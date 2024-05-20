@@ -242,6 +242,10 @@
         flex-direction: column;
     }
 
+    #area label {
+        margin: 5px 0 ;
+    }
+
     input {
         width: 88%;
         outline: none;
