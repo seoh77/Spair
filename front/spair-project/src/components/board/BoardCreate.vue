@@ -3,28 +3,28 @@
         <h4>게시글 등록</h4>
         <div id="form-container">
             <div id="register">
-                <!-- API 연결 후 v-model 추가 예정-->
                 <div>
                     <label for="title">제목  </label>
-                    <input type="text" id="title" v-model="board.title">
+                    <input type="text" id="title" v-model="board.post.title">
                 </div>
-                <!-- 로그인한 사용자로 수정 예정-->
+
                 <div>
                     <label for="nickname">작성자 </label>
-                    <input type="text" id="nickname" >
+                    <input type="text" id="nickname" :value="userNickname" readonly>
                 </div>
                 
                 <!-- 모집 정보 -->
                 <div>
                     <label for="status">모집상태  </label>
-                    <select name="status" id="status" v-model="board.status">
-                        <option value="1">모집중</option>
+                    <select name="status" id="status" v-model="board.post.status">
+                        <option value="1" >모집중</option>
                         <option value="0">모집완료</option>
                     </select>
                 </div>
                 <div>
                     <label for="gender">모집성별  </label>
-                    <select name="gender" id="gender" v-model="board.gender">
+                    <select name="gender" id="gender" v-model="board.post.gender">
+                        <option value="" disabled>모집성별</option>
                         <option value="1">남성</option>
                         <option value="2">여성</option>
                         <option value="3">상관없음</option>
@@ -32,7 +32,8 @@
                 </div>
                 <div>
                     <label for="recruitment_num">모집인원  </label>
-                    <select name="recruitment_num" id="recruitment_num" v-model="board.recruitmentNum">
+                    <select name="recruitment_num" id="recruitment_num" v-model="board.post.recruitmentNum">
+                        <option value="" disabled>모집인원</option>
                         <option value="1명">1명</option>
                         <option value="2명">2명</option>
                         <option value="3명 이상">3명 이상</option>
@@ -41,31 +42,34 @@
                 </div>
                 <div>
                     <label for="exercise_type">운동종류  </label>
-                    <select name="exercise_type" id="exercise_type" v-model="board.exerciseType">
+                    <select name="exercise_type" id="exercise_type" v-model="board.post.exerciseType">
+                        <option value="" disabled>운동종류</option>
                         <option value="PT">PT</option>
                         <option value="필라테스">필라테스</option>
                         <option value="기타">기타</option>
                     </select>
                 </div>
                 <div id="price-wrap">
-                    <label for="price">가격  </label>
-                    <input type="price" id="price" placeholder="1인당 가격을 입력하세요." v-model="board.price">
+                    <label for="price">가격</label>
+                    <input type="price" id="price" placeholder="1인당 가격을 입력하세요" v-model="board.post.price">
                     <span>원</span>
                 </div>
 
                 <div id="address">
                     <!--도로명 주소 API 사용 예정 -->
                     <label for="road_address">스포츠시설 주소</label>
-                    <input type="road_address" id="road_address">
-        
+                    <div class="search_wrap">
+                        <input type="road_address" id="road_address" placeholder="주소" :value="address" readonly>
+                        <div class="address_search_btn" @click="searchAddress">주소찾기</div>
+                    </div>
+                    <input type="text" name="detail_address" id="detail_address" placeholder="상세주소" v-model="detailAddress" @change="insertDetailAddress">
                 </div>
                 
                 <div id="area">
-                    <label for="content">내용  </label>
-                    <textarea id="content" rows="10" v-model="board.content"></textarea>
+                    <label for="content">내용</label>
+                    <textarea id="content" rows="10" v-model="board.post.content"></textarea>
                 </div>
                 <div id="regi-btn">
-                    <!-- API 연결 후 click이벤트 수정 예정-->
                     <button @click="boardCreate">등록</button>
                 </div>
                 </div>
@@ -74,25 +78,94 @@
     </template>
 
 <script setup>
-import { useBoardStore } from '@/stores/board'
-import { ref } from 'vue'
-const store = useBoardStore()
-    // import router from '@/router'
-    // // const golist = function(){
-    // //     router.push({name: 'boardList'})
-    // // }
+    import { useBoardStore } from '@/stores/board'
+    import { onMounted, ref } from 'vue'
+    import axios from 'axios';
+
+    const store = useBoardStore()
+    const userNickname = ref()
+    const detailAddress = ref()
+    const address = ref()
+
     const board = ref({
-        title: '',
-        nickname: '',
-        status:'',
-        gender:'',
-        recruitmentNum: '',
-        exerciseType: '',
-        price: '',
-        content:'',
+        "post": {
+          "userId": "",
+          "title": "",
+          "content": "",
+          "status": 1,
+          "exerciseType": "",
+          "price": "",
+          "gender": "",
+          "recruitmentNum": "",
+        },
+        "sportsCenter": {
+          "roadAddress": "",
+          "localAddress": "",
+          "latitude": "",
+          "longitude": ""
+        }
     })
-    const boardCreate = function(){
-        store.createBoard(board.value)
+
+    onMounted(() => {
+        const localStorageData = JSON.parse(localStorage.getItem("loginUserInfo")) 
+        userNickname.value = localStorageData.nickname
+        board.value.post.userId = localStorageData.userId
+    })
+
+    const searchAddress = () => {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                address.value = data.address
+                board.value.sportsCenter.roadAddress = data.address
+                board.value.sportsCenter.localAddress = data.jibunAddress
+            }
+        }).open()
+    }
+
+    const insertDetailAddress = () => {
+        if(!board.value.sportsCenter.localAddress) {
+            alert("주소찾기를 먼저 진행해주세요.")
+            detailAddress.value = ""
+        } else {
+            board.value.sportsCenter.localAddress = board.value.sportsCenter.localAddress + " " + detailAddress.value
+            board.value.sportsCenter.roadAddress = board.value.sportsCenter.roadAddress + " " + detailAddress.value
+        }
+    }
+
+    // 사용자가 입력한 주소로부터 위도, 경도 값을 계산
+    const getCoordinate = async() => {
+        await axios({
+            url : 'https://dapi.kakao.com/v2/local/search/address.json?query=' + encodeURI(address.value),
+            method : 'GET',
+            headers : {
+                Authorization : `KakaoAK ${import.meta.env.VITE_KAKAO_REST_API_KEY}`
+            }
+        }).then((response) => {
+            const result = response.data.documents[0]
+            board.value.sportsCenter.latitude = result.y
+            board.value.sportsCenter.longitude = result.x
+        }).catch(() => {
+            alert("정확한 주소를 입력하였는지 확인해주세요.")
+        })
+    }
+
+    const boardCreate = async function(){
+        if(!board.value.post.title || !board.value.post.content || !board.value.post.exerciseType 
+            || !board.value.post.price || !board.value.post.gender || !board.value.post.recruitmentNum
+            || !board.value.sportsCenter.roadAddress || !board.value.sportsCenter.localAddress) {
+            alert("입력되지 않은 칸이 있습니다.")
+            return
+        } 
+        
+        else if(!Number(board.value.post.price)) {
+            alert("가격은 숫자만 입력해주세요.")
+            return
+        }
+
+        else {
+            await getCoordinate()
+            store.createBoard(board.value)
+        }
     }
 </script>
 
@@ -135,7 +208,7 @@ const store = useBoardStore()
         margin: 3rem;
     }
 
-    #register div {
+    #register > div {
         margin-bottom: 0.3rem;
         width: 100%; 
         display: flex;
@@ -144,7 +217,8 @@ const store = useBoardStore()
     }
 
     #price-wrap input{
-        width: 50%;
+        width: 20%;
+        margin-right: 5px
     }
     
     label {
@@ -173,6 +247,10 @@ const store = useBoardStore()
         border-bottom: 0.1rem solid #000000;
     }
 
+    input[id="nickname"] {
+        border: none;
+    }
+
     #address {
         display: flex;
         flex-direction: column;
@@ -180,12 +258,39 @@ const store = useBoardStore()
 
     #address label {
         width: 30%;
-        color: red;
     }
 
     #regi-btn {
         display: flex;
         flex-direction: row-reverse;
+    }
+
+    .search_wrap {
+        display: flex ;
+        margin-top: 5px
+    }
+
+    .search_wrap input {
+        margin-right: 10px ;
+        height: 30px;
+    }
+
+    .address_search_btn {
+        width: 10%;
+        height: 30px;
+        display: flex ;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        font-weight: 600 ;
+        font-size: 0.9rem ;
+        background-color: var(--primary-color);
+        font-family: 'NanumSquareRound';
+    }
+
+    #detail_address {
+        margin-top: 10px ;
+        padding-bottom: 10px;
     }
 
     button {

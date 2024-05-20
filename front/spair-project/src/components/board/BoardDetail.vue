@@ -37,15 +37,13 @@
                         <div class="tem">{{ store.board.modifiedDate }}</div>
                     </div> 
                     <div>{{ store.board.content }}</div>
-                    <div id="btn">
-                        <!--delete는 API연결 후 구현 예정-->
+                    <div id="btn" v-if="isWriter">
                         <button @click="deleteBoard">삭제</button>
                         <button @click="updateBoard">수정</button>
                     </div>
                 </div>
             </div>
             
-            <!-- 댓글 -->
             <h4>댓글</h4>
             <CommentList/>
         </div>
@@ -63,21 +61,15 @@ const store = useBoardStore()
 const route = useRoute()
 const router = useRouter()
 
-// const board = ref({})
-// const user = ref({})
-// const sportsCenter = ref({})
+const isWriter = ref(false)
 
-// 게시글 상세 조회 
-// onMounted(() => {
-//      axios.get(`http://localhost:8080/api/board/${route.params.postId}`)
-//     .then((response) => {
-//         board.value = response.data
-//         user.value = board.value.user
-//         sportsCenter.value = board.value.sportsCenter
-//     })
-// })
-onMounted(()=> {
-    store.getBoard(route.params.postId);
+onMounted(async()=> {
+    const localStorageData = JSON.parse(localStorage.getItem("loginUserInfo"))
+    const data = await store.getBoard(route.params.postId)
+
+    if(data.userId === localStorageData.userId) {
+        isWriter.value = true
+    }
 })
 
 // 게시글 삭제 
@@ -92,8 +84,6 @@ const deleteBoard = function(){
 const updateBoard = function(){
    router.push({name: 'boardUpdate'})
 }
-
-
 
 </script>
 
@@ -188,6 +178,7 @@ h4 {
     align-items: center;
     border: 0.1rem solid var(--gray-color);
     box-shadow: 0.1rem 0.5rem 0.5rem var(--gray-color);
+    padding-bottom: 30px ;
 }
 
 #con div {
