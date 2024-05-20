@@ -4,6 +4,7 @@ import BoardView from '@/views/BoardView.vue'
 import JoinView from '@/views/JoinView.vue'
 import LoginView from '@/views/LoginView.vue'
 import MapView from '@/views/MapView.vue'
+import CenterBoard from '@/views/CenterBoardView.vue'
 
 // board
 import BoardList from '@/components/board/BoardList.vue'
@@ -84,7 +85,11 @@ const router = createRouter({
       name: 'map',
       component: MapView
     },
-    
+    {
+      path:'/center/:centerId',
+      name: 'centerboard',
+      component: CenterBoard
+    }
   ]
 })
 

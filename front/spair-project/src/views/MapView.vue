@@ -9,6 +9,7 @@
     import axios from 'axios';
     import { ref, onMounted } from 'vue'
     import { KakaoMap, KakaoMapMarker } from 'vue3-kakao-maps'
+    import router from '@/router';
 
     const map = ref()
     const markerList = ref([])
@@ -54,7 +55,7 @@
                 const distance = getDistanceFromLatLonInMeters(lat, lng, markerList.value[i].lat, markerList.value[i].lng) 
 
                 if(distance <= 10) {
-                    console.log(markerList.value[i].key)        // centerId 출력 -> 추후 해당 값을 param으로 하여 url mapping
+                    router.push({ path : `/center/${markerList.value[i].key}` })
                 }
             }
         })
