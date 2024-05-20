@@ -230,9 +230,11 @@
     textarea {
         width: 100%;
         resize: none;
-        overflow-y: scroll; 
+        overflow-y: auto; 
         overflow-x: hidden;
         font-size: 1.2rem;
+        padding: 5px ;
+        font-family: 'NanumSquareRound';
     }
 
     #area {
@@ -301,10 +303,5 @@
         width: 7rem;
         height: 2.5rem;
         font-weight: bold;
-    }
-
-    textarea {
-        padding: 5px ;
-        font-family: 'NanumSquareRound';
     }
 </style>
