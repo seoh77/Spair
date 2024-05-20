@@ -5,7 +5,7 @@
             <div id="register">
                 <div>
                     <label for="title">제목  </label>
-                    <input type="text" id="title" v-model="board.title">
+                    <input type="text" id="title" v-model="board.post.title">
                 </div>
 
                 <div>
@@ -16,14 +16,14 @@
                 <!-- 모집 정보 -->
                 <div>
                     <label for="status">모집상태  </label>
-                    <select name="status" id="status" v-model="board.status">
+                    <select name="status" id="status" v-model="board.post.status">
                         <option value="1" >모집중</option>
                         <option value="0">모집완료</option>
                     </select>
                 </div>
                 <div>
                     <label for="gender">모집성별  </label>
-                    <select name="gender" id="gender" v-model="board.gender">
+                    <select name="gender" id="gender" v-model="board.post.gender">
                         <option value="" disabled>모집성별</option>
                         <option value="1">남성</option>
                         <option value="2">여성</option>
@@ -32,7 +32,7 @@
                 </div>
                 <div>
                     <label for="recruitment_num">모집인원  </label>
-                    <select name="recruitment_num" id="recruitment_num" v-model="board.recruitmentNum">
+                    <select name="recruitment_num" id="recruitment_num" v-model="board.post.recruitmentNum">
                         <option value="" disabled>모집인원</option>
                         <option value="1명">1명</option>
                         <option value="2명">2명</option>
@@ -42,7 +42,7 @@
                 </div>
                 <div>
                     <label for="exercise_type">운동종류  </label>
-                    <select name="exercise_type" id="exercise_type" v-model="board.exerciseType">
+                    <select name="exercise_type" id="exercise_type" v-model="board.post.exerciseType">
                         <option value="" disabled>운동종류</option>
                         <option value="PT">PT</option>
                         <option value="필라테스">필라테스</option>
@@ -51,7 +51,7 @@
                 </div>
                 <div id="price-wrap">
                     <label for="price">가격</label>
-                    <input type="price" id="price" placeholder="1인당 가격을 입력하세요" v-model="board.price">
+                    <input type="price" id="price" placeholder="1인당 가격을 입력하세요" v-model="board.post.price">
                     <span>원</span>
                 </div>
 
@@ -59,15 +59,15 @@
                     <!--도로명 주소 API 사용 예정 -->
                     <label for="road_address">스포츠시설 주소</label>
                     <div class="search_wrap">
-                        <input type="road_address" id="road_address" placeholder="주소">
-                        <div class="address_search_btn">주소찾기</div>
+                        <input type="road_address" id="road_address" placeholder="주소" :value="board.sportsCenter.roadAddress" readonly>
+                        <div class="address_search_btn" @click="searchAddress">주소찾기</div>
                     </div>
-                    <input type="text" name="detail_address" id="detail_address" placeholder="상세주소">
+                    <input type="text" name="detail_address" id="detail_address" placeholder="상세주소" v-model="detailAddress" @change="insertDetailAddress">
                 </div>
                 
                 <div id="area">
                     <label for="content">내용</label>
-                    <textarea id="content" rows="10" v-model="board.content"></textarea>
+                    <textarea id="content" rows="10" v-model="board.post.content"></textarea>
                 </div>
                 <div id="regi-btn">
                     <button @click="boardCreate">등록</button>
@@ -83,25 +83,55 @@
 
     const store = useBoardStore()
     const userNickname = ref()
+    const detailAddress = ref()
+
+    const board = ref({
+        "post": {
+          "userId": "",
+          "title": "",
+          "content": "",
+          "status": 1,
+          "exerciseType": "",
+          "price": "",
+          "gender": "",
+          "recruitmentNum": "",
+        },
+        "sportsCenter": {
+          "roadAddress": "",
+          "localAddress": "",
+          "latitude": 37.502384,
+          "longitude": 126.770496
+        }
+    })
 
     onMounted(() => {
         const localStorageData = JSON.parse(localStorage.getItem("loginUserInfo")) 
         userNickname.value = localStorageData.nickname
+        board.value.post.userId = localStorageData.userId
     })
 
-    const board = ref({
-        title: '',
-        nickname: userNickname,
-        status: 1,
-        gender: '',
-        recruitmentNum: '',
-        exerciseType: '',
-        price: '',
-        content: '',
-    })
+    const searchAddress = () => {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                board.value.sportsCenter.roadAddress = data.address
+                board.value.sportsCenter.localAddress = data.jibunAddress
+            }
+        }).open()
+    }
+
+    const insertDetailAddress = () => {
+        if(!board.value.sportsCenter.localAddress) {
+            alert("주소찾기를 먼저 진행해주세요.")
+            detailAddress.value = ""
+        } else {
+            board.value.sportsCenter.localAddress = board.value.sportsCenter.localAddress + " " + detailAddress.value
+            board.value.sportsCenter.roadAddress = board.value.sportsCenter.roadAddress + " " + detailAddress.value
+        }
+    }
 
     const boardCreate = function(){
-        store.createBoard(board.value)
+        console.log(board.value)
+        // store.createBoard(board.value)
     }
 </script>
 
