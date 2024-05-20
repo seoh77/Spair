@@ -13,7 +13,7 @@
 <script setup>
 import { useBoardStore } from '@/stores/board'
 import { useRoute, useRouter } from 'vue-router';
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import axios from 'axios'
 const store = useBoardStore()
 const route = useRoute()
@@ -22,15 +22,12 @@ const emit = defineEmits(['newComment'])
 
 const comment = ref({
     postId: route.params.postId,
-    // 추후 로그인한 유저의 userId로 변경 예정
-    userId: 1,
+    userId: '',
     content: '',
     status: '',
 })
 
 const commentCreate= function(){
-    // console.log(comment)
-    // console.log(comment.value)
     axios.post('http://localhost:8080/api/comment', comment.value)
     .then(() => {
         emit('newComment')
@@ -40,6 +37,12 @@ const commentCreate= function(){
         console.error(error)
     })
 }
+
+onMounted(() => {
+    const localStorageData = JSON.parse(localStorage.getItem("loginUserInfo"))
+    comment.value.userId = localStorageData.userId
+})
+
 </script>
 
 <style scoped>

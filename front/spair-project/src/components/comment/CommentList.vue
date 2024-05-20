@@ -5,15 +5,15 @@
                 <div>
                     <!-- 넘어온 comment 데이터에서 user의 nickname이 없음. 
                     db에 접근/API 필요-->
-                    <div id="writer">{{ comment.userId }}</div>
-                    <div v-if="!comment.modifiedDate" class="date">{{ comment.createdDate }}</div>
-                    <div v-else class="date">{{ comment.modifiedDate }}</div>
+                    <div id="writer">{{ comment.user.nickname }}</div>
+                    <div v-if="!comment.modifiedDate" class="date">{{ comment.createdDate.replace("T", " ") }}</div>
+                    <div v-else class="date">{{ comment.modifiedDate.replace("T", " ") }}</div>
                 </div>
                 <div>
                     <!-- <div v-if="!comment.isEditing" id="content">{{ comment.content }}</div> -->
                     <div v-if="!isEditing[comment.commentId]" id="content">{{ comment.content }}</div>
                     <textarea v-else v-model="comment.content" />
-                    <div id="btn">
+                    <div id="btn" v-if="loginUserId === comment.userId">
                         <button id="update"  v-if="!isEditing[comment.commentId]" @click="toggleEdit(comment.commentId)"></button>
                         <button id="update-done" v-if="isEditing[comment.commentId]" @click="updateComment(comment)">완료</button>
                         <button id="delete" @click="deleteComment(comment)"></button>
@@ -33,6 +33,7 @@ import axios from 'axios'
 import { useRoute } from 'vue-router'
 import { ref, onMounted } from 'vue'
 const route = useRoute()
+const loginUserId = ref()
 
 
 // 게시글에 해당하는 댓글 목록 조회 기능
@@ -49,8 +50,12 @@ const comments = () => {
         console.error(error)
     })
 }
+
 onMounted(()=> {
     comments()
+    
+    const localStorageData = JSON.parse(localStorage.getItem("loginUserInfo"))
+    loginUserId.value = localStorageData.userId
 })
 
 
@@ -115,6 +120,7 @@ const updateComment = function(comment) {
     
     #each-comment > div {
         display: flex;
+        margin-bottom: 5px;
     }
 
     #writer {
@@ -126,11 +132,14 @@ const updateComment = function(comment) {
     .date {
         color: var(--gray-color);
         font-size: 1rem;
+        width: 20%;
     }
 
     #content {
         width: 90%;
         font-size: 1.1rem;
+        display: flex ;
+        align-items: center ;
     }
 
     #btn {
