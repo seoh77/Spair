@@ -20,8 +20,12 @@
                 </div>
 
                 <div id="user">
-                    <RouterLink :to="{ name: 'join' }">회원가입</RouterLink> 
-                    <RouterLink :to="{ name: 'login' }">로그인</RouterLink> 
+                    <!-- <RouterLink :to="{ name: 'join' }">회원가입</RouterLink> 
+                    <RouterLink :to="{ name: 'login' }">로그인</RouterLink>  -->
+                    <RouterLink :to="{ name: 'join' }" v-if="!isLogin">회원가입</RouterLink> 
+                    <RouterLink :to="{ name: 'login' }" v-if="!isLogin">로그인</RouterLink> 
+                    <div v-if="isLogin">{{ nickname }}님</div>
+                    <button v-if="isLogin" @click="logout">로그아웃</button>
                 </div>
             </nav>
         </header>
@@ -29,40 +33,60 @@
 </template>
 
 <script setup>
-    import { ref, computed } from 'vue'
+    import { ref, onMounted, watch  } from 'vue'
     import { useBoardStore } from '@/stores/board'
     import { useRouter } from 'vue-router';
-    
     const store = useBoardStore()
     const router = useRouter()
-    const searchQuery = ref('')
     
+    
+    const isLogin = ref(false)
+    const nickname = ref('')
+    
+    
+    // 로그인
+    const userLogin = () =>{
+        const userInfoStr = localStorage.getItem('loginUserInfo')
+        if (userInfoStr) {
+            isLogin.value = true
+            const userIdInfo = JSON.parse(userInfoStr)
+            nickname.value = userIdInfo.nickname
+            router.push({ name: 'home'})
+        }else {
+            isLogin.value = false
+            nickname.value = ''
+            store.realLogin - false
+        }
+    }
 
-    // 임시 메소드 . 동작 x API연결 후 수정 예정
-    const filteredPosts = computed(() => {
-        const searchValue = searchQuery.value.trim().toLowerCase()
-        return store.boardList.filter(board => {
-            // 제목 또는 내용에 검색어가 포함되어 있는 경우 필터링
-            return board.title.toLowerCase().includes(searchValue) || board.content.toLowerCase().includes(searchValue)
-        })
+    // 로그아웃 
+    const logout = () => {
+        localStorage.removeItem('loginUserInfo')
+        isLogin.value = false
+        nickname.value = ''
+        store.realLogin = false
+        router.push({ name: 'home' }) // 로그아웃 후 홈으로 이동
+    }
+    
+    // onMounte 시 userLogin 호출
+    onMounted(() => {
+        userLogin()
     })
     
-    
+    // watch로 store의 reaLogin상태 변경 감시. realLogin 상태가 변경되면 userLogin호출
+    // 직접적으로 localStorage를 감시할 수 없음
+    watch(() => store.realLogin, () => {
+        userLogin();
+        console.log("로그인 상태 변경")
+    })
+        
+            
+    //search버튼 클릭 또는 enter시 boardSearchKeyword로 이동    
+    const searchQuery = ref('')
     const search = function(){
         router.push({name: 'boardSearchKeyword', query: { search: searchQuery.value }})
     }
-    // const search = () => {
-    //     // if (searchQuery.value.trim()) {
-    //     //     router.push({ name: 'boardList', query: { search: searchQuery.value.trim() } })
-    //     // } else {
-    //     //     router.push({ name: '', query: {} })
-    //     // }
-    //     router.push({ name: 'boardSearchKeyword' })
-    // }
-
-    // const event = function(){
-    //     router.push({name: 'boardList'})
-    // } 
+            
 </script>
 
 <style scoped>

@@ -22,6 +22,8 @@
     import router from '@/router';
     import axios from 'axios';
     import { ref } from 'vue';
+    import { useBoardStore } from '@/stores/board';
+    const store = useBoardStore()
 
     const inputId = ref()
     const inputPW = ref()
@@ -56,6 +58,7 @@
         }
 
         localStorage.setItem("loginUserInfo", JSON.stringify(userInfo))
+        store.realLogin = true
         router.push({ name : "home" })
     }
 
