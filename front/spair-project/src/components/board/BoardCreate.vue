@@ -302,4 +302,9 @@
         height: 2.5rem;
         font-weight: bold;
     }
+
+    textarea {
+        padding: 5px ;
+        font-family: 'NanumSquareRound';
+    }
 </style>
