@@ -23,11 +23,17 @@
 
 <script setup>
 // 테스트를 위한 임시변수
+import { useBoardStore } from '@/stores/board';
+import { useRouter } from 'vue-router';
+const router = useRouter()
+const store = useBoardStore()
 const gym = function(){
     console.log("헬스장 바로가기")
+    router.push({ name: 'boardList'})
 }
 const pilates = function(){
     console.log("필라테스 바로가기")
+    router.push({ name: 'boardList'})
 }
 </script>
 
