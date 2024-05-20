@@ -6,8 +6,8 @@
                     <!-- 넘어온 comment 데이터에서 user의 nickname이 없음. 
                     db에 접근/API 필요-->
                     <div id="writer">{{ comment.user.nickname }}</div>
-                    <div v-if="!comment.modifiedDate" class="date">{{ comment.createdDate }}</div>
-                    <div v-else class="date">{{ comment.modifiedDate }}</div>
+                    <div v-if="!comment.modifiedDate" class="date">{{ comment.createdDate.replace("T", " ") }}</div>
+                    <div v-else class="date">{{ comment.modifiedDate.replace("T", " ") }}</div>
                 </div>
                 <div>
                     <!-- <div v-if="!comment.isEditing" id="content">{{ comment.content }}</div> -->
@@ -120,6 +120,7 @@ const updateComment = function(comment) {
     
     #each-comment > div {
         display: flex;
+        margin-bottom: 5px;
     }
 
     #writer {
@@ -131,11 +132,14 @@ const updateComment = function(comment) {
     .date {
         color: var(--gray-color);
         font-size: 1rem;
+        width: 20%;
     }
 
     #content {
         width: 90%;
         font-size: 1.1rem;
+        display: flex ;
+        align-items: center ;
     }
 
     #btn {
