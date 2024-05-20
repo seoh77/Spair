@@ -73,12 +73,12 @@ const router = createRouter({
     {
       path: '/join',
       name: 'join',
-      component: JoinView
+      component: JoinView,
     },
     {
       path: '/login',
       name: 'login',
-      component: LoginView
+      component: LoginView,
     },
     {
       path: '/map',
@@ -103,11 +103,11 @@ router.beforeEach((to, from, next) => {
     alert('로그인이 필요합니다.');
     next({ name: 'login' });
   } else {
-    if (isAuthenticated && to.name === 'boardList') {
-      const store = useBoardStore();
-      store.getBoardList();
-    }
-    next();
+      if (isAuthenticated && to.name === 'boardList') {
+        const store = useBoardStore();
+        store.getBoardList();
+      }
+      next();
   }
 });
 
