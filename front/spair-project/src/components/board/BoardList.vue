@@ -64,46 +64,56 @@ const boardListInit = ref([])
 // 첫 진입시 전체 리스트 반환
 onMounted(() => {
     const currentPath = window.location.pathname;
-
-    // home화면일 때는 전체(전국) 게시판이 호출
-    if (currentPath === '/') {
-        store.getBoardListTotal().then(data => {
-            boardListInit.value = data;
+    
+    if (route.query.exerciseType) {
+        const exerciseType = route.query.exerciseType
+        store.filteredBoard( exerciseType ).then(() => {
+            boardListInit.value = store.filteredBoardList
         })
-    // 통합검색 화면일 때는 keyword를 포함하는 게시물 리스트가 호출
-    } else if ( currentPath === '/board/search'){
-        // store.getBoardListSearch().then(data => {
-        //     boardListInit.value = data;
-        // })
+    } 
+    else {
+        // home화면일 때는 전체(전국) 게시판이 호출
+        if (currentPath === '/') {
+            store.getBoardListTotal().then(data => {
+                boardListInit.value = data;
+            })
 
-        // watch를 추가하여 검색어 변경을 감시하고, 변경될 때마다 API를 호출
-        watch(() => route.query.search, async (newSearchQuery) => {
-            await store.getBoardListSearch(newSearchQuery).then( data => {
-                boardListInit.value = data;
-            });
-        });
-        // 초기에도 검색어가 있을 수 있으므로 초기 검색어에 대해 API 호출
-        const initialSearchQuery = route.query.search;
-        if (initialSearchQuery) {
-            store.getBoardListSearch(initialSearchQuery).then(data => {
-                boardListInit.value = data;
-            });
+        // 통합검색 화면일 때는 keyword를 포함하는 게시물 리스트가 호출
+        } else if ( currentPath === '/board/search'){
+            // store.getBoardListSearch().then(data => {
+                //     boardListInit.value = data;
+                // })
+                
+                // watch를 추가하여 검색어 변경을 감시하고, 변경될 때마다 API를 호출
+                watch(() => route.query.search, async (newSearchQuery) => {
+                    await store.getBoardListSearch(newSearchQuery).then( data => {
+                        boardListInit.value = data;
+                    });
+                });
+                // 초기에도 검색어가 있을 수 있으므로 초기 검색어에 대해 API 호출
+                const initialSearchQuery = route.query.search;
+                if (initialSearchQuery) {
+                    store.getBoardListSearch(initialSearchQuery).then(data => {
+                        boardListInit.value = data;
+                    });
         }
-
-    // '/board'일 경우에는 우리동네 게시판이 호출
-    }else if ( currentPath === '/board' ) {
-        store.getBoardList().then(data => {
-            boardListInit.value = data;
-        })
-    // 그 외 경로일때는 스포츠센터 게시판 호출
-    } else {
-        const pathArr = currentPath.split('/')
-        const centerId = pathArr[pathArr.length-1]
-
-        axios.get(`http://localhost:8080/api/search/center/${centerId}`)
-        .then((response) => {
-            boardListInit.value = response.data
-        })
+        
+        // '/board'일 경우에는 우리동네 게시판이 호출
+        }else if ( currentPath === '/board' ) {
+            store.getBoardList().then(data => {
+                boardListInit.value = data;
+            })
+        
+        // 그 외 경로일때는 스포츠센터 게시판 호출
+        } else {
+            const pathArr = currentPath.split('/')
+            const centerId = pathArr[pathArr.length-1]
+            
+            axios.get(`http://localhost:8080/api/search/center/${centerId}`)
+            .then((response) => {
+                boardListInit.value = response.data
+            })
+        }
     }
 })
 
@@ -121,6 +131,20 @@ const filteredBoard = (filter) => {
         filteredBoardList.value = response.data
     })
 }
+
+
+// 우리동네 필라테스, 헬스장 바로가기 연결시 조건에 맞는 리스트 반환
+// watch함수로 쿼리 상태 감지 후 반영
+watch(() => route.query.exerciseType, (exerciseType) => {
+    if(exerciseType){
+
+        console.log("이게 되나?")
+        store.filteredBoard({exerciseType}.then(() => {
+            boardListInit.value = store.filteredBoardList
+        }))
+    }
+})
+
 
 
 </script>

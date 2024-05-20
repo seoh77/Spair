@@ -4,8 +4,6 @@ import router from '@/router'
 import axios from 'axios'
 
 const REST_BOARD_API = 'http://localhost:8080/api/board'
-const REST_COMMENT_API = 'http://localhost:8080/api/comment'
-// const router = useRouter()
 export const useBoardStore = defineStore('board', () => {
   
 
@@ -79,6 +77,7 @@ export const useBoardStore = defineStore('board', () => {
     return user.value
   }
 
+
   // 게시물 수정 관련 axios
   const updateBoard = function(postId){
     axios.put(`http://localhost:8080/api/board/${postId}`, {
@@ -109,9 +108,33 @@ export const useBoardStore = defineStore('board', () => {
     })
   }
 
-
+  // 로그인 상태 확인 변수
   const realLogin = ref(false)
   
 
-  return { board, user, sportsCenter, getBoard, boardList, getBoardList, updateBoard, createBoard, boardListTotal, getBoardListTotal, boardListSearch, getBoardListSearch, realLogin }
+  // 우리동네 필라테스, 헬스장 바로가기 연결시 조건에 맞는 리스트 반환     
+  const filteredBoardList = ref([])
+  const filteredBoard = async (type) => {
+    try {
+        const userInfoStr = localStorage.getItem('loginUserInfo')
+        const userIdInfo = JSON.parse(userInfoStr)
+        const userId = userIdInfo.userId
+
+        const response = await axios.get(`http://localhost:8080/api/search/town`, {
+            params: {
+                userId: userId,
+                exerciseType: type
+            }
+        })
+        filteredBoardList.value = response.data
+      } catch (error) {
+          console.error('Error fetching filtered board list:', error)
+      }
+  }
+
+
+
+  return { board, user, sportsCenter, getBoard, boardList, getBoardList, updateBoard, createBoard, boardListTotal, getBoardListTotal, boardListSearch, getBoardListSearch, realLogin,
+    filteredBoard, filteredBoardList
+  }
 })

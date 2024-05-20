@@ -22,12 +22,16 @@
 </template>
 
 <script setup>
-// 테스트를 위한 임시변수
+import { useRouter } from 'vue-router';
+const router = useRouter()
+
 const gym = function(){
-    console.log("헬스장 바로가기")
+    // 쿼리를 담아서 boardList로 
+    router.push({ name: 'boardList', query: { exerciseType: 'PT'}})
 }
 const pilates = function(){
-    console.log("필라테스 바로가기")
+    // 쿼리를 담아서 boardList로 
+    router.push({ name: 'boardList', query: { exerciseType: '필라테스'}})
 }
 </script>
 

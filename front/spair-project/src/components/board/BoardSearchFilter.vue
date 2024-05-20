@@ -6,7 +6,6 @@
             <div class="wrap">
                 <label for="status"></label>
                 <select id="status" name="status" v-model="filter.status">
-                <!-- <select id="status" name="status"> -->
                     <option selected disabled value="">모집여부</option>
                     <option value='1'>모집중</option>
                     <option value="0">모집완료</option>
@@ -15,22 +14,23 @@
             <div class="wrap">
                 <label for="status"></label>
                 <select id="gender" name="gender" v-model="filter.gender">
-                <!-- <select id="gender" name="gender"> -->
                     <option selected disabled value="">성별</option>
                     <option value='1'>남자</option>
                     <option value="2">여자</option>
                     <option value="3">상관없음</option>
                 </select>
             </div>
-            <div class="wrap">
-                <label for="exercise_type"></label>
-                <select id="exercise-type" name="exercise_type" v-model="filter.exerciseType">
-                <!-- <select id="exercise-type" name="exercise_type"> -->
+            <div class="wrap" >
+                <label for="exercise_type" v-if="!typeselected"></label>
+                <select id="exercise-type" name="exercise_type" v-model="filter.exerciseType" v-if="!typeselected" >
                     <option selected disabled value="">운동종류</option>
                     <option value="PT">PT</option>
                     <option value="필라테스">필라테스</option>
                     <option value="기타">기타</option>
                 </select>
+                <div v-else id="selected-type">
+                    {{ exerciseType }}
+                </div>
             </div>
             <div id="price-wrap">
                 <div id="title">가격</div>
@@ -38,12 +38,10 @@
                     <div>
                         <label for="minPrice">최저</label>
                         <input name="minprice" type="text" v-model="filter.minPrice"/>
-                        <!-- <input id="min" name="price" type="text" /> -->
                     </div>
                     <div>
                         <label for="maxPrice">최고</label>
                         <input name="maxprice" type="text" v-model="filter.maxPrice" />
-                        <!-- <input id="max" name="price" type="text" /> -->
                     </div>
                 </div>
             </div>
@@ -55,11 +53,9 @@
 </template>
   
 <script setup>
-// 임시 메소드. fake 구현. API 연결 후 삭제 및 새롭게 생성 예정
 import { ref } from 'vue'
-// import axios from 'axios'
-// import { useBoardStore } from '@/stores/board'
-// const store = useBoardStore()
+import { useRoute } from 'vue-router'
+const route = useRoute()
 const emit = defineEmits(['apply-filters'])
 
 const filter = ref({
@@ -70,10 +66,26 @@ const filter = ref({
     maxPrice: '',
 })
 
-const applyFilters = function(){
-    emit('apply-filters', { ...filter.value })
+const typeselected= ref(false)
+const exerciseType = route.query.exerciseType
+if (route.query.exerciseType){
+    typeselected.value = true;
 }
 
+
+const applyFilters = function(){
+    if (route.query.exerciseType === 'PT') { 
+        // exerciseType가 PT인 경우에만 운동종류를 PT로 설정하고 emit으로 전달
+        filter.value.exerciseType = 'PT'
+        emit('apply-filters', { ...filter.value })
+    } else if(route.query.exerciseType === '필라테스') {
+        // exerciseType가 PT인 경우에만 운동종류를 PT로 설정하고 emit으로 전달
+        filter.value.exerciseType = '필라테스';
+        emit('apply-filters', { ...filter.value })
+    }else {
+        emit('apply-filters', { ...filter.value }) // exerciseType가 PT가 아닌 경우는 그대로 전달
+    }
+}
 
 </script>
   
@@ -110,11 +122,26 @@ h4 {
     width: 13%;
     border-radius: 0.5rem;
     box-shadow: 0.3rem 0.3rem 0.5rem gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.wrap:nth-child(3) {
+    background-color: var(--secondary-color);
 }
 
 select {
     width: 100%;
     height: 3rem;
+    border-style: none;
+    text-align: center;
+    font-family: 'Tenada';
+    font-size: 1.3rem;
+    border-radius: 0.5rem;
+}
+
+#selected-type {
+    width: 100%;
     border-style: none;
     text-align: center;
     font-family: 'Tenada';
