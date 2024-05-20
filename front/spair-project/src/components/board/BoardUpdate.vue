@@ -144,10 +144,12 @@ label {
 textarea {
     width: 100%;
     resize: none;
-    overflow-y: scroll; 
+    overflow-y: auto; 
     overflow-x: hidden;
     font-size: 1.2rem;
     margin: 1.2rem 0;
+    padding: 5px ;
+    font-family: 'NanumSquareRound';
 }
 
 #area {
