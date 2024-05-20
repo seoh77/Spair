@@ -61,11 +61,10 @@ const isSearch = ref(false)
 const boardListInit = ref([])
 
 
-
 // 첫 진입시 전체 리스트 반환
 onMounted(() => {
-   
     const currentPath = window.location.pathname;
+
     // home화면일 때는 전체(전국) 게시판이 호출
     if (currentPath === '/') {
         store.getBoardListTotal().then(data => {
@@ -91,15 +90,22 @@ onMounted(() => {
             });
         }
 
-    // 나머지일 때는 우리동네 게시판이 호출
-    }else {
+    // '/board'일 경우에는 우리동네 게시판이 호출
+    }else if ( currentPath === '/board' ) {
         store.getBoardList().then(data => {
             boardListInit.value = data;
         })
+    // 그 외 경로일때는 스포츠센터 게시판 호출
+    } else {
+        const pathArr = currentPath.split('/')
+        const centerId = pathArr[pathArr.length-1]
+
+        axios.get(`http://localhost:8080/api/search/center/${centerId}`)
+        .then((response) => {
+            boardListInit.value = response.data
+        })
     }
 })
-
-
 
 
 // 검색필터를 걸었을 때 조건에 맞는 리스트 반환
