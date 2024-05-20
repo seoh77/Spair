@@ -3,15 +3,14 @@
         <h4>게시글 등록</h4>
         <div id="form-container">
             <div id="register">
-                <!-- API 연결 후 v-model 추가 예정-->
                 <div>
                     <label for="title">제목  </label>
                     <input type="text" id="title" v-model="board.title">
                 </div>
-                <!-- 로그인한 사용자로 수정 예정-->
+
                 <div>
                     <label for="nickname">작성자 </label>
-                    <input type="text" id="nickname" >
+                    <input type="text" id="nickname" :value="userNickname" readonly>
                 </div>
                 
                 <!-- 모집 정보 -->
@@ -65,7 +64,6 @@
                     <textarea id="content" rows="10" v-model="board.content"></textarea>
                 </div>
                 <div id="regi-btn">
-                    <!-- API 연결 후 click이벤트 수정 예정-->
                     <button @click="boardCreate">등록</button>
                 </div>
                 </div>
@@ -74,13 +72,17 @@
     </template>
 
 <script setup>
-import { useBoardStore } from '@/stores/board'
-import { ref } from 'vue'
-const store = useBoardStore()
-    // import router from '@/router'
-    // // const golist = function(){
-    // //     router.push({name: 'boardList'})
-    // // }
+    import { useBoardStore } from '@/stores/board'
+    import { onMounted, ref } from 'vue'
+
+    const store = useBoardStore()
+    const userNickname = ref()
+
+    onMounted(() => {
+        const localStorageData = JSON.parse(localStorage.getItem("loginUserInfo")) 
+        userNickname.value = localStorageData.nickname
+    })
+
     const board = ref({
         title: '',
         nickname: '',
@@ -91,6 +93,7 @@ const store = useBoardStore()
         price: '',
         content:'',
     })
+
     const boardCreate = function(){
         store.createBoard(board.value)
     }
@@ -171,6 +174,10 @@ const store = useBoardStore()
         outline: none;
         border-style: none;
         border-bottom: 0.1rem solid #000000;
+    }
+
+    input[id="nickname"] {
+        border: none;
     }
 
     #address {
