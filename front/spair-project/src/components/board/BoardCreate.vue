@@ -144,12 +144,28 @@
             const result = response.data.documents[0]
             board.value.sportsCenter.latitude = result.y
             board.value.sportsCenter.longitude = result.x
+        }).catch(() => {
+            alert("정확한 주소를 입력하였는지 확인해주세요.")
         })
     }
 
     const boardCreate = async function(){
-        await getCoordinate()
-        store.createBoard(board.value)
+        if(!board.value.post.title || !board.value.post.content || !board.value.post.exerciseType 
+            || !board.value.post.price || !board.value.post.gender || !board.value.post.recruitmentNum
+            || !board.value.sportsCenter.roadAddress || !board.value.sportsCenter.localAddress) {
+            alert("입력되지 않은 칸이 있습니다.")
+            return
+        } 
+        
+        else if(!Number(board.value.post.price)) {
+            alert("가격은 숫자만 입력해주세요.")
+            return
+        }
+
+        else {
+            await getCoordinate()
+            store.createBoard(board.value)
+        }
     }
 </script>
 
