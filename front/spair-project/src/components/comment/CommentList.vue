@@ -5,7 +5,7 @@
                 <div>
                     <!-- 넘어온 comment 데이터에서 user의 nickname이 없음. 
                     db에 접근/API 필요-->
-                    <div id="writer">{{ comment.userId }}</div>
+                    <div id="writer">{{ comment.user.nickname }}</div>
                     <div v-if="!comment.modifiedDate" class="date">{{ comment.createdDate }}</div>
                     <div v-else class="date">{{ comment.modifiedDate }}</div>
                 </div>
@@ -49,6 +49,7 @@ const comments = () => {
         console.error(error)
     })
 }
+
 onMounted(()=> {
     comments()
 })
