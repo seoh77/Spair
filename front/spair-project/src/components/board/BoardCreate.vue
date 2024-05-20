@@ -147,8 +147,8 @@
         })
     }
 
-    const boardCreate = function(){
-        getCoordinate()
+    const boardCreate = async function(){
+        await getCoordinate()
         store.createBoard(board.value)
     }
 </script>
