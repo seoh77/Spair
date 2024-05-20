@@ -24,8 +24,8 @@
                     <RouterLink :to="{ name: 'login' }">로그인</RouterLink>  -->
                     <RouterLink :to="{ name: 'join' }" v-if="!isLogin">회원가입</RouterLink> 
                     <RouterLink :to="{ name: 'login' }" v-if="!isLogin">로그인</RouterLink> 
-                    <div v-if="isLogin">{{ nickname }}님</div>
-                    <button v-if="isLogin" @click="logout">로그아웃</button>
+                    <div class="login" v-if="isLogin"><div id="nickname">{{ nickname }}</div>님</div>
+                    <button class="login" v-if="isLogin" @click="logout">로그아웃</button>
                 </div>
             </nav>
         </header>
@@ -99,6 +99,7 @@
         align-items: center;
         font-family: 'Tenada';
     }
+
     header {
         width: 75%;
         max-width: 1200px;
@@ -106,6 +107,7 @@
         display: flex;
         justify-content: space-between;
     }
+
     #logo {
         display: flex;
         align-items: center;
@@ -113,28 +115,34 @@
         color: var(--secondary-color);
         font-weight: bold;
     }
+
     #logo a {
         text-decoration: none;
         color: var(--secondary-color);
         margin: 0;
     }
+
     nav {
         display: flex;
         justify-content: center;
         align-items: center;
     }
+
     nav div {
         margin: 10px;
     }
+
     #tab {
         min-width: 220px;
     }
+
     #tab a{
         font-size: 1.2rem;
         color: #FFFFFF;
         margin: 10px;
         text-decoration: none;
     }
+
     #search {
         font-size: 1.2rem;
         color: #000000;
@@ -142,12 +150,14 @@
         background-color: #FFFFFF;
         border-radius: 10px;
     }
+
     input {
         border-style: none;
         width: 280px;
         height: 30px;
         outline: none;
     }
+
     button {
         border-style: none;
         height: 30px;
@@ -155,13 +165,33 @@
         font-family: 'Tenada';
         font-size: 1rem;
     }
+
     #user {
         min-width: 160px;
+        display: flex;
+        justify-content: space-between
     }
+
     #user a{
         font-size: 1.3rem;
         color: #000000;
-        margin: 10px;
+        margin: 0.1rem;
         text-decoration: none;
+    }
+
+    .login {
+        font-size: 1.2rem;
+        color: #000000;
+        margin: 0.1rem 0;
+        text-decoration: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--primary-color);
+    }
+
+    #nickname {
+        color: var(--secondary-color);
+        margin: 0;
     }
 </style>
