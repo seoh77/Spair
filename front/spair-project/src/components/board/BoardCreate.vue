@@ -58,8 +58,11 @@
                 <div id="address">
                     <!--도로명 주소 API 사용 예정 -->
                     <label for="road_address">스포츠시설 주소</label>
-                    <input type="road_address" id="road_address">
-        
+                    <div class="search_wrap">
+                        <input type="road_address" id="road_address" placeholder="주소">
+                        <div class="address_search_btn">주소찾기</div>
+                    </div>
+                    <input type="text" name="detail_address" id="detail_address" placeholder="상세주소">
                 </div>
                 
                 <div id="area">
@@ -141,7 +144,7 @@
         margin: 3rem;
     }
 
-    #register div {
+    #register > div {
         margin-bottom: 0.3rem;
         width: 100%; 
         display: flex;
@@ -191,12 +194,39 @@
 
     #address label {
         width: 30%;
-        /* color: red; */
     }
 
     #regi-btn {
         display: flex;
         flex-direction: row-reverse;
+    }
+
+    .search_wrap {
+        display: flex ;
+        margin-top: 5px
+    }
+
+    .search_wrap input {
+        margin-right: 10px ;
+        height: 30px;
+    }
+
+    .address_search_btn {
+        width: 10%;
+        height: 30px;
+        display: flex ;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        font-weight: 600 ;
+        font-size: 0.9rem ;
+        background-color: var(--primary-color);
+        font-family: 'NanumSquareRound';
+    }
+
+    #detail_address {
+        margin-top: 10px ;
+        padding-bottom: 10px;
     }
 
     button {
