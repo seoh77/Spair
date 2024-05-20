@@ -17,13 +17,14 @@
                 <div>
                     <label for="status">모집상태  </label>
                     <select name="status" id="status" v-model="board.status">
-                        <option value="1">모집중</option>
+                        <option value="1" >모집중</option>
                         <option value="0">모집완료</option>
                     </select>
                 </div>
                 <div>
                     <label for="gender">모집성별  </label>
                     <select name="gender" id="gender" v-model="board.gender">
+                        <option value="" disabled>모집성별</option>
                         <option value="1">남성</option>
                         <option value="2">여성</option>
                         <option value="3">상관없음</option>
@@ -32,6 +33,7 @@
                 <div>
                     <label for="recruitment_num">모집인원  </label>
                     <select name="recruitment_num" id="recruitment_num" v-model="board.recruitmentNum">
+                        <option value="" disabled>모집인원</option>
                         <option value="1명">1명</option>
                         <option value="2명">2명</option>
                         <option value="3명 이상">3명 이상</option>
@@ -41,13 +43,14 @@
                 <div>
                     <label for="exercise_type">운동종류  </label>
                     <select name="exercise_type" id="exercise_type" v-model="board.exerciseType">
+                        <option value="" disabled>운동종류</option>
                         <option value="PT">PT</option>
                         <option value="필라테스">필라테스</option>
                         <option value="기타">기타</option>
                     </select>
                 </div>
                 <div id="price-wrap">
-                    <label for="price">가격  </label>
+                    <label for="price">가격</label>
                     <input type="price" id="price" placeholder="1인당 가격을 입력하세요." v-model="board.price">
                     <span>원</span>
                 </div>
@@ -60,7 +63,7 @@
                 </div>
                 
                 <div id="area">
-                    <label for="content">내용  </label>
+                    <label for="content">내용</label>
                     <textarea id="content" rows="10" v-model="board.content"></textarea>
                 </div>
                 <div id="regi-btn">
@@ -85,13 +88,13 @@
 
     const board = ref({
         title: '',
-        nickname: '',
-        status:'',
-        gender:'',
+        nickname: userNickname,
+        status: 1,
+        gender: '',
         recruitmentNum: '',
         exerciseType: '',
         price: '',
-        content:'',
+        content: '',
     })
 
     const boardCreate = function(){
