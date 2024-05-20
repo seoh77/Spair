@@ -59,7 +59,7 @@
                     <!--도로명 주소 API 사용 예정 -->
                     <label for="road_address">스포츠시설 주소</label>
                     <div class="search_wrap">
-                        <input type="road_address" id="road_address" placeholder="주소" :value="board.sportsCenter.roadAddress" readonly>
+                        <input type="road_address" id="road_address" placeholder="주소" :value="address" readonly>
                         <div class="address_search_btn" @click="searchAddress">주소찾기</div>
                     </div>
                     <input type="text" name="detail_address" id="detail_address" placeholder="상세주소" v-model="detailAddress" @change="insertDetailAddress">
@@ -80,10 +80,12 @@
 <script setup>
     import { useBoardStore } from '@/stores/board'
     import { onMounted, ref } from 'vue'
+    import axios from 'axios';
 
     const store = useBoardStore()
     const userNickname = ref()
     const detailAddress = ref()
+    const address = ref()
 
     const board = ref({
         "post": {
@@ -99,8 +101,8 @@
         "sportsCenter": {
           "roadAddress": "",
           "localAddress": "",
-          "latitude": 37.502384,
-          "longitude": 126.770496
+          "latitude": "",
+          "longitude": ""
         }
     })
 
@@ -113,6 +115,7 @@
     const searchAddress = () => {
         new daum.Postcode({
             oncomplete: function(data) {
+                address.value = data.address
                 board.value.sportsCenter.roadAddress = data.address
                 board.value.sportsCenter.localAddress = data.jibunAddress
             }
@@ -129,9 +132,24 @@
         }
     }
 
+    // 사용자가 입력한 주소로부터 위도, 경도 값을 계산
+    const getCoordinate = async() => {
+        await axios({
+            url : 'https://dapi.kakao.com/v2/local/search/address.json?query=' + encodeURI(address.value),
+            method : 'GET',
+            headers : {
+                Authorization : `KakaoAK ${import.meta.env.VITE_KAKAO_REST_API_KEY}`
+            }
+        }).then((response) => {
+            const result = response.data.documents[0]
+            board.value.sportsCenter.latitude = result.y
+            board.value.sportsCenter.longitude = result.x
+        })
+    }
+
     const boardCreate = function(){
-        console.log(board.value)
-        // store.createBoard(board.value)
+        getCoordinate()
+        store.createBoard(board.value)
     }
 </script>
 
