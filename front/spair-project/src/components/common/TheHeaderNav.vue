@@ -22,6 +22,7 @@
                 <div id="user">
                     <!-- <RouterLink :to="{ name: 'join' }">회원가입</RouterLink> 
                     <RouterLink :to="{ name: 'login' }">로그인</RouterLink>  -->
+                   
                     <RouterLink :to="{ name: 'join' }" v-if="!isLogin">회원가입</RouterLink> 
                     <RouterLink :to="{ name: 'login' }" v-if="!isLogin">로그인</RouterLink> 
                     <div class="login" v-if="isLogin"><div id="nickname">{{ nickname }}</div>님</div>
@@ -51,11 +52,10 @@
             isLogin.value = true
             const userIdInfo = JSON.parse(userInfoStr)
             nickname.value = userIdInfo.nickname
-            router.push({ name: 'home'})
         }else {
             isLogin.value = false
             nickname.value = ''
-            store.realLogin - false
+            store.realLogin = false
         }
     }
 
