@@ -66,21 +66,17 @@ export const useBoardStore = defineStore('board', () => {
     }
   }
 
-
-
-
   // 게시물 상세조회 관련 axios
   const board = ref({})
   const user = ref({})
   const sportsCenter = ref({})
 
-  const getBoard = function(postId){
-    axios.get(`http://localhost:8080/api/board/${postId}`)
-    .then((response) => {
-        board.value = response.data
-        user.value = board.value.user
-        sportsCenter.value = board.value.sportsCenter
-    })
+  const getBoard = async(postId) => {
+    const response = await axios.get(`http://localhost:8080/api/board/${postId}`)
+    board.value = response.data
+    user.value = board.value.user
+    sportsCenter.value = board.value.sportsCenter
+    return user.value
   }
 
   // 게시물 수정 관련 axios
