@@ -2,17 +2,19 @@
     <div id="login-view">
         <h2>로그인</h2>
         <div id="login_form">
-            <div>
-                <label for="id">ID</label>
-                <input type="text" name="id" id="id" v-model="inputId">
-            </div>
-            <div>
-                <label for="password">PW</label>
-                <input type="password" name="password" id="password" v-model="inputPW">
-            </div>
-            <div class="btn_wrap">
-                <button id="loginBtn" class="btn" @click="onClickLogin">로그인</button>
-                <button id="joinBtn" class="btn" @click="onClickJoin">회원가입</button>
+            <div id="inner">
+                <div>
+                    <label for="id">ID</label>
+                    <input type="text" name="id" id="id" v-model="inputId">
+                </div>
+                <div>
+                    <label for="password">PW</label>
+                    <input type="password" name="password" id="password" v-model="inputPW">
+                </div>
+                <div class="btn_wrap">
+                    <button id="loginBtn" class="btn" @click="onClickLogin">로그인</button>
+                    <button id="joinBtn" class="btn" @click="onClickJoin">회원가입</button>
+                </div>
             </div>
         </div>
     </div>
@@ -69,11 +71,11 @@
 
 <style scoped>
     #login-view {
-        width: 80vw;
+        width: 100%;
         margin-top: 50px ;
         display: flex;
         flex-direction: column;
-        align-items: center
+        align-items: center;
     }
 
     #login-view h2 {
@@ -88,14 +90,22 @@
         border: 1px solid var(--gray-color);
         box-shadow: 0.1rem 0.5rem 0.5rem var(--gray-color);
         margin-bottom: 100px ;
-        padding: 7% 20%;
         box-sizing: border-box ;
         font-family: 'NanumSquareRound';
         font-size: 1.1rem ;
         font-weight: 600 ;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 7% 0;
     }
 
-    #login_form > div {
+    #inner {
+        width: 50%;
+    }
+
+    #inner > div {
+        width: 100%;
         display: flex ;
     }
 

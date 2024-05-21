@@ -16,7 +16,7 @@
                         <div class="item" :class="{ 'red': store.board.status }">{{ store.board.status ? '모집중' : '모집완료' }}</div>
                     
                         <div class="item">모집인원</div> 
-                        <div class="item">{{ store.board.recruitmentNum }}인</div>
+                        <div class="item">{{ store.board.recruitmentNum }}</div>
                    
                         <div class="item">모집성별</div> 
                         <div class="item">{{ store.board.gender == 1 ? '남성' : '여성'  }}</div>

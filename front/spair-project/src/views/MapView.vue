@@ -1,7 +1,7 @@
 <template>
     <div id="map-view">
         <h2>게시글이 등록된 스포츠센터</h2>
-        <KakaoMap width="100%" height="600px" :lat="coordinate.lat" :lng="coordinate.lng" :markerList="markerList" @onLoadKakaoMap="onLoadKakaoMap"/>
+        <KakaoMap width="70%" height="600px" :lat="coordinate.lat" :lng="coordinate.lng" :markerList="markerList" @onLoadKakaoMap="onLoadKakaoMap"/>
     </div>
 </template>
 
@@ -78,40 +78,15 @@
 
 <style scoped>
     #map-view {
-        width: 80vw;
+        width: 100%;
         margin-top: 30px ;
         display: flex;
         flex-direction: column;
-        padding-bottom: 60px;
+        align-items: center;
     }
 
     #map-view h2 {
         font-family: 'Tenada';
         font-size: 2rem;
-    }
-
-    .search_container {
-        width: 100%;
-        height: 30px;
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 30px;
-    }
-
-    .searchInput {
-        width: 90%;
-        height: 100%;
-        border: 1px solid black;
-        border-radius: 7px;
-        padding-left: 10px;
-    }
-
-    .searchBtn {
-        width: 7%;
-        height: 115%;
-        background-color: var(--secondary-color);
-        border: 1px solid var(--secondary-color);
-        border-radius: 5px;
-        font-size: 1.3rem;
     }
 </style>

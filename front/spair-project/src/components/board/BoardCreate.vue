@@ -230,14 +230,20 @@
     textarea {
         width: 100%;
         resize: none;
-        overflow-y: scroll; 
+        overflow-y: auto; 
         overflow-x: hidden;
         font-size: 1.2rem;
+        padding: 5px ;
+        font-family: 'NanumSquareRound';
     }
 
     #area {
         display: flex;
         flex-direction: column;
+    }
+
+    #area label {
+        margin: 5px 0 ;
     }
 
     input {

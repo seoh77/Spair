@@ -126,6 +126,7 @@ h4 {
     justify-content: center;
     align-items: center;
 }
+
 .wrap:nth-child(3) {
     background-color: var(--secondary-color);
 }
@@ -166,7 +167,6 @@ select {
     width: 40%;
 }
 
-
 #title {
     width: 32%;
     display: flex;
@@ -182,12 +182,18 @@ select {
 #min-max {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between ;
     width: 60%;
 }
 
 #min-max div {
     display: flex;
+    align-items: center ;
+}
+
+#min-max div label {
+    padding-top: 3px;
+    font-size: 0.9rem;
 }
 
 #min {
@@ -197,7 +203,11 @@ select {
 input {
     border-radius: 0.5rem;
     width: 70%;
+    height: 17px;
     margin: 0 1rem;
+    padding-left: 7px ;
+    font-size: 13px;
+    border: 1px solid black ;
 }
 
 #btn {
@@ -213,6 +223,7 @@ button {
     font-family: 'Tenada';
     color: #FFFFFF;
     box-shadow: 0.3rem 0.3rem 0.5rem gray;
+    border: 1px solid black ;
 }
 </style>
   

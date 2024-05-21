@@ -132,7 +132,8 @@ h4 {
 }
 
 #price-wrap input{
-    width: 50%;
+    width: 20%;
+    margin-right: 5px ;
 }
 
 label {
@@ -144,10 +145,12 @@ label {
 textarea {
     width: 100%;
     resize: none;
-    overflow-y: scroll; 
+    overflow-y: auto; 
     overflow-x: hidden;
     font-size: 1.2rem;
-    margin: 1.2rem 0;
+    margin: 1rem 0;
+    padding: 5px ;
+    font-family: 'NanumSquareRound';
 }
 
 #area {
@@ -175,5 +178,9 @@ button {
     width: 7rem;
     height: 2.5rem;
     font-weight: bold;
+}
+
+input:read-only {
+    border: none;
 }
 </style>

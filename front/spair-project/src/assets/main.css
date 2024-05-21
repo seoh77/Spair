@@ -34,3 +34,8 @@ html, body {
     --sub-color: #FFDA77;
     --gray-color: #C0C0C0;
 }
+
+input:-webkit-autofill {
+    -webkit-text-fill-color: #000;
+    -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+}

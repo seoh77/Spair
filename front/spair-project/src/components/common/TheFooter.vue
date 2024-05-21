@@ -15,18 +15,20 @@
 <style scoped>
     #footer-container {
         width: 100%;
-        height: 200px;
+        height: 130px;
         background-color: var(--secondary-color);
         display: flex;
         justify-content: center;
         align-items: center;
         font-family: 'NanumSquareRound';
     }
+
     footer {
         display: flex;
         justify-content: center;
         align-items: center;
     }
+
     a {
         font-size: 1.2rem;
         font-weight: bold;
