@@ -72,10 +72,10 @@ const filteredBoardList = ref([])
 const isSearch = ref(false)
 const boardListInit = ref([])
 
-
 // 첫 진입시 전체 리스트 반환
-onMounted(() => {
-    const currentPath = window.location.pathname;
+const load = async () => {
+    // const currentPath = window.location.pathname;
+    const currentPath = route.path;
     
     if (route.query.exerciseType) {
         const exerciseType = route.query.exerciseType
@@ -124,6 +124,14 @@ onMounted(() => {
             })
         }
     }
+}
+
+onMounted(() => {
+    load()
+
+    watch(route, () => {
+        load()
+    })
 })
 
 
