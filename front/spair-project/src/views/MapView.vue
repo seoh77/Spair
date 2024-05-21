@@ -1,7 +1,41 @@
 <template>
     <div id="map-view">
         <h2>게시글이 등록된 스포츠센터</h2>
-        <KakaoMap width="70%" height="600px" :lat="coordinate.lat" :lng="coordinate.lng" :markerList="markerList" @onLoadKakaoMap="onLoadKakaoMap"/>
+        <div>
+            <KakaoMap width="100%" height="600px" :lat="coordinate.lat" :lng="coordinate.lng" :markerList="markerList" @onLoadKakaoMap="onLoadKakaoMap"/>
+            <div id="center-board">
+                <div class="item_wrap">
+                    <div class="item_content">
+                        <h4 class="item_title">제목</h4>
+                        <div class="item_writer">작성자</div>
+                        <div class="item_date">날짜</div>
+                    </div>
+                    <div class="item_status">
+                        <div>모집중</div>
+                    </div>
+                </div>
+                <div class="item_wrap">
+                    <div class="item_content">
+                        <h4 class="item_title">제목</h4>
+                        <div class="item_writer">작성자</div>
+                        <div class="item_date">날짜</div>
+                    </div>
+                    <div class="item_status">
+                        <div>모집중</div>
+                    </div>
+                </div>
+                <div class="item_wrap">
+                    <div class="item_content">
+                        <h4 class="item_title">제목</h4>
+                        <div class="item_writer">작성자</div>
+                        <div class="item_date">날짜</div>
+                    </div>
+                    <div class="item_status">
+                        <div>모집중</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -88,5 +122,70 @@
     #map-view h2 {
         font-family: 'Tenada';
         font-size: 2rem;
+    }
+
+    #map-view > div {
+        width: 80%;
+        display: flex ;
+        position: relative;
+        min-width: 1000px;
+    }
+
+    #center-board {
+        width: 30%;
+        height: 600px;
+        position: absolute;
+        top: 0 ;
+        right: 0;
+        z-index: 100;
+        background-color: rgba(177, 177, 177, 0.3) ;
+        display: flex;
+        flex-direction: column ;
+        align-items: center ;
+        padding: 5px;
+        box-sizing: border-box ;
+    }
+
+    .item_wrap {
+        width: 100%;
+        height: 100px ;
+        border-bottom: 1px solid var(--gray-color);
+        display: flex ;
+        justify-content: space-between;
+        padding: 10px;
+        box-sizing: border-box;
+        background-color: #fffbf4 ;
+        border-radius: 10px ;
+        margin-bottom: 7px ;
+        font-family: 'NanumSquareRound';
+    }
+
+    .item_content {
+        width: 75%;
+        display: flex ;
+        flex-direction: column;
+        justify-content: space-between ;
+    }
+
+    .item_title {
+        margin: 0 ;
+    }
+
+    .item_status {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 20%;
+    }
+
+    .item_status div {
+        background-color: var(--primary-color) ;
+        color: white ;
+        width: 100%;
+        height: 35px ;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
     }
 </style>
