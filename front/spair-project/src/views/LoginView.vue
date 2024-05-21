@@ -9,7 +9,7 @@
                 </div>
                 <div>
                     <label for="password">PW</label>
-                    <input type="password" name="password" id="password" v-model="inputPW">
+                    <input type="password" name="password" id="password" v-model="inputPW" @keypress="onKeyPress">
                 </div>
                 <div class="btn_wrap">
                     <button id="loginBtn" class="btn" @click="onClickLogin">로그인</button>
@@ -66,6 +66,12 @@
 
     const onClickJoin = () => {
         router.push({ name : "join"})
+    }
+
+    const onKeyPress = (e) => {
+        if(e.keyCode === 13) {
+            onClickLogin()
+        }
     }
 </script>
 

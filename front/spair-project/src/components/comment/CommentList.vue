@@ -61,6 +61,10 @@ onMounted(()=> {
 
 // 댓글 삭제 기능
 const deleteComment = function(comment) {
+    const isDelete = confirm("정말 삭제하시겠습니까?")
+
+    if(!isDelete) return
+
     axios.delete(`http://localhost:8080/api/comment/${comment.commentId}`)
     .then(() => {
         return axios.get(`http://localhost:8080/api/comment/${route.params.postId}`)
