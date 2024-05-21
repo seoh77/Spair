@@ -13,9 +13,8 @@
                 </tr>
             </thead>
             <tbody v-if="!filteredBoardList.length && !isSearch">
-                <!-- <tr v-for="board in store.boardList" :key="board.id"> -->
-                <tr v-for="board in boardListInit" :key="board.id">
-                    <td>{{ board.postId }}</td>
+                <tr v-for="(board, index) in boardListInit" :key="board.id">
+                    <td>{{ index + 1 }}</td>
                     <td >
                         <!-- <RouterLink to="`/board/${board.postId}`">{{ board.title }}</RouterLink> -->
                         <RouterLink :to="{name: 'boardDetail', params: {'postId' : board.postId }}">{{ board.title }}</RouterLink>
@@ -28,8 +27,8 @@
                 </tr>
             </tbody>
             <tbody v-else-if="filteredBoardList.length && isSearch">
-                <tr v-for="board in filteredBoardList" :key="board.id">
-                    <td>{{ board.postId }}</td>
+                <tr v-for="(board, index) in filteredBoardList" :key="board.id">
+                    <td>{{ index + 1 }}</td>
                     <td >
                         <!-- <RouterLink :to="`/board/${board.postId}`">{{ board.title }}</RouterLink> -->
                         <RouterLink :to="{name: 'boardDetail', params: {'postId' : board.postId }}">{{ board.title }}</RouterLink>
@@ -86,26 +85,23 @@ onMounted(() => {
 
         // 통합검색 화면일 때는 keyword를 포함하는 게시물 리스트가 호출
         } else if ( currentPath === '/board/search'){
-            // store.getBoardListSearch().then(data => {
-                //     boardListInit.value = data;
-                // })
-                
-                // watch를 추가하여 검색어 변경을 감시하고, 변경될 때마다 API를 호출
-                watch(() => route.query.search, async (newSearchQuery) => {
-                    await store.getBoardListSearch(newSearchQuery).then( data => {
-                        boardListInit.value = data;
-                    });
+            // watch를 추가하여 검색어 변경을 감시하고, 변경될 때마다 API를 호출
+            watch(() => route.query.search, async (newSearchQuery) => {
+                await store.getBoardListSearch(newSearchQuery).then( data => {
+                    boardListInit.value = data;
                 });
-                // 초기에도 검색어가 있을 수 있으므로 초기 검색어에 대해 API 호출
-                const initialSearchQuery = route.query.search;
-                if (initialSearchQuery) {
-                    store.getBoardListSearch(initialSearchQuery).then(data => {
-                        boardListInit.value = data;
-                    });
-        }
-        
+            });
+
+            // 초기에도 검색어가 있을 수 있으므로 초기 검색어에 대해 API 호출
+            const initialSearchQuery = route.query.search;
+            if (initialSearchQuery) {
+                store.getBoardListSearch(initialSearchQuery).then(data => {
+                    boardListInit.value = data;
+                });
+            }
+
         // '/board'일 경우에는 우리동네 게시판이 호출
-        }else if ( currentPath === '/board' ) {
+        } else if ( currentPath === '/board' ) {
             store.getBoardList().then(data => {
                 boardListInit.value = data;
             })
@@ -143,15 +139,11 @@ const filteredBoard = (filter) => {
 // watch함수로 쿼리 상태 감지 후 반영
 watch(() => route.query.exerciseType, (exerciseType) => {
     if(exerciseType){
-
-        console.log("이게 되나?")
         store.filteredBoard({exerciseType}.then(() => {
             boardListInit.value = store.filteredBoardList
         }))
     }
 })
-
-
 </script>
 
 <style scoped>
