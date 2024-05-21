@@ -36,7 +36,7 @@
                         <div class="tem">내용 </div> 
                         <div class="tem">{{ store.board.modifiedDate }}</div>
                     </div> 
-                    <div>{{ store.board.content }}</div>
+                    <div id="content">{{ store.board.content }}</div>
                     <div id="btn" v-if="isWriter">
                         <button @click="deleteBoard">삭제</button>
                         <button @click="updateBoard">수정</button>
@@ -210,6 +210,10 @@ h4 {
     text-align: end;
     color: var(--gray-color);
     font-size: 1rem;
+}
+
+#content {
+    white-space: pre-wrap;
 }
 
 #btn {
