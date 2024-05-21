@@ -141,7 +141,7 @@ h4 {
 
 #infos div {
     width: 20%;
-    margin-borttom: 0;
+    margin-bottom: 0;
 }
 
 #infos label {
