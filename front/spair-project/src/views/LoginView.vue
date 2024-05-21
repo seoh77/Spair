@@ -69,11 +69,11 @@
 
 <style scoped>
     #login-view {
-        width: 80vw;
+        width: 100%;
         margin-top: 50px ;
         display: flex;
         flex-direction: column;
-        align-items: center
+        align-items: center;
     }
 
     #login-view h2 {
