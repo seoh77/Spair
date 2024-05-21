@@ -126,6 +126,7 @@ h4 {
     justify-content: center;
     align-items: center;
 }
+
 .wrap:nth-child(3) {
     background-color: var(--secondary-color);
 }
@@ -166,7 +167,6 @@ select {
     width: 40%;
 }
 
-
 #title {
     width: 32%;
     display: flex;
@@ -193,6 +193,7 @@ select {
 
 #min-max div label {
     padding-top: 3px;
+    font-size: 0.9rem;
 }
 
 #min {
@@ -206,6 +207,7 @@ input {
     margin: 0 1rem;
     padding-left: 7px ;
     font-size: 13px;
+    border: 1px solid black ;
 }
 
 #btn {
@@ -221,6 +223,7 @@ button {
     font-family: 'Tenada';
     color: #FFFFFF;
     box-shadow: 0.3rem 0.3rem 0.5rem gray;
+    border: 1px solid black ;
 }
 </style>
   
