@@ -182,12 +182,17 @@ select {
 #min-max {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between ;
     width: 60%;
 }
 
 #min-max div {
     display: flex;
+    align-items: center ;
+}
+
+#min-max div label {
+    padding-top: 3px;
 }
 
 #min {
@@ -197,7 +202,10 @@ select {
 input {
     border-radius: 0.5rem;
     width: 70%;
+    height: 17px;
     margin: 0 1rem;
+    padding-left: 7px ;
+    font-size: 13px;
 }
 
 #btn {
