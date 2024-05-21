@@ -2,7 +2,9 @@
 <template>
   <div id="container">
     <TheHeaderNav/>
-    <RouterView />
+    <main>
+      <RouterView />
+    </main>
     <TheFooter/>
   </div>
 </template>
@@ -19,5 +21,11 @@ import TheFooter from '@/components/common/TheFooter.vue';
     flex-direction: column;
     align-items: center;
     width: 100%;
+  }
+
+  main {
+    width: 100%;
+    margin-bottom: 50px ;
+    min-height: 800px;
   }
 </style>

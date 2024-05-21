@@ -1,13 +1,13 @@
 
 <template>
-  <main>
+  <div id="home_view">
       <Intro/>
       <Advertisement/>
       <div id="title">
         최신 PAIR 찾기글
       </div>
       <BoardList/>
-  </main>
+    </div>
 </template>
 
 <script setup>
@@ -17,12 +17,13 @@ import BoardList from '@/components/board/BoardList.vue'
 </script>
 
 <style scoped>
-  main {
+  #home_view {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;  
   }
+
   #title {
     width: 75%;
     max-width: 1200px;
