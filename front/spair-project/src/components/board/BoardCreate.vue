@@ -153,7 +153,7 @@
     const boardCreate = async function(){
         if(!board.value.post.title || !board.value.post.content || !board.value.post.exerciseType 
             || !board.value.post.price || !board.value.post.gender || !board.value.post.recruitmentNum
-            || !board.value.sportsCenter.roadAddress || !board.value.sportsCenter.localAddress) {
+            || !board.value.sportsCenter.roadAddress) {
             alert("입력되지 않은 칸이 있습니다.")
             return
         } 
