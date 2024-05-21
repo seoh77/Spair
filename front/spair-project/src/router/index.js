@@ -74,11 +74,33 @@ const router = createRouter({
       path: '/join',
       name: 'join',
       component: JoinView,
+      beforeEnter(to, from, next){
+        const isAuthenticated = !!localStorage.getItem('loginUserInfo')
+        if (to.name !== 'join' && !isAuthenticated) {
+          next({ name: 'join' }); // 회원가입 페이지로 이동
+        } else if (to.name === 'join' && isAuthenticated) {
+            alert("유효하지 않은 요청입니다.")
+            next({ name: 'home' }); // 이미 로그인한 사용자는 홈 페이지로 이동
+        } else {
+            next(); // 로그인이 필요하지 않은 페이지로 이동
+        }
+      }
     },
     {
       path: '/login',
       name: 'login',
       component: LoginView,
+      beforeEnter(to, from, next){
+        const isAuthenticated = !!localStorage.getItem('loginUserInfo')
+        if (to.name !== 'login' && !isAuthenticated) {
+          next({ name: 'login' }); // 로그인 페이지로 이동
+        } else if (to.name === 'login' && isAuthenticated) {
+            alert("유효하지 않은 요청입니다.")
+            next({ name: 'home' }); // 이미 로그인한 사용자는 홈 페이지로 이동
+        } else {
+            next(); // 로그인이 필요하지 않은 페이지로 이동
+        }
+      }
     },
     {
       path: '/map',
