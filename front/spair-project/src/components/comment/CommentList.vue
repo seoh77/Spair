@@ -144,6 +144,7 @@ const updateComment = function(comment) {
         font-size: 1.1rem;
         display: flex ;
         align-items: center ;
+        white-space: pre-wrap;
     }
 
     #btn {
