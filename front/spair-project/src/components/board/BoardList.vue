@@ -43,7 +43,7 @@
             </tbody>
             <tbody v-else>
                 <tr>
-                    <td colspan="5">
+                    <td colspan="5" class="oneTd">
                         게시글이 없습니다.
                     </td>
                 </tr>
@@ -194,7 +194,7 @@ watch(() => route.query.exerciseType, (exerciseType) => {
         width: 50%;
     }
 
-    td:last-child {
+    td:last-child:not(.oneTd) {
         display: flex ;
         justify-content: center;
         align-items: center;
