@@ -171,6 +171,11 @@
 
     // 입력한 password에 따라 안내문구 수정
     const changePasswordInfo = () => {
+        // 비밀번호 확인 초기화
+        inputConfirmPW.value = ""
+        confirmPWInfo.value = ""
+        checkConfirmPW.value = 10
+
         if(checkPW.value === 0) {
             passwordInfo.value = "사용 가능한 비밀번호입니다."
         } else if (checkPW.value === 1) {
@@ -184,7 +189,7 @@
     const onCheckPW = (event) => {
         const regex =/^[a-zA-Z0-9]*$/           // 영어 대소문자와 숫자만 가능
         inputPW.value = event.target.value
-
+        
         if(regex.test(inputPW.value) && inputPW.value.length >= 5) {
             checkPW.value = 0
             joinData.password = inputPW.value

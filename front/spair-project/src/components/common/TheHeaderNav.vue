@@ -77,7 +77,6 @@
     // 직접적으로 localStorage를 감시할 수 없음
     watch(() => store.realLogin, () => {
         userLogin();
-        console.log("로그인 상태 변경")
     })
         
             
