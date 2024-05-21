@@ -2,69 +2,71 @@
     <div id="update-container">
         <h4>게시글 수정</h4>
         <!--수정 가능 항목: 제목, 상태, 성별, 인원, 가격, 내용-->
-        <!-- API 연결 후 v-model추가 및 수정 예정 -->
-        <!--임시 데이터-->
         <div id="form-container">
             <div id="update">
                 <div>
-                    <label for="title">제목  </label>
-                    <input type="text" id="title" v-model="store.board.title">
-                </div>
-                <div>
-                    <!-- <div class="label">작성자</div> -->
                     <label for="nickname">작성자</label>
                     <input type="text" id="nickname" readonly v-model="store.user.nickname">
                 </div>
                 <div>
-                    <label for="status">모집상태  </label>
-                    <select name="status" id="status" v-model="store.board.status">
-                        <option value="1">모집중</option>
-                        <option value="0">모집완료</option>
-                    </select>
+                    <label for="title">제목  </label>
+                    <input type="text" id="title" v-model="store.board.title">
                 </div>
-                <div>
-                    <label for="gender">모집성별  </label>
-                    <select name="gender" id="gender" v-model="store.board.gender">
-                        <option value="1">남성</option>
-                        <option value="2">여성</option>
-                        <option value="3">상관없음</option>
-                    </select>
+
+                <!-- 모집 정보 -->
+                <div id="infos">
+                    <div>
+                        <label for="status">모집상태  </label>
+                        <select name="status" id="status" v-model="store.board.status">
+                            <option value="1">모집중</option>
+                            <option value="0">모집완료</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="gender">모집성별  </label>
+                        <select name="gender" id="gender" v-model="store.board.gender">
+                            <option value="1">남성</option>
+                            <option value="2">여성</option>
+                            <option value="3">상관없음</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="recruitment_num">모집인원  </label>
+                        <select name="recruitment_num" id="recruitment_num" v-model="store.board.recruitmentNum">
+                            <option value="1명">1명</option>
+                            <option value="2명">2명</option>
+                            <option value="3명 이상">3명 이상</option>
+                            <option value="상관없음">상관없음</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="exerciseType">운동종류</label>
+                        <input type="text" id="exerciseType" readonly v-model="store.board.exerciseType">
+                    </div>
+                    <div id="price-wrap">
+                        <label for="price">가격  </label>
+                        <input type="price" id="price" placeholder="1인당 가격을 입력하세요." v-model="store.board.price">
+                        <span>원</span>
+                    </div>
                 </div>
-                <div>
-                    <label for="recruitment_num">모집인원  </label>
-                    <select name="recruitment_num" id="recruitment_num" v-model="store.board.recruitmentNum">
-                        <option value="1명">1명</option>
-                        <option value="2명">2명</option>
-                        <option value="3명 이상">3명 이상</option>
-                        <option value="상관없음">상관없음</option>
-                    </select>
+
+                    <div>
+                        <label for="roadAddress">주소 </label>
+                        <input type="text" id="roadAddress" readonly v-model="store.sportsCenter.roadAddress">
+                    </div>
+                    <div id="area">
+                        <label for="content">내용  </label>
+                        <textarea id="content" rows="10" v-model="store.board.content"></textarea>
+                    </div>
+                    <div id="up-btn">
+                        <!-- API 연결 후 click이벤트 수정 예정-->
+                        <button @click="updateBoard">수정</button>
+                    </div>
+                    
                 </div>
-                <div>
-                    <label for="exerciseType">운동종류</label>
-                    <input type="text" id="exerciseType" readonly v-model="store.board.exerciseType">
-                </div>
-                <div id="price-wrap">
-                    <label for="price">가격  </label>
-                    <input type="price" id="price" placeholder="1인당 가격을 입력하세요." v-model="store.board.price">
-                    <span>원</span>
-                </div>
-                <div>
-                    <label for="roadAddress">주소 </label>
-                    <input type="text" id="roadAddress" readonly v-model="store.sportsCenter.roadAddress">
-                </div>
-                <div id="area">
-                    <label for="content">내용  </label>
-                    <textarea id="content" rows="10" v-model="store.board.content"></textarea>
-                </div>
-                <div id="up-btn">
-                     <!-- API 연결 후 click이벤트 수정 예정-->
-                    <button @click="updateBoard">수정</button>
-                </div>
-                
-            </div>
-        </div>   
-    </div>
-</template>
+            </div>   
+        </div>
+    </template>
 
 <script setup>
 import { useBoardStore } from "@/stores/board";
@@ -131,8 +133,28 @@ h4 {
     margin-bottom: 1rem;
 }
 
-#price-wrap input{
+#infos {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+#infos div {
     width: 20%;
+    margin-borttom: 0;
+}
+
+#infos label {
+    margin: 0 0.5rem 0 0;
+    width: 40%;
+}
+
+#exerciseType {
+    width: 40%;
+}
+
+#price-wrap input{
+    width: 90%;
     margin-right: 5px ;
 }
 
