@@ -74,10 +74,14 @@ onMounted(async()=> {
 
 // 게시글 삭제 
 const deleteBoard = function(){
-    axios.delete(`http://localhost:8080/api/board/${route.params.postId}`)
-    .then(() => {
-        router.push({ name: 'boardList' })
-    })
+    const isDelete = confirm("정말 삭제하시겠습니까?")
+
+    if(isDelete) {
+        axios.delete(`http://localhost:8080/api/board/${route.params.postId}`)
+        .then(() => {
+            router.push({ name: 'boardList' })
+        })
+    } 
 }
 
 // 게시글 수정 
