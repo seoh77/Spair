@@ -17,7 +17,8 @@
                 <tr v-for="board in boardListInit" :key="board.id">
                     <td>{{ board.postId }}</td>
                     <td >
-                        <RouterLink :to="`/board/${board.postId}`">{{ board.title }}</RouterLink>
+                        <!-- <RouterLink to="`/board/${board.postId}`">{{ board.title }}</RouterLink> -->
+                        <RouterLink :to="{name: 'boardDetail', params: {'postId' : board.postId }}">{{ board.title }}</RouterLink>
                     </td>
                     <td>{{  board.user.nickname }}</td>
                     <td>{{  board.createdDate }}</td>
@@ -28,7 +29,8 @@
                 <tr v-for="board in filteredBoardList" :key="board.id">
                     <td>{{ board.postId }}</td>
                     <td >
-                        <RouterLink :to="`/board/${board.postId}`">{{ board.title }}</RouterLink>
+                        <!-- <RouterLink :to="`/board/${board.postId}`">{{ board.title }}</RouterLink> -->
+                        <RouterLink :to="{name: 'boardDetail', params: {'postId' : board.postId }}">{{ board.title }}</RouterLink>
                     </td>
                     <td>{{  board.user.nickname }}</td>
                     <td>{{  board.createdDate }}</td>
