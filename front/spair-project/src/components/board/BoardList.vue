@@ -22,7 +22,9 @@
                     </td>
                     <td>{{  board.user.nickname }}</td>
                     <td class="date">{{  board.createdDate.substr(0, 10) }}</td>
-                    <td :class="{ 'red': board.status === 1 }">{{  board.status ? '모집중' : '모집완료' }}</td>
+                    <td>
+                        <div :class="{ 'trueStatus': board.status === 1 }">{{  board.status ? '모집중' : '모집완료' }}</div>
+                    </td>
                 </tr>
             </tbody>
             <tbody v-else-if="filteredBoardList.length && isSearch">
@@ -34,7 +36,9 @@
                     </td>
                     <td>{{ board.user.nickname }}</td>
                     <td class="date">{{ board.createdDate.substr(0, 10) }}</td>
-                    <td :class="{ 'red': board.status === 1 }">{{  board.status ? '모집중' : '모집완료' }}</td>
+                    <td>
+                        <div :class="{ 'trueStatus': board.status === 1 }">{{  board.status ? '모집중' : '모집완료' }}</div>
+                    </td>
                 </tr>
             </tbody>
             <tbody v-else>
@@ -190,8 +194,21 @@ watch(() => route.query.exerciseType, (exerciseType) => {
         width: 50%;
     }
 
-    .red {
-        color: red;
+    td:last-child {
+        display: flex ;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .trueStatus {
+        color: white;
+        background-color: var(--primary-color) ;
+        border-radius: 10px;
+        display: flex ;
+        justify-content: center;
+        align-items: center;
+        padding: 3px 0; 
+        width: 80%;
     }
 
     a {
