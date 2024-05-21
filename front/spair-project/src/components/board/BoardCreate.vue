@@ -4,59 +4,60 @@
         <div id="form-container">
             <div id="register">
                 <div>
+                    <label for="nickname">작성자 </label>
+                    <input type="text" id="nickname" :value="userNickname" readonly>
+                </div>
+                <div>
                     <label for="title">제목  </label>
                     <input type="text" id="title" v-model="board.post.title">
                 </div>
 
-                <div>
-                    <label for="nickname">작성자 </label>
-                    <input type="text" id="nickname" :value="userNickname" readonly>
-                </div>
-                
                 <!-- 모집 정보 -->
-                <div>
-                    <label for="status">모집상태  </label>
-                    <select name="status" id="status" v-model="board.post.status">
-                        <option value="1" >모집중</option>
-                        <option value="0">모집완료</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="gender">모집성별  </label>
-                    <select name="gender" id="gender" v-model="board.post.gender">
-                        <option value="" disabled>모집성별</option>
-                        <option value="1">남성</option>
-                        <option value="2">여성</option>
-                        <option value="3">상관없음</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="recruitment_num">모집인원  </label>
-                    <select name="recruitment_num" id="recruitment_num" v-model="board.post.recruitmentNum">
-                        <option value="" disabled>모집인원</option>
-                        <option value="1명">1명</option>
-                        <option value="2명">2명</option>
-                        <option value="3명 이상">3명 이상</option>
-                        <option value="상관없음">상관없음</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="exercise_type">운동종류  </label>
-                    <select name="exercise_type" id="exercise_type" v-model="board.post.exerciseType">
-                        <option value="" disabled>운동종류</option>
-                        <option value="PT">PT</option>
-                        <option value="필라테스">필라테스</option>
-                        <option value="기타">기타</option>
-                    </select>
-                </div>
-                <div id="price-wrap">
-                    <label for="price">가격</label>
-                    <input type="price" id="price" placeholder="1인당 가격을 입력하세요" v-model="board.post.price">
-                    <span>원</span>
+                <div id="infos">
+                    <div>
+                        <label for="status">모집상태  </label>
+                        <select name="status" id="status" v-model="board.post.status">
+                            <option value="1" >모집중</option>
+                            <option value="0">모집완료</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="gender">모집성별  </label>
+                        <select name="gender" id="gender" v-model="board.post.gender">
+                            <option value="" disabled>모집성별</option>
+                            <option value="1">남성</option>
+                            <option value="2">여성</option>
+                            <option value="3">상관없음</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="recruitment_num">모집인원  </label>
+                        <select name="recruitment_num" id="recruitment_num" v-model="board.post.recruitmentNum">
+                            <option value="" disabled>모집인원</option>
+                            <option value="1명">1명</option>
+                            <option value="2명">2명</option>
+                            <option value="3명 이상">3명 이상</option>
+                            <option value="상관없음">상관없음</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="exercise_type">운동종류  </label>
+                        <select name="exercise_type" id="exercise_type" v-model="board.post.exerciseType">
+                            <option value="" disabled>운동종류</option>
+                            <option value="PT">PT</option>
+                            <option value="필라테스">필라테스</option>
+                            <option value="기타">기타</option>
+                        </select>
+                    </div>
+                    <div id="price-wrap">
+                        <label for="price">가격</label>
+                        <input type="price" id="price" placeholder="1인당 가격을 입력하세요" v-model="board.post.price">
+                        <span>원</span>
+                    </div>
                 </div>
 
+                <!-- 도로명 주소 -->
                 <div id="address">
-                    <!--도로명 주소 API 사용 예정 -->
                     <label for="road_address">스포츠시설 주소</label>
                     <div class="search_wrap">
                         <input type="road_address" id="road_address" placeholder="주소" :value="address" readonly>
@@ -216,9 +217,24 @@
         margin-bottom: 1rem;
     }
 
+    #infos {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        height: 2rem
+    }
+
+    #infos div:nth-child(5) {
+        width: 25%;
+    }
+
+    #infos label {
+        margin: 0 0.5rem 0 0;
+    }
+
     #price-wrap input{
-        width: 20%;
-        margin-right: 5px
+        width: 65%;
+        /* margin-right: 5px */
     }
     
     label {

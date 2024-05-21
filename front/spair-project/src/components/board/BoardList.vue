@@ -12,7 +12,7 @@
                     <th>모집상태</th>
                 </tr>
             </thead>
-            <tbody v-if="!filteredBoardList.length && !isSearch">
+            <tbody v-if="!filteredBoardList.length && !isSearch && boardListInit.length !== 0">
                 <tr v-for="(board, index) in boardListInit" :key="board.id">
                     <td>{{ index + 1 }}</td>
                     <td >
@@ -23,6 +23,13 @@
                     <td class="date">{{  board.createdDate.substr(0, 10) }}</td>
                     <td>
                         <div :class="{ 'trueStatus': board.status === 1 }">{{  board.status ? '모집중' : '모집완료' }}</div>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody v-else-if="!filteredBoardList.length && !isSearch && boardListInit.length === 0">
+                <tr>
+                    <td colspan="5" class="oneTd">
+                        게시글이 없습니다.
                     </td>
                 </tr>
             </tbody>
@@ -65,10 +72,10 @@ const filteredBoardList = ref([])
 const isSearch = ref(false)
 const boardListInit = ref([])
 
-
 // 첫 진입시 전체 리스트 반환
-onMounted(() => {
-    const currentPath = window.location.pathname;
+const load = async () => {
+    // const currentPath = window.location.pathname;
+    const currentPath = route.path;
     
     if (route.query.exerciseType) {
         const exerciseType = route.query.exerciseType
@@ -117,6 +124,14 @@ onMounted(() => {
             })
         }
     }
+}
+
+onMounted(() => {
+    load()
+
+    watch(route, () => {
+        load()
+    })
 })
 
 

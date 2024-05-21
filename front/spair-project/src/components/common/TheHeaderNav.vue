@@ -84,6 +84,7 @@
     const searchQuery = ref('')
     const search = function(){
         router.push({name: 'boardSearchKeyword', query: { search: searchQuery.value }})
+        searchQuery.value = ''
     }
             
 </script>

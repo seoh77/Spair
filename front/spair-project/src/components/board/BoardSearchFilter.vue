@@ -53,7 +53,7 @@
 </template>
   
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 const route = useRoute()
 const emit = defineEmits(['apply-filters'])
@@ -69,8 +69,20 @@ const filter = ref({
 const typeselected= ref(false)
 const exerciseType = route.query.exerciseType
 if (route.query.exerciseType){
-    typeselected.value = true;
+    typeselected.value = true
+}else {
+    typeselected.value = false
 }
+
+watch(() => route.query.exerciseType, (newExerciseType) => {
+  if (newExerciseType) {
+    typeselected.value = true
+  } else {
+    typeselected.value = false
+  }
+})
+
+
 
 
 const applyFilters = function(){
@@ -125,6 +137,14 @@ h4 {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.wrap:nth-child(1) {
+    background-color: var(--primary-color);
+}
+
+.wrap:nth-child(2) {
+    background-color: var(--sub-color);
 }
 
 .wrap:nth-child(3) {
