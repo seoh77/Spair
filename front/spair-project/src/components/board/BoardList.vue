@@ -12,7 +12,7 @@
                     <th>모집상태</th>
                 </tr>
             </thead>
-            <tbody v-if="!filteredBoardList.length && !isSearch">
+            <tbody v-if="!filteredBoardList.length && !isSearch && boardListInit.length !== 0">
                 <tr v-for="(board, index) in boardListInit" :key="board.id">
                     <td>{{ index + 1 }}</td>
                     <td >
@@ -23,6 +23,13 @@
                     <td class="date">{{  board.createdDate.substr(0, 10) }}</td>
                     <td>
                         <div :class="{ 'trueStatus': board.status === 1 }">{{  board.status ? '모집중' : '모집완료' }}</div>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody v-else-if="!filteredBoardList.length && !isSearch && boardListInit.length === 0">
+                <tr>
+                    <td colspan="5" class="oneTd">
+                        게시글이 없습니다.
                     </td>
                 </tr>
             </tbody>
