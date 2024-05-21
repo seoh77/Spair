@@ -2,7 +2,7 @@
     <div id="map-view">
         <h2>게시글이 등록된 스포츠센터</h2>
         <div>
-            <KakaoMap width="100%" height="600px" :lat="coordinate.lat" :lng="coordinate.lng" :markerList="markerList" @onLoadKakaoMap="onLoadKakaoMap"/>
+            <KakaoMap width="100%" height="70vh" :lat="coordinate.lat" :lng="coordinate.lng" :markerList="markerList" @onLoadKakaoMap="onLoadKakaoMap"/>
             <div id="center-board" v-if="selectList">
                 <template v-for="board in selectList" :key="board.postId">
                     <div class="item_wrap">
@@ -69,7 +69,7 @@
             const lat = latlng.getLat()
             const lng = latlng.getLng()
 
-            // 클릭한 위치의 반경 10m 이내에 있는 스포츠 센터 게시글 출력
+            // 클릭한 위치의 반경 50m 이내에 있는 스포츠 센터 게시글 출력
             for(let i=0; i<markerList.value.length; i++) {
                 const distance = getDistanceFromLatLonInMeters(lat, lng, markerList.value[i].lat, markerList.value[i].lng) 
 
@@ -107,6 +107,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin-bottom: 50px ;
     }
 
     #map-view h2 {
@@ -116,6 +117,7 @@
 
     #map-view > div {
         width: 80%;
+        min-height: 600px;
         display: flex ;
         position: relative;
         min-width: 1000px;
@@ -123,7 +125,7 @@
 
     #center-board {
         width: 30%;
-        height: 600px;
+        height: 70vh;
         position: absolute;
         top: 0 ;
         right: 0;
