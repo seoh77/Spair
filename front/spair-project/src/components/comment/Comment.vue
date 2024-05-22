@@ -11,41 +11,51 @@
             </div>
         </div>
         <div class="comment-edit">
-            <div id="content">{{comment.content}}</div>
-            <!-- <div v-if="!isEditing[comment.commentId]" id="content">{{ comment.content }}</div>
-            <textarea v-else v-model="comment.content" /> -->
-            <div class="btn-area" v-if="loginUserId === comment.userId">
-                <button id="update" v-if="!isEditing[comment.commentId]" @click="toggleEdit(comment.commentId)"></button>
-                <button id="update-done" v-if="isEditing[comment.commentId]" @click="updateComment(comment)">완료</button>
-                <button id="delete" @click="deleteComment(comment)"></button>
+            <div v-if="!comment.isEditing" id="content">{{ comment.content }}</div>
+            <textarea v-else v-model="comment.content" />
+            <div class="btn-area" v-if="userId === comment.userId">
+                <button id="update" v-if="!comment.isEditing" @click="toggleEdit(comment.commentId)"></button>
+                <button id="update-done" v-if="comment.isEditing" @click="updateComment(comment)">완료</button>
+                <button id="delete" @click="deleteComment(comment.commentId)"></button>
             </div>
         </div>
         <div v-for="comment in comment.replyComment" :key="comment.commnetId" class="reply-wrap">
-            <Comment :comment="comment" reply="true"/>
+            <Comment :comment="comment" />
          </div>
     </div>
 </template>
 
 <script setup>
-    import { defineProps } from 'vue'
+    import { ref, defineProps, onMounted } from 'vue'
+    import axios from 'axios'
+    import { useRoute } from 'vue-router'
+    import { useCommentStore } from '@/stores/comment'
+    
+    const store = useCommentStore()
+    const route = useRoute()
 
     const props = defineProps({
-        comment: Object,
-        reply: Boolean
+        comment: Object
     })
 
+    const userId = ref()
+
+    onMounted(() => {
+        const localStorageData = JSON.parse(localStorage.getItem("loginUserInfo")) 
+        userId.value = localStorageData.userId
+    })
 
     // 댓글 삭제 기능
-    // const deleteComment = function(comment) {
-    //     const isDelete = confirm("정말 삭제하시겠습니까?")
+    const deleteComment = function(commentId) {
+        const isDelete = confirm("정말 삭제하시겠습니까?")
 
-    //     if(!isDelete) return
+        if(!isDelete) return
 
-    //     axios.delete(`http://localhost:8080/api/comment/${comment.commentId}`)
-    //     .then(() => {
-    //         insertComment()
-    //     })
-    // }
+        axios.delete(`http://localhost:8080/api/comment/${commentId}`)
+        .then(() => {
+            store.insertComment(route.params.postId)
+        })
+    }
 
 
     // 댓글 수정 기능 
