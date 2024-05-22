@@ -12,8 +12,9 @@
                     <th>모집상태</th>
                 </tr>
             </thead>
-            <tbody v-if="!filteredBoardList.length && !isSearch && boardListInit.length !== 0">
-                <tr v-for="(board, index) in boardListInit" :key="board.id">
+            <!-- <tbody v-if="!filteredBoardList.length && !isSearch && boardListInit.length !== 0"> -->
+            <tbody v-if="!filteredBoardList.length && !isSearch && display.length !== 0">
+                <tr v-for="(board, index) in display" :key="board.id">
                     <td>{{ index + 1 }}</td>
                     <td >
                         <!-- <RouterLink to="`/board/${board.postId}`">{{ board.title }}</RouterLink> -->
@@ -26,7 +27,7 @@
                     </td>
                 </tr>
             </tbody>
-            <tbody v-else-if="!filteredBoardList.length && !isSearch && boardListInit.length === 0">
+            <tbody v-else-if="!filteredBoardList.length && !isSearch && display.length === 0">
                 <tr>
                     <td colspan="5" class="oneTd">
                         게시글이 없습니다.
@@ -34,7 +35,8 @@
                 </tr>
             </tbody>
             <tbody v-else-if="filteredBoardList.length && isSearch">
-                <tr v-for="(board, index) in filteredBoardList" :key="board.id">
+                <!-- <tr v-for="(board, index) in filteredBoardList" :key="board.id"> -->
+                <tr v-for="(board, index) in display" :key="board.id">
                     <td>{{ index + 1 }}</td>
                     <td >
                         <!-- <RouterLink :to="`/board/${board.postId}`">{{ board.title }}</RouterLink> -->
@@ -66,12 +68,12 @@
 </template>
 
 <script setup>
-import BoardSearchFilter from '@/components/board/BoardSearchFilter.vue';
-import { useBoardStore } from '@/stores/board';
-import { computed, onMounted,ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import BoardSearchFilter from '@/components/board/BoardSearchFilter.vue'
+import { useBoardStore } from '@/stores/board'
+import { computed, onMounted,ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import axios from 'axios'
-const store = useBoardStore();
+const store = useBoardStore()
 const route = useRoute()
 
 const filteredBoardList = ref([])
@@ -80,8 +82,8 @@ const boardListInit = ref([])
 
 // 첫 진입시 전체 리스트 반환
 const load = async () => {
-    // const currentPath = window.location.pathname;
-    const currentPath = route.path;
+    // const currentPath = window.location.pathname
+    const currentPath = route.path
     
     if (route.query.exerciseType) {
         const exerciseType = route.query.exerciseType
@@ -93,7 +95,7 @@ const load = async () => {
         // home화면일 때는 전체(전국) 게시판이 호출
         if (currentPath === '/') {
             store.getBoardListTotal().then(data => {
-                boardListInit.value = data;
+                boardListInit.value = data
             })
 
         // 통합검색 화면일 때는 keyword를 포함하는 게시물 리스트가 호출
@@ -101,22 +103,22 @@ const load = async () => {
             // watch를 추가하여 검색어 변경을 감시하고, 변경될 때마다 API를 호출
             watch(() => route.query.search, async (newSearchQuery) => {
                 await store.getBoardListSearch(newSearchQuery).then( data => {
-                    boardListInit.value = data;
-                });
-            });
+                    boardListInit.value = data
+                })
+            })
 
             // 초기에도 검색어가 있을 수 있으므로 초기 검색어에 대해 API 호출
-            const initialSearchQuery = route.query.search;
+            const initialSearchQuery = route.query.search
             if (initialSearchQuery) {
                 store.getBoardListSearch(initialSearchQuery).then(data => {
-                    boardListInit.value = data;
-                });
+                    boardListInit.value = data
+                })
             }
 
         // '/board'일 경우에는 우리동네 게시판이 호출
         } else if ( currentPath === '/board' ) {
             store.getBoardList().then(data => {
-                boardListInit.value = data;
+                boardListInit.value = data
             })
         
         // 그 외 경로일때는 스포츠센터 게시판 호출
@@ -173,21 +175,25 @@ const postPerPage = ref(10)
 const display = computed(() => {
     const startIdx = (currentPage.value -1) * postPerPage.value
     const endIdx = startIdx + postPerPage.value
-    return boardListInit.slice(startIdx,endIdx)
+    // return boardListInit.slice(startIdx,endIdx)
+    return isSearch.value ? filteredBoardList.value.slice(startIdx, endIdx) : boardListInit.value.slice(startIdx, endIdx)
 })
 
 const totalPage = computed(() => {
-    return Math.ceil(boardListInit.value.length / postPerPage.value)
+    // return Math.ceil(boardListInit.value.length / postPerPage.value)
+    return isSearch.value 
+        ? Math.ceil(filteredBoardList.value.length / postPerPage.value) 
+        : Math.ceil(boardListInit.value.length / postPerPage.value)
 })
 
 const prev = () => {
     if(currentPage.value >1){
-        currentPage.value--;
+        currentPage.value--
     }
 }
 const next = () => {
     if(currentPage.value < totalPage.value){
-        currentPage.value++;
+        currentPage.value++
     }
 }
 
@@ -280,7 +286,7 @@ const next = () => {
         justify-content: center;
         margin: 2rem;
     }
-    
+
     #pages button {
         margin: 0 1rem;
     }
