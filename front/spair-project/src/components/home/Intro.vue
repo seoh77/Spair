@@ -2,7 +2,9 @@
     <div id="intro-container">
         <div id="h1">
             <h1>나랑 같이 운동하자!</h1>
-            <h1>내 <span>PAIR</span> 찾기</h1>
+            <div>
+                <h1 id="typing">내 <span>PAIR</span> 찾기</h1>
+            </div>
         </div>
         <div id="shortcut">
             <!--  바로가기 컴포넌트 추가 후 클릭 이벤트 수정 및 추가 예정-->
@@ -19,8 +21,10 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
+import { onMounted, onUnmounted } from 'vue';
 const router = useRouter()
 
+// 우리동네 헬스장/필라테스 바로가기 기능
 const gym = function(){
     // 쿼리를 담아서 boardList로 
     router.push({ name: 'boardList', query: { exerciseType: 'PT'}})
@@ -29,12 +33,38 @@ const pilates = function(){
     // 쿼리를 담아서 boardList로 
     router.push({ name: 'boardList', query: { exerciseType: '필라테스'}})
 }
+
+
+// 타이핑 애니메이션 기능
+const typingDuration = 4000 // 타이핑 애니메이션 지속 시간 (ms)
+const intervalDuration = 3000 // 애니메이션 주기 (ms)
+let interval = null
+
+const restart = () => {
+  const typingElement = document.getElementById('typing')
+  if (typingElement) {
+    typingElement.style.animation = 'none'
+    typingElement.offsetHeight
+    typingElement.style.animation = null
+  }
+}
+
+onMounted(() => {
+  interval = setInterval(restart, typingDuration + intervalDuration)
+})
+
+onUnmounted(() => {
+  if (interval) {
+    clearInterval(interval);
+  }
+})
+
+
 </script>
 
 <style scoped>
     #intro-container {
         width: 100%; 
-        /* height: 200px;  */
         background-color: var(--primary-color);
         display:flex;
         flex-direction: column;
@@ -49,12 +79,37 @@ const pilates = function(){
         min-width: 1000px;
         display: flex;
         flex-direction: column;
+        height: 8rem;
     }
-
+    
     h1 {
         margin: 0;
         color: #FFFFFF;
         font-size: 3rem;
+        height: 4rem;
+    }
+
+    #h1 div {
+        display: flex;
+        width: 17rem;
+    }
+
+    #typing {
+        overflow: hidden;
+        border-right: 0.3rem solid #FFFFFF;
+        width: 0;
+        height: 2.8rem;
+        white-space: nowrap;
+        animation: typing 1.3s steps(20, end) forwards, blink 0.8s infinite;
+    }
+
+    @keyframes typing {
+        from { width: 0 }
+        to { width: 100% } 
+    }
+
+    @keyframes blink {
+        50% { border-color: transparent; }
     }
 
     span {
