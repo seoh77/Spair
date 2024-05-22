@@ -4,11 +4,11 @@
         <div id="form-container">
             <div id="register">
                 <div>
-                    <label for="nickname">작성자 </label>
+                    <label id="nickname-label" for="nickname">작성자 </label>
                     <input type="text" id="nickname" :value="userNickname" readonly>
                 </div>
                 <div>
-                    <label for="title">제목  </label>
+                    <label id="title-label" for="title">제목  </label>
                     <input type="text" id="title" v-model="board.post.title">
                 </div>
 
@@ -215,6 +215,14 @@
         display: flex;
         margin-bottom: 0.6rem;
         margin-bottom: 1rem;
+    }
+
+    #nickname-label {
+        width: 5rem;
+    }
+
+    #title-label {
+        width: 5.1rem;
     }
 
     #infos {
