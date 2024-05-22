@@ -2,8 +2,8 @@
     <div id="create-comment">
         <div class="comment-title">
             <label for="insert">댓글</label>
-            <!-- <img src="@/assets/lock.png" class="lockImg"/> -->
-            <img src="@/assets/unlock.png" class="unlockImg" />
+            <img src="@/assets/lock.png" class="lockImg" v-if="isPrivata" @click="changePrivateStatus"/>
+            <img src="@/assets/unlock.png" class="unlockImg" v-if="!isPrivata" @click="changePrivateStatus"/>
         </div>
         <div id="input">
             <textarea name="insert" id="insert" type="text" v-model="comment.content"></textarea>
@@ -22,7 +22,7 @@
         
     const store = useCommentStore()
     const route = useRoute()
-
+    const isPrivata = ref(false)
 
     const props = defineProps({
         parent: Number,
@@ -36,16 +36,26 @@
         status: ''
     })
 
+    const changePrivateStatus = () => {
+        isPrivata.value = !isPrivata.value
+    }
+
     const commentCreate= function(){
         if(props.parent) {
             comment.value.parentId = props.parent
+        }
+
+        if(isPrivata.value) {
+            comment.value.status = 0
+        } else {
+            comment.value.status = 1
         }
 
         axios.post('http://localhost:8080/api/comment', comment.value)
         .then(() => {
             store.insertComment(route.params.postId)
             comment.value.content = ''
-            props.changeWriteReply()
+            if(props.changeWriteReply) props.changeWriteReply()
         })
         .catch(error => {
             console.error(error)
@@ -115,13 +125,6 @@
     img {
         margin-top: 5px;
         margin-left: 7px ;
-    }
-
-    .lockImg {
-        width: 1.2rem;
-    }
-
-    .unlockImg {
         width: 1.3rem;
     }
 </style>
