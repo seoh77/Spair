@@ -1,21 +1,25 @@
 <template>
     <div id="intro-container">
-        <div id="h1">
-            <h1>나랑 같이 운동하자!</h1>
-            <div>
-                <h1 id="typing">내 <span>PAIR</span> 찾기</h1>
+
+        <div id="wrap">
+            <div id="h1">
+                <h1>나랑 같이 운동하자!</h1>
+                <div>
+                    <h1 id="typing">내 <span>PAIR</span> 찾기</h1>
+                </div>
             </div>
+            <div id="shortcut">
+                <!--  바로가기 컴포넌트 추가 후 클릭 이벤트 수정 및 추가 예정-->
+                <button @click="gym">
+                    우리동네 헬스장 PAIR찾기 바로가기
+                </button>
+                <button @click="pilates">
+                    우리동네 필라테스 PAIR찾기 바로가기
+                </button>
+            </div>
+            
         </div>
-        <div id="shortcut">
-            <!--  바로가기 컴포넌트 추가 후 클릭 이벤트 수정 및 추가 예정-->
-            <button @click="gym">
-                우리동네 헬스장 PAIR찾기 바로가기
-            </button>
-            <button @click="pilates">
-                우리동네 필라테스 PAIR찾기 바로가기
-            </button>
-        </div>
-        
+
     </div>
 </template>
 
@@ -73,10 +77,29 @@ onUnmounted(() => {
         font-family: 'Tenada';
     }
 
-    #h1 {
+    #wrap {
         width: 75%;
         max-width: 1200px;
         min-width: 1000px;
+        padding: 4rem 1rem 0rem 1rem;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* background-color: #FF8B37;   */
+        background-color: #3d2c2c;
+         /* opacity: 80%; */
+        border-radius: 5rem 5rem 0 0 ;
+        /* box-shadow: 0.1rem 0.1rem 0 0.3rem #552808; */
+        box-shadow: 0 -0.8rem 0.8rem -0.8rem #882e01,
+              -0.8rem 0 0.8rem -0.8rem #882e01, 
+              0.8rem 0 0.8rem -0.8rem #882e01;
+    }
+
+    #h1 {
+        width: 75%;
+        max-width: 1200px;
+        min-width: 950px;
         display: flex;
         flex-direction: column;
         height: 8rem;
@@ -119,7 +142,7 @@ onUnmounted(() => {
     #shortcut {
         width: 75%;
         max-width: 1200px;
-        min-width: 1000px;
+        min-width: 950px;
         display: flex;
         justify-content: center;
     }
