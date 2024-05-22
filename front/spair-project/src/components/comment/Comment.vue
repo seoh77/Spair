@@ -1,29 +1,35 @@
 <template>
     <div id="each-comment">
-        <div class="comment-info">
-            <div class="comment-name">
-                <div id="writer">{{ comment.user.nickname }}</div>
-                <div id="replyBtn" @click="clickReplyBtn(comment)">답글</div>
-            </div>
-            <div class="date_wrap">
-                <div v-if="!comment.modifiedDate" class="date">{{ comment.createdDate.replace("T", " ") }}</div>
-                <div v-else class="date">{{ comment.modifiedDate.replace("T", " ") }}</div>
-            </div>
+        <div class="private-comment" v-if="isPrivate"> 
+            <img src="@/assets/lock.png" />
+            <span>해당 댓글은 게시글 작성자와 댓글 작성자만 볼 수 있습니다.</span>
         </div>
-        <div class="comment-edit">
-            <div v-if="!comment.isEditing" id="content">{{ comment.content }}</div>
-            <textarea v-else v-model="comment.content" />
-            <div class="btn-area" v-if="userId === comment.userId">
-                <button id="update" v-if="!comment.isEditing" @click="toggleEdit(comment)"></button>
-                <button id="update-done" v-if="comment.isEditing" @click="updateComment(comment)">완료</button>
-                <button id="delete" @click="deleteComment(comment.commentId)"></button>
+        <div class="public-comment" v-if="!isPrivate">
+            <div class="comment-info">
+                <div class="comment-name">
+                    <div id="writer">{{ comment.user.nickname }}</div>
+                    <div id="replyBtn" @click="clickReplyBtn(comment)">답글</div>
+                </div>
+                <div class="date_wrap">
+                    <div v-if="!comment.modifiedDate" class="date">{{ comment.createdDate.replace("T", " ") }}</div>
+                    <div v-else class="date">{{ comment.modifiedDate.replace("T", " ") }}</div>
+                </div>
             </div>
-        </div>
-        <div v-for="comment in comment.replyComment" :key="comment.commnetId" class="reply-wrap">
-            <Comment :comment="comment" />
-        </div>
-        <div class="reply_input_area" v-if="writeReply">
-            <CommentCreate :parent="parent"  :change-write-reply="changeWriteReply"/>
+            <div class="comment-edit">
+                <div v-if="!comment.isEditing" id="content">{{ comment.content }}</div>
+                <textarea v-else v-model="comment.content" />
+                <div class="btn-area" v-if="userId === comment.userId">
+                    <button id="update" v-if="!comment.isEditing" @click="toggleEdit(comment)"></button>
+                    <button id="update-done" v-if="comment.isEditing" @click="updateComment(comment)">완료</button>
+                    <button id="delete" @click="deleteComment(comment.commentId)"></button>
+                </div>
+            </div>
+            <div v-for="comment in comment.replyComment" :key="comment.commnetId" class="reply-wrap">
+                <Comment :comment="comment" />
+            </div>
+            <div class="reply_input_area" v-if="writeReply">
+                <CommentCreate :parent="parent"  :change-write-reply="changeWriteReply"/>
+            </div>
         </div>
     </div>
 </template>
@@ -33,12 +39,15 @@
     import axios from 'axios'
     import { useRoute } from 'vue-router'
     import { useCommentStore } from '@/stores/comment'
+    import { useBoardStore } from '@/stores/board'
     import CommentCreate from '@/components/comment/CommentCreate.vue'
     
     const store = useCommentStore()
+    const boardStore = useBoardStore()
     const route = useRoute()
     const writeReply = ref(false)
     const parent = ref()
+    const isPrivate = ref(true)
 
     const props = defineProps({
         comment: Object
@@ -49,6 +58,16 @@
     onMounted(() => {
         const localStorageData = JSON.parse(localStorage.getItem("loginUserInfo")) 
         userId.value = localStorageData.userId
+
+        if(comment.status) {
+            // 공개댓글인 경우
+            isPrivate.value = false
+        } else {
+            // 비밀댓글인 경우 댓글 작성자와 게시글 작성자만 보임
+            if(userId.value === props.comment.user.userId || userId.value === boardStore.board.user.userId) {
+                isPrivate.value = false
+            }
+        }
     })
 
     // 댓글 삭제 기능
@@ -210,5 +229,17 @@
         border-radius: 0.5rem;
         background-color: var(--secondary-color);
         margin: 0.4rem 0 0.4rem 0.4rem;
+    }
+
+    .private-comment {
+        display: flex ;
+        align-items: center ;
+        color: var(--gray-color);
+    }
+
+    img {
+        width: 1.1rem;
+        margin-right: 5px ;
+        margin-top: 3px;
     }
 </style>
