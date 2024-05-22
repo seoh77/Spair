@@ -1,7 +1,11 @@
 <template>
     <div id="create-comment">
-        <div id="input">
+        <div class="comment-title">
             <label for="insert">댓글</label>
+            <!-- <img src="@/assets/lock.png" class="lockImg"/> -->
+            <img src="@/assets/unlock.png" class="unlockImg" />
+        </div>
+        <div id="input">
             <textarea name="insert" id="insert" type="text" v-model="comment.content"></textarea>
         </div>
         <div id="btn">
@@ -71,7 +75,7 @@
     #input {
         display: flex;
         align-items: start;
-        width: 90%;
+        width: 100%;
     }
 
     textarea {
@@ -99,5 +103,25 @@
         font-size: 1.2rem;
         height: 2.3rem;
         width: 4rem;
+    }
+
+    .comment-title {
+        display: flex;
+        flex-direction: column ;
+        width: 7% ;
+        margin-left: 5px ;
+    }
+
+    img {
+        margin-top: 5px;
+        margin-left: 7px ;
+    }
+
+    .lockImg {
+        width: 1.2rem;
+    }
+
+    .unlockImg {
+        width: 1.3rem;
     }
 </style>
