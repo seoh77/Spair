@@ -159,6 +159,7 @@ select {
     font-family: 'Tenada';
     font-size: 1.3rem;
     border-radius: 0.5rem;
+    padding: 0.4rem 0 0 0;
 }
 
 #selected-type {
@@ -168,6 +169,7 @@ select {
     font-family: 'Tenada';
     font-size: 1.3rem;
     border-radius: 0.5rem;
+    padding: 0.4rem 0 0 0;
 }
 
 #status {
@@ -197,6 +199,7 @@ select {
     margin: 0 2rem 0 0;
     font-size: 1.3rem;
     box-shadow: 0.3rem 0.3rem 0.5rem gray;
+    padding: 0.4rem 0 0 0;
 }
 
 #min-max {
@@ -244,6 +247,7 @@ button {
     color: #FFFFFF;
     box-shadow: 0.3rem 0.3rem 0.5rem gray;
     border: 1px solid black ;
+    padding: 0.4rem 0 0 0;
 }
 </style>
   
