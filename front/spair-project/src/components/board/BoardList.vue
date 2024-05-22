@@ -59,9 +59,15 @@
         </table>
         
         <div id="pages">
-            <button v-if="currentPage > 1" @click="prev">이전</button>
-            <div>{{  currentPage }} / {{ totalPage }}</div>
-            <button v-if="currentPage < totalPage" @click="next">다음</button>
+            <div>
+                <button v-if="currentPage > 1" @click="prev"> < 이전 </button>
+            </div>
+            <div id="current">{{  currentPage }} </div>
+            <div>/</div>
+            <div id="total">{{ totalPage }}</div>
+            <div>
+                <button v-if="currentPage < totalPage" @click="next"> 다음 > </button>
+            </div>
         </div>
 
     </div>
@@ -282,12 +288,44 @@ const next = () => {
 
     #pages {
         display: flex;
-        width: 20%;
+        width: 40%;
         justify-content: center;
-        margin: 2rem;
+        margin: 3rem;
+        font-size: 1.2rem;
+        font-family: 'NanumSquareRound';
+        font-weight: bold;
     }
 
     #pages button {
-        margin: 0 1rem;
+        margin: 0 2rem;
+        border-style: none;
+        background-color: var(--sub-color);
+        border-radius: 1rem;
+        color: #FFFFFF;
+        font-weight: bolder;
+        font-family: 'NanumSquareRound';
+        width: 4rem;
+        font-size: 0.9rem;
+    }
+
+    #pages div {
+        margin: 0 0.3rem;
+    }
+
+    #pages div:nth-child(1){
+        width: 8rem;
+        display: flex;
+        justify-content: center;
+    }
+    
+    #pages div:nth-child(5){
+        width: 8rem;
+        display: flex;
+        justify-content: center;
+    }
+
+    #current {
+        color: var(--primary-color);
+        margin-right: 0.5rem;
     }
 </style>
