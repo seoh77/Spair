@@ -2,7 +2,6 @@
     <div id="comment-container">
         <div id="wrap">
             <div class="comment-group" v-for="comment in store.commentList" :key="comment.commnetId"> 
-                <div class="line"></div>
                 <Comment :comment="comment" />
             </div>
             <CommentCreate />
@@ -45,7 +44,9 @@
     }
 
     .comment-group {
-        padding: 1rem 1.4rem ;
+        margin: 0 1rem ;
+        padding: 1rem 0.4rem ;
         box-sizing: border-box;
+        border-bottom: 0.1rem dotted var(--gray-color);
     }
 </style>
