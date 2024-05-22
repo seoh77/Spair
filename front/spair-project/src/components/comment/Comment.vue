@@ -14,7 +14,7 @@
             <div v-if="!comment.isEditing" id="content">{{ comment.content }}</div>
             <textarea v-else v-model="comment.content" />
             <div class="btn-area" v-if="userId === comment.userId">
-                <button id="update" v-if="!comment.isEditing" @click="toggleEdit(comment.commentId)"></button>
+                <button id="update" v-if="!comment.isEditing" @click="toggleEdit(comment)"></button>
                 <button id="update-done" v-if="comment.isEditing" @click="updateComment(comment)">완료</button>
                 <button id="delete" @click="deleteComment(comment.commentId)"></button>
             </div>
@@ -58,23 +58,22 @@
     }
 
 
-    // 댓글 수정 기능 
-    // const isEditing = ref({})
-    // 수정란 토글 열기
-    // const toggleEdit = (commentId) => {
-    //     isEditing.value[commentId] = !isEditing.value[commentId]
-    // }
+    // 수정 textarea 토글 열기
+    const toggleEdit = (comment) => {
+        comment.isEditing = !comment.isEditing
+    }
 
-    // const updateComment = function(comment) {
-    //     axios.put(`http://localhost:8080/api/comment/${comment.commentId}`,{
-    //         "content": comment.content,
-    //         "status": 0
-    //     })
-    //     .then(() => {
-    //         comments()
-    //         isEditing.value[comment.commentId] = false
-    //     })
-    // }
+    // 수정 기능
+    const updateComment = function(comment) {
+        axios.put(`http://localhost:8080/api/comment/${comment.commentId}`,{
+            "content": comment.content,
+            "status": 0
+        })
+        .then(() => {
+            store.insertComment(route.params.postId)
+            comment.isEditing = false
+        })
+    }
 </script>
 
 <style scoped>
