@@ -34,7 +34,7 @@
                 <div id="con">
                     <div id="inner-wrap">
                         <div class="tem">내용 </div> 
-                        <div class="tem">{{ store.board.modifiedDate }}</div>
+                        <div class="tem">{{ store.board.createdDate ? store.board.createdDate.replace("T", " ") : store.board.createdDate }}</div>
                     </div> 
                     <div id="content">{{ store.board.content }}</div>
                     <div id="btn" v-if="isWriter">

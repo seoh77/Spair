@@ -144,6 +144,7 @@ const updateComment = function(comment) {
         font-size: 1.1rem;
         display: flex ;
         align-items: center ;
+        white-space: pre-wrap;
     }
 
     #btn {
@@ -176,9 +177,11 @@ const updateComment = function(comment) {
     textarea {
         width: 88.3%;
         resize: none;
-        overflow-y: scroll; 
+        overflow-y: auto; 
         overflow-x: hidden;
-        font-size: 1.2rem;
+        font-size: 1rem;
+        padding: 5px ;
+        font-family: 'NanumSquareRound';
     }
     
     #update-done {
