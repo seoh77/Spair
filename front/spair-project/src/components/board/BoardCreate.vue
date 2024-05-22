@@ -218,11 +218,15 @@
     }
 
     #nickname-label {
-        width: 5rem;
+        width: 5.2rem;
     }
 
     #title-label {
-        width: 5.1rem;
+        width: 5.4rem;
+    }
+
+    #title {
+        width: 90%;
     }
 
     #infos {
@@ -241,7 +245,7 @@
     }
 
     #price-wrap input{
-        width: 65%;
+        width: 70%;
         /* margin-right: 5px */
     }
     
@@ -257,8 +261,9 @@
         overflow-y: auto; 
         overflow-x: hidden;
         font-size: 1.2rem;
-        padding: 5px ;
+        padding: 5px;
         font-family: 'NanumSquareRound';
+        box-sizing: border-box;
     }
 
     #area {

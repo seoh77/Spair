@@ -187,8 +187,9 @@ textarea {
     overflow-x: hidden;
     font-size: 1.2rem;
     margin: 1rem 0;
-    padding: 5px ;
+    padding: 5px;
     font-family: 'NanumSquareRound';
+    box-sizing: border-box;
 }
 
 #area {
