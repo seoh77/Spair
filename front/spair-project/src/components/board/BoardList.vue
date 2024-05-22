@@ -316,6 +316,7 @@ const next = () => {
         font-family: 'NanumSquareRound';
         width: 4rem;
         font-size: 0.9rem;
+        cursor: pointer;
     }
 
     #pages div {

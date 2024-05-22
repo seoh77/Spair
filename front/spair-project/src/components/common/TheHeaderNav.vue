@@ -182,6 +182,7 @@
         background-color: #FFFFFF;
         font-family: 'Tenada';
         font-size: 1rem;
+        cursor: pointer;
     }
 
     #user {

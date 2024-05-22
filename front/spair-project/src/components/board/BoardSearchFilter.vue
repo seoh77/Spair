@@ -160,6 +160,7 @@ select {
     font-size: 1.3rem;
     border-radius: 0.5rem;
     padding: 0.4rem 0 0 0;
+    cursor: pointer;
 }
 
 #selected-type {
@@ -248,6 +249,11 @@ button {
     box-shadow: 0.3rem 0.3rem 0.5rem gray;
     border: 1px solid black ;
     padding: 0.4rem 0 0 0;
+    cursor: pointer;
+}
+
+button:active {
+    box-shadow: 0.1rem 0.2srem 0.2rem rgb(73, 73, 73);
 }
 </style>
   

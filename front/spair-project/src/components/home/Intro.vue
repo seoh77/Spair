@@ -7,14 +7,10 @@
         <div id="shortcut">
             <!--  바로가기 컴포넌트 추가 후 클릭 이벤트 수정 및 추가 예정-->
             <button @click="gym">
-                <p>
-                    우리동네 헬스장 PAIR찾기 바로가기
-                </p>
+                우리동네 헬스장 PAIR찾기 바로가기
             </button>
             <button @click="pilates">
-                <p>
-                    우리동네 필라테스 PAIR찾기 바로가기
-                </p>
+                우리동네 필라테스 PAIR찾기 바로가기
             </button>
         </div>
         
@@ -46,6 +42,7 @@ const pilates = function(){
         align-items: center;
         font-family: 'Tenada';
     }
+
     #h1 {
         width: 75%;
         max-width: 1200px;
@@ -53,14 +50,17 @@ const pilates = function(){
         display: flex;
         flex-direction: column;
     }
+
     h1 {
         margin: 0;
         color: #FFFFFF;
         font-size: 3rem;
     }
+
     span {
         color: var(--secondary-color);
     }
+
     #shortcut {
         width: 75%;
         max-width: 1200px;
@@ -68,6 +68,7 @@ const pilates = function(){
         display: flex;
         justify-content: center;
     }
+
     button {
         border-style: none;
         border-radius: 10px;
@@ -77,18 +78,25 @@ const pilates = function(){
         align-items: flex-end;
         margin: 40px 10px;
         font-family: 'Tenada';
+        padding: 1rem 1rem 0.5rem 1rem;
+        cursor: pointer;
+        box-shadow: 0.1rem 0.2rem 0.5rem #c55707
     }
-    button p {
-        margin: 0.7rem;
-    }
+
     button:first-child {
         background-color: var(--sub-color);
         color:#FFFFFF;
         font-size: 1.4rem;
     }
+
     button:nth-child(2) {
         background-color: #FFFFFF;
         color: var(--sub-color);
         font-size: 1.4rem;
     }
+
+    button:active {
+        box-shadow: 0.1rem 0.1rem 0.1rem #aa4a06
+    }
+
 </style>
