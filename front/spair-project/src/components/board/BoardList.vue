@@ -23,7 +23,7 @@
                     <td>{{  board.user.nickname }}</td>
                     <td class="date">{{  board.createdDate.substr(0, 10) }}</td>
                     <td>
-                        <div :class="{ 'trueStatus': board.status === 1 }">{{  board.status ? '모집중' : '모집완료' }}</div>
+                        <div :class="{ 'trueStatus': board.status === 1, 'falseStatus': board.status === 0 }">{{  board.status ? '모집중' : '모집완료' }}</div>
                     </td>
                 </tr>
             </tbody>
@@ -45,7 +45,7 @@
                     <td>{{ board.user.nickname }}</td>
                     <td class="date">{{ board.createdDate.substr(0, 10) }}</td>
                     <td>
-                        <div :class="{ 'trueStatus': board.status === 1 }">{{  board.status ? '모집중' : '모집완료' }}</div>
+                        <div :class="{ 'trueStatus': board.status === 1, 'falseStatus': board.status === 0 }">{{  board.status ? '모집중' : '모집완료' }}</div>
                     </td>
                 </tr>
             </tbody>
@@ -260,6 +260,16 @@ const next = () => {
         align-items: center;
         padding: 3px 0; 
         width: 80%;
+    }
+
+    .falseStatus {
+        color: rgb(114, 113, 113);
+        display: flex ;
+        justify-content: center;
+        align-items: center;
+        padding: 3px 0; 
+        width: 80%;
+        font-size: 1.1rem;
     }
 
     a {

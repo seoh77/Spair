@@ -44,7 +44,7 @@
                 </div>
             </div>
             
-            <h4>댓글</h4>
+            <h4 id="comment">댓글</h4>
             <CommentList/>
         </div>
     </div>
@@ -118,6 +118,10 @@ h4 {
     font-family: 'Tenada';
     font-size: 1.5rem;
     margin: 0 0 0.5rem 0;
+}
+
+#comment {
+    margin-left: 1rem;
 }
 
 #wrap {
