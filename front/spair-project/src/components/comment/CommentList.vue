@@ -2,15 +2,17 @@
     <div id="comment-container">
         <div id="wrap">
             <div id="each-comment" v-for="comment in commentList" :key="comment.commentId">
-                <div>
-                    <!-- 넘어온 comment 데이터에서 user의 nickname이 없음. 
-                    db에 접근/API 필요-->
-                    <div id="writer">{{ comment.user.nickname }}</div>
-                    <div v-if="!comment.modifiedDate" class="date">{{ comment.createdDate.replace("T", " ") }}</div>
-                    <div v-else class="date">{{ comment.modifiedDate.replace("T", " ") }}</div>
+                <div class="comment-info">
+                    <div class="comment-name">
+                        <div id="writer">{{ comment.user.nickname }}</div>
+                        <div id="replyBtn">답글</div>
+                    </div>
+                    <div class="date_wrap">
+                        <div v-if="!comment.modifiedDate" class="date">{{ comment.createdDate.replace("T", " ") }}</div>
+                        <div v-else class="date">{{ comment.modifiedDate.replace("T", " ") }}</div>
+                    </div>
                 </div>
-                <div>
-                    <!-- <div v-if="!comment.isEditing" id="content">{{ comment.content }}</div> -->
+                <div class="comment-edit">
                     <div v-if="!isEditing[comment.commentId]" id="content">{{ comment.content }}</div>
                     <textarea v-else v-model="comment.content" />
                     <div id="btn" v-if="loginUserId === comment.userId">
@@ -121,22 +123,52 @@ const updateComment = function(comment) {
         flex-direction: column;
         margin: 1.4rem;
     }
-    
-    #each-comment > div {
+
+    .comment-info {
+        width: 100%;
+        display: flex ;
+        justify-content: space-between;
+        margin-bottom: 5px ;
+    }
+
+    .comment-name {
         display: flex;
-        margin-bottom: 5px;
+        justify-content: center;
+        align-items: center;
     }
 
     #writer {
-        width: 85%;
         font-size: 1.4rem;
         font-weight: bold;
+        margin-right: 10px ;
+    }
+
+    #replyBtn {
+        color: gray ;
+        font-size: 0.7rem ;
+        border: 1px solid gray;
+        display: flex ;
+        justify-content: center;
+        align-items: center;
+        padding: 0 5px ;
+        border-radius: 5px ;
+        height: 17px;
+    }
+
+    .date_wrap {
+        width: 20%;
+        display: flex ;
+        justify-content: end;
+    }
+
+    .comment-edit {
+        display: flex ;
+        align-items: center;
     }
 
     .date {
         color: var(--gray-color);
         font-size: 1rem;
-        width: 20%;
     }
 
     #content {
@@ -145,6 +177,7 @@ const updateComment = function(comment) {
         display: flex ;
         align-items: center ;
         white-space: pre-wrap;
+        height: 25px;
     }
 
     #btn {
@@ -161,15 +194,15 @@ const updateComment = function(comment) {
     }
 
     #update {
-        width: 1.3rem;
-        height: 1.3rem;
+        width: 1rem;
+        height: 1rem;
         background-image: url('@/assets/update.png');
         background-size: cover;
     }
 
     #delete {
-        width: 2rem;
-        height: 2rem;
+        width: 1.5rem;
+        height: 1.5rem;
         background-image: url('@/assets/delete.png');
         background-size: cover;
     }
