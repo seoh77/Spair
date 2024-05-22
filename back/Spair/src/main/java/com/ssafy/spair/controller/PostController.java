@@ -53,12 +53,13 @@ public class PostController {
 		SportsCenter sportsCenter = postCreate.getSportsCenter() ;
 		
 		String address = sportsCenter.getRoadAddress() ;	
+		int centerId = sportsCenterService.search(sportsCenter.getLatitude(), sportsCenter.getLongitude()) ;
 		
-		if(sportsCenterService.search(address) == 0) {
-			sportsCenterService.insert(sportsCenter) ;
+		if(centerId == 0) {
+			centerId = sportsCenterService.insert(sportsCenter) ;
 		} 
 		
-		post.setCenterId(sportsCenterService.search(address));
+		post.setCenterId(centerId);
 		
 		if(post.getCreatedDate() == null) {
 			post.setCreatedDate(LocalDateTime.now());

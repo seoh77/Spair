@@ -7,7 +7,7 @@ public interface SportsCenterDao {
 	// 스포츠센터 추가
 	int insert(SportsCenter sportsCenter) ;
 	
-	// 스포츠센터 주소를 입력받아 스포츠센터 찾기
-	SportsCenter search(String address) ;
+	// 위도, 경도 값을 입력받아 스포츠센터 찾기
+	SportsCenter search(double latitude, double longitude) ;
 
 }

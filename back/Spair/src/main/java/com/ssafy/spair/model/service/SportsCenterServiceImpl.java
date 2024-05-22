@@ -19,18 +19,19 @@ public class SportsCenterServiceImpl implements SportsCenterService  {
 	@Override
 	public int insert(SportsCenter sportsCenter) {
 		sportsCenterDao.insert(sportsCenter) ;
-		SportsCenter result = sportsCenterDao.search(sportsCenter.getRoadAddress()) ;
+		SportsCenter result = sportsCenterDao.search(sportsCenter.getLatitude(), sportsCenter.getLongitude()) ;
 		return result.getCenterId();
 	}
 
 	@Override
-	public int search(String address) {
-		if(sportsCenterDao.search(address) == null) {
+	public int search(double latitude, double longitude) {
+		SportsCenter center = sportsCenterDao.search(latitude, longitude) ;
+		
+		if(center == null) {
 			return 0 ;
 		}
 		
-		SportsCenter sportsCenter = sportsCenterDao.search(address) ;
-		return sportsCenter.getCenterId();
+		return center.getCenterId();
 	}
 
 }

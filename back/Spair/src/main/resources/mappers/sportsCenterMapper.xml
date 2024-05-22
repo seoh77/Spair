@@ -10,11 +10,11 @@
 	</insert>
 	
 	
-	<!-- 주소로 스포츠센터 찾기 -->
-	<select id="search" parameterType="String" resultType="SportsCenter">
+	<!-- 위도, 경도로 스포츠센터 찾기 -->
+	<select id="search" parameterType="double" resultType="SportsCenter">
 		SELECT *
 		FROM sports_center
-		WHERE road_address = #{address} ;
+		WHERE latitude = #{latitude} AND longitude = #{longitude} ;
 	</select>
 	
 </mapper>
