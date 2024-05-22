@@ -92,7 +92,8 @@
 <style scoped>
     #header-container {
         width: 100%; 
-        height: 200px; 
+        height: 180px; 
+        /* height: 200px; */
         background-color: var(--primary-color);
         display:flex;
         justify-content: center;
