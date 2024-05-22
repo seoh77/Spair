@@ -14,9 +14,9 @@
                     
                 <!-- board 컴포넌트 추가 후 클릭 이벤트 수정 및 추가 예정-->
                 <div id="search">
-                    <label for="total-search">🔍</label>
+                    <label id="search-label" for="total-search">  </label>
                     <input type="text" id="total-search" v-model="searchQuery" @keyup.enter="search">
-                    <button @click="search">통합검색</button>        
+                    <button id="search-btn" @click="search">통합검색</button>        
                 </div>
 
                 <div id="user">
@@ -92,7 +92,8 @@
 <style scoped>
     #header-container {
         width: 100%; 
-        height: 200px; 
+        height: 180px; 
+        /* height: 200px; */
         background-color: var(--primary-color);
         display:flex;
         justify-content: center;
@@ -115,11 +116,12 @@
         color: var(--secondary-color);
         font-weight: bold;
     }
-
+    
     #logo a {
         text-decoration: none;
         color: var(--secondary-color);
         margin: 0;
+        padding: 0.75rem 0 0 0;
     }
 
     nav {
@@ -134,6 +136,7 @@
 
     #tab {
         min-width: 220px;
+        padding: 0.4rem 0 0 0;
     }
 
     #tab a{
@@ -149,13 +152,28 @@
         min-width: 400px;
         background-color: #FFFFFF;
         border-radius: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    #search-label {
+        background-image: url('@/assets/search.png');
+        background-size: cover;
+        display: inline-block;
+        width: 1.3rem;
+        height: 1.3rem;
+        margin-left: 0.5rem;
     }
 
     input {
         border-style: none;
-        width: 280px;
+        width: 75%;
         height: 30px;
         outline: none;
+    }
+
+    #search-btn{
+        padding: 0.3rem 0 0 0;
     }
 
     button {

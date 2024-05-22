@@ -5,11 +5,11 @@
         <div id="form-container">
             <div id="update">
                 <div>
-                    <label for="nickname">작성자</label>
+                    <label id="nickname-label" for="nickname">작성자</label>
                     <input type="text" id="nickname" readonly v-model="store.user.nickname">
                 </div>
                 <div>
-                    <label for="title">제목  </label>
+                    <label id="title-label" for="title">제목  </label>
                     <input type="text" id="title" v-model="store.board.title">
                 </div>
 
@@ -51,7 +51,7 @@
                 </div>
 
                     <div>
-                        <label for="roadAddress">주소 </label>
+                        <label id="road-address" for="roadAddress">주소 </label>
                         <input type="text" id="roadAddress" readonly v-model="store.sportsCenter.roadAddress">
                     </div>
                     <div id="area">
@@ -133,6 +133,22 @@ h4 {
     margin-bottom: 1rem;
 }
 
+#nickname-label {
+    width: 8.5%;
+}
+
+#title-label {
+    width: 8.7%;
+}
+
+#road-address {
+    width: 8.5%;
+}
+
+#title {
+    width: 91.3%;
+}
+
 #infos {
     display: flex;
     justify-content: space-between;
@@ -171,8 +187,9 @@ textarea {
     overflow-x: hidden;
     font-size: 1.2rem;
     margin: 1rem 0;
-    padding: 5px ;
+    padding: 5px;
     font-family: 'NanumSquareRound';
+    box-sizing: border-box;
 }
 
 #area {

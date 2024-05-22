@@ -4,11 +4,11 @@
         <div id="form-container">
             <div id="register">
                 <div>
-                    <label for="nickname">작성자 </label>
+                    <label id="nickname-label" for="nickname">작성자 </label>
                     <input type="text" id="nickname" :value="userNickname" readonly>
                 </div>
                 <div>
-                    <label for="title">제목  </label>
+                    <label id="title-label" for="title">제목  </label>
                     <input type="text" id="title" v-model="board.post.title">
                 </div>
 
@@ -217,6 +217,18 @@
         margin-bottom: 1rem;
     }
 
+    #nickname-label {
+        width: 5.2rem;
+    }
+
+    #title-label {
+        width: 5.4rem;
+    }
+
+    #title {
+        width: 90%;
+    }
+
     #infos {
         display: flex;
         justify-content: space-between;
@@ -233,7 +245,7 @@
     }
 
     #price-wrap input{
-        width: 65%;
+        width: 70%;
         /* margin-right: 5px */
     }
     
@@ -249,8 +261,9 @@
         overflow-y: auto; 
         overflow-x: hidden;
         font-size: 1.2rem;
-        padding: 5px ;
+        padding: 5px;
         font-family: 'NanumSquareRound';
+        box-sizing: border-box;
     }
 
     #area {
