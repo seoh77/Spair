@@ -11,14 +11,13 @@
 </template>
 
 <script setup>
-import { useBoardStore } from '@/stores/board'
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
-const store = useBoardStore()
+import { useCommentStore } from '@/stores/comment'
+    
+const store = useCommentStore()
 const route = useRoute()
-// 댓글 등록시 댓글리스트에 바로 반영하기 위해 emit 선언
-const emit = defineEmits(['newComment'])
 
 const comment = ref({
     postId: route.params.postId,
@@ -30,7 +29,7 @@ const comment = ref({
 const commentCreate= function(){
     axios.post('http://localhost:8080/api/comment', comment.value)
     .then(() => {
-        emit('newComment')
+        store.insertComment(route.params.postId)
         comment.value.content = ''
     })
     .catch(error => {

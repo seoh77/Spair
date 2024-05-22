@@ -5,8 +5,7 @@
                 <div class="line"></div>
                 <Comment :comment="comment" />
             </div>
-            <!-- emit 이벤트-->
-            <CommentCreate @new-comment="comments"/>
+            <CommentCreate />
         </div>
     </div>
 </template>
@@ -14,7 +13,6 @@
 <script setup>
     import Comment from '@/components/comment/Comment.vue'
     import CommentCreate from '@/components/comment/CommentCreate.vue'
-    import axios from 'axios'
     import { useRoute } from 'vue-router'
     import { ref, onMounted } from 'vue'
     import { useCommentStore } from '@/stores/comment'
