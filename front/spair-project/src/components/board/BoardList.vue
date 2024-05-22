@@ -56,13 +56,19 @@
             </tbody>
         </table>
         
+        <div id="pages">
+            <button v-if="currentPage > 1" @click="prev">이전</button>
+            <div>{{  currentPage }} / {{ totalPage }}</div>
+            <button v-if="currentPage < totalPage" @click="next">다음</button>
+        </div>
+
     </div>
 </template>
 
 <script setup>
 import BoardSearchFilter from '@/components/board/BoardSearchFilter.vue';
 import { useBoardStore } from '@/stores/board';
-import { onMounted,ref, watch } from 'vue';
+import { computed, onMounted,ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios'
 const store = useBoardStore();
@@ -159,6 +165,32 @@ watch(() => route.query.exerciseType, (exerciseType) => {
         }))
     }
 })
+
+// 페이지네이션
+const currentPage = ref(1)
+const postPerPage = ref(10)
+
+const display = computed(() => {
+    const startIdx = (currentPage.value -1) * postPerPage.value
+    const endIdx = startIdx + postPerPage.value
+    return boardListInit.slice(startIdx,endIdx)
+})
+
+const totalPage = computed(() => {
+    return Math.ceil(boardListInit.value.length / postPerPage.value)
+})
+
+const prev = () => {
+    if(currentPage.value >1){
+        currentPage.value--;
+    }
+}
+const next = () => {
+    if(currentPage.value < totalPage.value){
+        currentPage.value++;
+    }
+}
+
 </script>
 
 <style scoped>
@@ -240,5 +272,16 @@ watch(() => route.query.exerciseType, (exerciseType) => {
 
     .date {
         font-size: 0.9rem;
+    }
+
+    #pages {
+        display: flex;
+        width: 20%;
+        justify-content: center;
+        margin: 2rem;
+    }
+    
+    #pages button {
+        margin: 0 1rem;
     }
 </style>
