@@ -11,36 +11,47 @@
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router';
-import { onMounted, ref } from 'vue'
-import axios from 'axios'
-import { useCommentStore } from '@/stores/comment'
-    
-const store = useCommentStore()
-const route = useRoute()
+    import { useRoute } from 'vue-router';
+    import { onMounted, ref } from 'vue'
+    import axios from 'axios'
+    import { useCommentStore } from '@/stores/comment'
+        
+    const store = useCommentStore()
+    const route = useRoute()
 
-const comment = ref({
-    postId: route.params.postId,
-    userId: '',
-    content: '',
-    status: '',
-})
 
-const commentCreate= function(){
-    axios.post('http://localhost:8080/api/comment', comment.value)
-    .then(() => {
-        store.insertComment(route.params.postId)
-        comment.value.content = ''
+    const props = defineProps({
+        parent: Number,
+        changeWriteReply: Function
     })
-    .catch(error => {
-        console.error(error)
-    })
-}
 
-onMounted(() => {
-    const localStorageData = JSON.parse(localStorage.getItem("loginUserInfo"))
-    comment.value.userId = localStorageData.userId
-})
+    const comment = ref({
+        postId: route.params.postId,
+        userId: '',
+        content: '',
+        status: ''
+    })
+
+    const commentCreate= function(){
+        if(props.parent) {
+            comment.value.parentId = props.parent
+        }
+
+        axios.post('http://localhost:8080/api/comment', comment.value)
+        .then(() => {
+            store.insertComment(route.params.postId)
+            comment.value.content = ''
+            props.changeWriteReply()
+        })
+        .catch(error => {
+            console.error(error)
+        })
+    }
+
+    onMounted(() => {
+        const localStorageData = JSON.parse(localStorage.getItem("loginUserInfo"))
+        comment.value.userId = localStorageData.userId
+    })
 
 </script>
 
@@ -48,7 +59,8 @@ onMounted(() => {
     #create-comment {
         display: flex;
         justify-content: space-between;
-        margin: 2rem 1.4rem;
+        padding: 2rem 1rem;
+        box-sizing: border-box ;
     }
 
     label {

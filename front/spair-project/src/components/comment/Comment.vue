@@ -3,7 +3,7 @@
         <div class="comment-info">
             <div class="comment-name">
                 <div id="writer">{{ comment.user.nickname }}</div>
-                <div id="replyBtn">답글</div>
+                <div id="replyBtn" @click="clickReplyBtn(comment)">답글</div>
             </div>
             <div class="date_wrap">
                 <div v-if="!comment.modifiedDate" class="date">{{ comment.createdDate.replace("T", " ") }}</div>
@@ -21,7 +21,10 @@
         </div>
         <div v-for="comment in comment.replyComment" :key="comment.commnetId" class="reply-wrap">
             <Comment :comment="comment" />
-         </div>
+        </div>
+        <div class="reply_input_area" v-if="writeReply">
+            <CommentCreate :parent="parent"  :change-write-reply="changeWriteReply"/>
+        </div>
     </div>
 </template>
 
@@ -30,9 +33,12 @@
     import axios from 'axios'
     import { useRoute } from 'vue-router'
     import { useCommentStore } from '@/stores/comment'
+    import CommentCreate from '@/components/comment/CommentCreate.vue'
     
     const store = useCommentStore()
     const route = useRoute()
+    const writeReply = ref(false)
+    const parent = ref()
 
     const props = defineProps({
         comment: Object
@@ -73,6 +79,20 @@
             store.insertComment(route.params.postId)
             comment.isEditing = false
         })
+    }
+
+    const changeWriteReply = () => {
+        writeReply.value = !writeReply.value
+    }
+
+    const clickReplyBtn = (comment) => {
+        changeWriteReply()
+
+        if(!comment.parentId) {
+            parent.value = comment.commentId
+        } else {
+            parent.value = comment.parentId
+        }
     }
 </script>
 
