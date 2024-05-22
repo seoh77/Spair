@@ -8,6 +8,6 @@ public interface SportsCenterService {
 	int insert(SportsCenter sportsCenter) ;
 	
 	// 스포츠센터 주소 검색
-	int search(String address) ;
+	int search(double latitude, double longitude) ;
 	
 }

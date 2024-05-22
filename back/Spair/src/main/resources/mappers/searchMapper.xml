@@ -31,7 +31,7 @@
 	</resultMap>
 	
 	
-	<!-- 전체 게시글 가져오기 (최신순 정렬) -->
+	<!-- 키워드 검색 -->
 	<select id="searchKeyword" parameterType="String" resultMap="postMap">
 		SELECT post.*, user.nickname, sports_center.road_address
 		FROM post
@@ -39,7 +39,8 @@
 		ON post.user_id = user.user_id
 		INNER JOIN sports_center
 		ON post.center_id = sports_center.center_id
-		WHERE (title LIKE CONCAT('%', #{keyword}, '%')) OR (user.nickname LIKE CONCAT ('%', #{keyword}, '%'));
+		WHERE (title LIKE CONCAT('%', #{keyword}, '%')) OR (user.nickname LIKE CONCAT ('%', #{keyword}, '%'))
+		ORDER BY post.created_date DESC;
 	</select>
 	
 	
@@ -68,6 +69,7 @@
 	            AND <![CDATA[post.price <= #{maxPrice}]]>
 	        </if>
 	    </where>
+		ORDER BY post.created_date DESC;
 	</select>
 	
 	
@@ -97,6 +99,7 @@
 	        <if test="maxPrice != null">
 	            AND <![CDATA[post.price <= #{maxPrice}]]>
 	        </if>
+		ORDER BY post.created_date DESC;
 	</select>
 	
 	
@@ -108,7 +111,8 @@
 		ON post.user_id = user.user_id
 		INNER JOIN sports_center
 		ON post.center_id = sports_center.center_id
-		WHERE post.center_id = #{centerId} ;
+		WHERE post.center_id = #{centerId}
+		ORDER BY post.created_date DESC;
 	</select>
 
 	
