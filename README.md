@@ -1,5 +1,5 @@
 <h1 align="center">
-  SPAIR <img src="./docs/assets/icon/running.png" width="30px"/> 
+  SPAIR <img src="./docs/assets/iconImg/running.png" width="30px"/> 
 </h1>
 
 <div align="center" style="font-size:18px"> 
