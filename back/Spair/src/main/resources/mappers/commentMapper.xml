@@ -47,7 +47,7 @@
 		INNER JOIN user
 		ON comment.user_id = user.user_id
 		WHERE post_id = #{postId}
-		ORDER BY comment.created_date ;
+		ORDER BY IFNULL(comment.parent_id, comment.comment_id), comment.parent_id, comment.created_date;
 	</select>
 	
 </mapper>
