@@ -95,7 +95,7 @@
     const updateComment = function(comment) {
         axios.put(`http://localhost:8080/api/comment/${comment.commentId}`,{
             "content": comment.content,
-            "status": 0
+            "status": comment.status
         })
         .then(() => {
             store.insertComment(route.params.postId)
