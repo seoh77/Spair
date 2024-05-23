@@ -56,6 +56,7 @@
             store.insertComment(route.params.postId)
             comment.value.content = ''
             if(props.changeWriteReply) props.changeWriteReply()
+            if(isPrivata.value) changePrivateStatus()
         })
         .catch(error => {
             console.error(error)
@@ -128,5 +129,6 @@
         margin-top: 5px;
         margin-left: 7px ;
         width: 1.3rem;
+        cursor: pointer;
     }
 </style>
