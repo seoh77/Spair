@@ -115,7 +115,7 @@ onUnmounted(() => {
 
     #typing {
         overflow: hidden;
-        border-right: 0.3rem solid #FFFFFF;
+        border-right: 0.3rem solid var(--primary-color);
         width: 0;
         height: 2.8rem;
         white-space: nowrap;
