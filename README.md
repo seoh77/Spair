@@ -123,6 +123,12 @@ Others: Figma, Github, Notion
 <br />
 <br />
 
+## 🛠 ERD
+<img src="./docs/assets/DB_ERD.png" />
+
+<br />
+<br />
+
 ## 🔧 API
 
 ### 회원
