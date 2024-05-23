@@ -7,6 +7,7 @@
         <div class="public-comment" v-if="!isPrivate">
             <div class="comment-info">
                 <div class="comment-name">
+                    <img src="@/assets/lock.png" v-if="!comment.status" class="lockIcon"/>
                     <div id="writer">{{ comment.user.nickname }}</div>
                     <div id="replyBtn" @click="clickReplyBtn(comment)">답글</div>
                 </div>
@@ -241,5 +242,9 @@
         width: 1.1rem;
         margin-right: 5px ;
         margin-top: 3px;
+    }
+
+    .lockIcon {
+        margin-bottom: 4px ;
     }
 </style>
