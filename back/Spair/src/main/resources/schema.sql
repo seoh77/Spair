@@ -54,7 +54,7 @@ CREATE TABLE `comment` (
 	`modified_date`	TIMESTAMP	NULL,
 	`parent_id`	BIGINT	NULL,					-- 부모 댓글 ID
     PRIMARY KEY (comment_id),
-    FOREIGN KEY (post_id) REFERENCES post(post_id),
+    FOREIGN KEY (post_id) REFERENCES post(post_id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
