@@ -53,14 +53,14 @@
     const props = defineProps({
         comment: Object
     })
-
+    
     const userId = ref()
 
-    onMounted(() => {
-        const localStorageData = JSON.parse(localStorage.getItem("loginUserInfo")) 
+    onMounted(async() => {
+        const localStorageData = await JSON.parse(localStorage.getItem("loginUserInfo")) 
         userId.value = localStorageData.userId
 
-        if(comment.status) {
+        if(props.comment.status) {
             // 공개댓글인 경우
             isPrivate.value = false
         } else {
