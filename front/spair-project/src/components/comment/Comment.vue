@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div v-for="comment in comment.replyComment" :key="comment.commnetId" class="reply-wrap">
-                <Comment :comment="comment" />
+                <Comment :comment="comment" :post-id="postId"/>
             </div>
             <div class="reply_input_area" v-if="writeReply">
                 <CommentCreate :parent="parent"  :change-write-reply="changeWriteReply"/>
@@ -51,7 +51,8 @@
     const isPrivate = ref(true)
 
     const props = defineProps({
-        comment: Object
+        comment: Object,
+        postId: Number
     })
     
     const userId = ref()
@@ -64,8 +65,9 @@
             // 공개댓글인 경우
             isPrivate.value = false
         } else {
+            const user = await boardStore.getBoard(props.postId)
             // 비밀댓글인 경우 댓글 작성자와 게시글 작성자만 보임
-            if(userId.value === props.comment.user.userId || userId.value === boardStore.board.user.userId) {
+            if(userId.value === props.comment.user.userId || userId.value === user.userId) {
                 isPrivate.value = false
             }
         }
