@@ -2,7 +2,7 @@
     <div id="comment-container">
         <div id="wrap">
             <div class="comment-group" v-for="comment in store.commentList" :key="comment.commnetId"> 
-                <Comment :comment="comment" />
+                <Comment :comment="comment" :post-id="route.params.postId"/>
             </div>
             <CommentCreate />
         </div>
