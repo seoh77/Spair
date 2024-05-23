@@ -136,6 +136,8 @@
         align-items: center ;
         padding: 5px;
         box-sizing: border-box ;
+        flex-wrap: nowrap ;
+        overflow-y: auto ;
     }
 
     .item_wrap {
