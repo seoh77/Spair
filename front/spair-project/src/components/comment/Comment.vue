@@ -186,7 +186,6 @@
         display: flex ;
         align-items: center ;
         white-space: pre-wrap;
-        height: 25px;
     }
 
     .btn-area {
