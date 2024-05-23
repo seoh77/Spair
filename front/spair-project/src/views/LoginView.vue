@@ -149,6 +149,7 @@
 
     #loginBtn {
         background-color: var(--primary-color);
+        color: #FFFFFF;
     }
 
     #joinBtn {

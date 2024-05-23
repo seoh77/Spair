@@ -436,7 +436,9 @@
         font-weight: 600 ;
         font-size: 0.9rem ;
         background-color: var(--primary-color);
+        color: #FFFFFF;
         font-family: 'NanumSquareRound';
+        cursor: pointer;
     }
 
     .searchAddress .btn {
@@ -454,6 +456,7 @@
         border: none;
         border-radius: 10px ;
         padding-top: 7px;
+        cursor: pointer;
     }
 
     .possible {
