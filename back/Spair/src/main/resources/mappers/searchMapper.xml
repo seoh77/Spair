@@ -83,22 +83,23 @@
 	    ON post.center_id = sports_center.center_id
 		WHERE post.center_id IN <![CDATA[(SELECT center_id
 			FROM sports_center 
-			WHERE (6371*acos(cos(radians(#{latitude}))*cos(radians(latitude))*cos(radians(longitude)-radians(#{longitude}))+sin(radians(#{latitude}))*sin(radians(latitude)))) <= 1)]]>
-	        <if test="status != null">
-	            AND post.status = #{status}
-	        </if>
-	        <if test="gender != null">
-	            AND post.gender = #{gender}
-	        </if>
-	        <if test="exerciseType != null">
-	            AND post.exercise_type LIKE CONCAT('%', #{exerciseType}, '%')
-	        </if>
-	        <if test="minPrice != null">
-	            AND post.price >= #{minPrice}
-	        </if>
-	        <if test="maxPrice != null">
-	            AND <![CDATA[post.price <= #{maxPrice}]]>
-	        </if>
+			WHERE (6371*acos(cos(radians(#{latitude})) * cos(radians(latitude)) * cos(radians(longitude) - radians(#{longitude})) + sin(radians(#{latitude})) * sin(radians(latitude)))
+		) <= 1.5)]]>
+	    <if test="status != null">
+	        AND post.status = #{status}
+	    </if>
+	    <if test="gender != null">
+	        AND post.gender = #{gender}
+	    </if>
+	    <if test="exerciseType != null">
+	        AND post.exercise_type LIKE CONCAT('%', #{exerciseType}, '%')
+	    </if>
+	    <if test="minPrice != null">
+	        AND post.price >= #{minPrice}
+	    </if>
+	    <if test="maxPrice != null">
+	        AND <![CDATA[post.price <= #{maxPrice}]]>
+	    </if>
 		ORDER BY post.created_date DESC;
 	</select>
 	

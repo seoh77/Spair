@@ -38,7 +38,7 @@
                     </div> 
                     <div id="content">{{ store.board.content }}</div>
                     <div id="btn" v-if="isWriter">
-                        <button @click="deleteBoard">삭제</button>
+                        <button @click="deleteBoard" class="deleteBtn">삭제</button>
                         <button @click="updateBoard">수정</button>
                     </div>
                 </div>
@@ -237,8 +237,9 @@ button {
     cursor: pointer;
 }
 
-button:nth-child(1) {
-    background-color: red;
+.deleteBtn {
+    background-color: #B31312;
+    color: white ;
 }
 
 button:nth-child(2) {

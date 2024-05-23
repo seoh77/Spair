@@ -13,7 +13,7 @@
                 </div>
                 <div class="btn_wrap">
                     <button id="loginBtn" class="btn" @click="onClickLogin">로그인</button>
-                    <button id="joinBtn" class="btn" @click="onClickJoin">회원가입</button>
+                    <div class="joinDiv" @click="onClickJoin">아직 회원이 아니신가요?</div>
                 </div>
             </div>
         </div>
@@ -117,13 +117,13 @@
 
     #login_form label {
         display: flex;
-        width: 15%;
+        width: 10%;
         margin-top: 7px ;
     }
 
     #login_form input {
         margin-left: 10px;
-        width: 80%;
+        width: 85%;
         height: 25px;
         border-radius: 5px;
         border: 1px solid black ;
@@ -132,12 +132,13 @@
 
     .btn_wrap {
         display: flex ;
-        justify-content: center;
+        flex-direction: column ;
+        align-items: center;
         margin-top: 10px ;
     }
 
     .btn {
-        width: 30%;
+        width: 40%;
         height: 40px;
         border-radius: 5px ;
         border: none ;
@@ -145,6 +146,7 @@
         font-weight: 600 ;
         font-size: 1.2rem ;
         margin-right: 10px ;
+        cursor: pointer;
     }    
 
     #loginBtn {
@@ -154,5 +156,19 @@
 
     #joinBtn {
         background-color: var(--secondary-color);
+    }
+
+    .joinDiv {
+        font-size: 0.9rem ;
+        margin-top: 15px;
+        cursor: pointer;
+        border-bottom: 1px solid var(--gray-color) ;
+        font-weight: 600;
+        padding-bottom: 3px;
+        color: rgb(49, 49, 49);
+    }
+
+    .joinDiv:hover {
+        color: var(--sub-color) ;
     }
 </style>
