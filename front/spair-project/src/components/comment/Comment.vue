@@ -159,6 +159,7 @@
         padding: 0 5px ;
         border-radius: 5px ;
         height: 17px;
+        cursor: pointer;
     }
 
     .date_wrap {
@@ -197,6 +198,7 @@
         border-style: none;
         margin: 0.4rem;
         background-color: #FFFFFF;
+        cursor: pointer;
     }
 
     #update {

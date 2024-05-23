@@ -113,6 +113,8 @@
         font-size: 1.2rem;
         height: 2.3rem;
         width: 4rem;
+        cursor: pointer;
+        color: #FFFFFF;
     }
 
     .comment-title {

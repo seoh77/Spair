@@ -206,10 +206,10 @@
     }
 
     a:hover {
-        color: var(--primary-color);
+        color: var(--sub-color);
     }
 
     a:active {
-        color: var(--primary-color);
+        color: var(--sub-color);
     }
 </style>

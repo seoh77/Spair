@@ -217,6 +217,7 @@ button {
     width: 7rem;
     height: 2.5rem;
     font-weight: bold;
+    cursor: pointer;
 }
 
 input:read-only {

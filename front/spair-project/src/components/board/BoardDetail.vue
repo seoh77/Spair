@@ -234,6 +234,7 @@ button {
     font-weight: bold;
     font-family: 'NanumSquareRound';
     height: 2.5rem;
+    cursor: pointer;
 }
 
 button:nth-child(1) {

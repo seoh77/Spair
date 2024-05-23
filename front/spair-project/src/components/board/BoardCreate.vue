@@ -321,6 +321,8 @@
         font-size: 0.9rem ;
         background-color: var(--primary-color);
         font-family: 'NanumSquareRound';
+        cursor: pointer;
+        color: #FFFFFF;
     }
 
     #detail_address {
@@ -336,5 +338,6 @@
         width: 7rem;
         height: 2.5rem;
         font-weight: bold;
+        cursor: pointer;
     }
 </style>

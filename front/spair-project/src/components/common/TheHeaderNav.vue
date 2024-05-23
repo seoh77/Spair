@@ -176,12 +176,21 @@
         padding: 0.3rem 0 0 0;
     }
 
+    #search-btn:hover {
+        color: var(--sub-color);
+    }
+
+    #search-btn:active {
+        color: var(--sub-color);
+    }
+
     button {
         border-style: none;
         height: 30px;
         background-color: #FFFFFF;
         font-family: 'Tenada';
         font-size: 1rem;
+        cursor: pointer;
     }
 
     #user {
@@ -192,7 +201,7 @@
 
     #user a{
         font-size: 1.3rem;
-        color: #000000;
+        color: #FFFFFF;
         margin: 0.1rem;
         text-decoration: none;
     }
@@ -206,6 +215,7 @@
         justify-content: center;
         align-items: center;
         background-color: var(--primary-color);
+        color: #FFFFFF;
     }
 
     #nickname {

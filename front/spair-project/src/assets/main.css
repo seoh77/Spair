@@ -29,9 +29,12 @@ html, body {
 /* 사용자 속성 지정 */
 :root {
     /* 1. 색상*/
-    --primary-color: #FF8B37;
+    /* --primary-color: #FF8B37;
     --secondary-color: #AEE6E6;
-    --sub-color: #FFDA77;
+    --sub-color: #FFDA77; */
+    --primary-color: #011F3F;
+    --secondary-color: #FEF2BF;
+    --sub-color: #f5bdce;
     --gray-color: #C0C0C0;
 }
 
