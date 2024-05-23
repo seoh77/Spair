@@ -10,6 +10,7 @@
 ## ✨ Feature
 
 ### 메인화면
+<img src="./docs/assets/view/main.png" />
 
 <br />
 
