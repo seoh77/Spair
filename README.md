@@ -10,7 +10,11 @@
 ## ✨ Feature
 
 ### 회원가입 및 로그인
+<img src="https://github.com/ssafy11-seoul07/PJT-FINAL-C-SJ-SH/assets/140609042/96d81520-12d1-4812-9b72-dbe93640eea2" />
 
+<img src="https://github.com/ssafy11-seoul07/PJT-FINAL-C-SJ-SH/assets/140609042/d9331836-1d4e-4e7d-bea5-3facf61eef3e" />
+
+<br />
 
 ### 게시글 등록, 수정, 삭제
 
