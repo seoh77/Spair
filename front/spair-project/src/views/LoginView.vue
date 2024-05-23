@@ -145,6 +145,7 @@
         font-weight: 600 ;
         font-size: 1.2rem ;
         margin-right: 10px ;
+        cursor: pointer;
     }    
 
     #loginBtn {
