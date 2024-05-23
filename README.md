@@ -9,29 +9,78 @@
 
 ## ✨ Feature
 
-### 회원가입 및 로그인
-<img src="https://github.com/ssafy11-seoul07/PJT-FINAL-C-SJ-SH/assets/140609042/96d81520-12d1-4812-9b72-dbe93640eea2" />
-
-<img src="https://github.com/ssafy11-seoul07/PJT-FINAL-C-SJ-SH/assets/140609042/d9331836-1d4e-4e7d-bea5-3facf61eef3e" />
+### 메인화면
 
 <br />
 
-### 게시글 등록, 수정, 삭제
+### 회원가입 및 로그인
+<img src="./docs/assets/view/join.png" />
 
+<br />
 
-### 댓글 등록, 수정, 삭제
+<img src="./docs/assets/view/login.png" />
 
+<br />
+<br />
+
+### 게시글 조회, 등록
+<img src="./docs/assets/view/board.png" />
+
+<br />
+
+<img src="./docs//assets/view/createBoard.png" />
+
+<br />
+
+<img src="./docs//assets/view/detailBoard.png" />
+
+<br />
+<br />
+
+### 댓글 조회, 등록
+
+<img src="./docs/assets/view/comment.png" />
+
+<br />
+
+<img src="./docs/assets/view/comment2.png" />
+
+<br />
+<br />
 
 ### 키워드 통합검색
 
+<img src="./docs/assets/view/searchKeyword.png" />
+
+<br />
+
+<img src="./docs/assets/view/searchKeyword2.png" />
+
+<br />
+<br />
 
 ### 게시글 필터
 
+<img src="./docs/assets/view/filter1.png" />
 
-### 우리동네 게시글 모아보기
+<br />
 
+<img src="./docs/assets/view/filter2.png" />
+
+<br />
+
+<img src="./docs/assets/view/filter3.png" />
+
+<br />
+<br />
 
 ### 지도에서 게시글 모아보기
+
+<img src="./docs/assets/view/map1.png" />
+
+<br />
+
+<img src="./docs/assets/view/map2.png" />
 
 <br />
 <br />
@@ -62,18 +111,13 @@
   <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white">
 </p>
 
-
-<div align="center">
-
-  ```
-  Frontend: HTML, CSS, JavaScript, Vue, Vite
-  Backend : JAVA, SpringBoot
-  Database: MySQL
-  API Documentation : Swagger
-  Others: Figma, Github, Notion
-  ```
-
-</div>
+```
+Frontend: HTML, CSS, JavaScript, Vue, Vite
+Backend : JAVA, SpringBoot
+Database: MySQL
+API Documentation : Swagger
+Others: Figma, Github, Notion
+```
 
 <br />
 <br />
