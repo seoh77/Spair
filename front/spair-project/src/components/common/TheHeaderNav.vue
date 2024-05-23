@@ -176,6 +176,14 @@
         padding: 0.3rem 0 0 0;
     }
 
+    #search-btn:hover {
+        color: var(--sub-color);
+    }
+
+    #search-btn:active {
+        color: var(--sub-color);
+    }
+
     button {
         border-style: none;
         height: 30px;

@@ -322,6 +322,7 @@
         background-color: var(--primary-color);
         font-family: 'NanumSquareRound';
         cursor: pointer;
+        color: #FFFFFF;
     }
 
     #detail_address {

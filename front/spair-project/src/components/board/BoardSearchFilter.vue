@@ -175,6 +175,7 @@ select {
 
 #status {
     background-color: var(--primary-color);
+    color: #FFFFFF;
 }
 
 #gender {

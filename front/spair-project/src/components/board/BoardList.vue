@@ -285,11 +285,11 @@ const next = () => {
     }
 
     a:hover {
-        color: var(--primary-color);
+        color: var(--sub-color);
     }
 
     a:active {
-        color: var(--primary-color);
+        color: var(--sub-color);
     }
 
     .date {
@@ -309,9 +309,9 @@ const next = () => {
     #pages button {
         margin: 0 2rem;
         border-style: none;
-        background-color: var(--sub-color);
+        background-color: var(--secondary-color);
         border-radius: 1rem;
-        color: #FFFFFF;
+        color: #000000;
         font-weight: bolder;
         font-family: 'NanumSquareRound';
         width: 4rem;
@@ -336,7 +336,8 @@ const next = () => {
     }
 
     #current {
-        color: var(--primary-color);
+        color: var(--sub-color);
         margin-right: 0.5rem;
+        font-weight: bolder;
     }
 </style>

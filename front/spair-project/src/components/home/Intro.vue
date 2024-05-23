@@ -85,15 +85,11 @@ onUnmounted(() => {
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        /* background-color: #FF8B37;   */
-        background-color: #3d2c2c;
+        align-items: center; 
+        background-color: white;
          /* opacity: 80%; */
         border-radius: 5rem 5rem 0 0 ;
-        /* box-shadow: 0.1rem 0.1rem 0 0.3rem #552808; */
-        box-shadow: 0 -0.8rem 0.8rem -0.8rem #882e01,
-              -0.8rem 0 0.8rem -0.8rem #882e01, 
-              0.8rem 0 0.8rem -0.8rem #882e01;
+
     }
 
     #h1 {
@@ -107,7 +103,7 @@ onUnmounted(() => {
     
     h1 {
         margin: 0;
-        color: #FFFFFF;
+        color: var(--primary-color);
         font-size: 3rem;
         height: 4rem;
     }
@@ -136,7 +132,7 @@ onUnmounted(() => {
     }
 
     span {
-        color: var(--secondary-color);
+        color: var(--sub-color);
     }
 
     #shortcut {
@@ -158,7 +154,7 @@ onUnmounted(() => {
         font-family: 'Tenada';
         padding: 1rem 1rem 0.5rem 1rem;
         cursor: pointer;
-        box-shadow: 0.1rem 0.2rem 0.5rem #c55707
+        box-shadow: 0.1rem 0.2rem 0.5rem #c5c5c5
     }
 
     button:first-child {
@@ -174,7 +170,7 @@ onUnmounted(() => {
     }
 
     button:active {
-        box-shadow: 0.1rem 0.1rem 0.1rem #aa4a06
+        box-shadow: 0.1rem 0.1rem 0.1rem #949494
     }
 
 </style>
